@@ -22,9 +22,9 @@ study = StudyDefinition(
        (sex = 'M' OR sex = 'F')
        """
     ),
-    registered=patients.registered_as_of("index_date"),
+    registered=patients.registered_as_of("last_day_of_month(index_date)"),
     practice=patients.registered_practice_as_of(
-        "index_date",
+        "last_day_of_month(index_date)",
         returning="pseudo_id",
         return_expectations={
             "int": {"distribution": "normal", "mean": 25, "stddev": 5},
@@ -32,7 +32,7 @@ study = StudyDefinition(
         },
     ),
     region=patients.registered_practice_as_of(
-        "index_date",
+        "last_day_of_month(index_date)",
         returning="nuts1_region_name",
         return_expectations={
             "rate": "universal",
@@ -52,12 +52,12 @@ study = StudyDefinition(
         },
     ),
     died=patients.died_from_any_cause(
-        on_or_before="index_date",
+        on_or_before="last_day_of_month(index_date)",
         returning="binary_flag",
         return_expectations={"incidence": 0.1},
     ),
     age=patients.age_as_of(
-        "index_date",
+        "last_day_of_month(index_date)",
         return_expectations={
             "rate": "universal",
             "int": {"distribution": "population_ages"},
@@ -123,9 +123,11 @@ study = StudyDefinition(
             },
         },
         imd=patients.address_as_of(
-            "index_date",
+            "last_day_of_month(index_date)",
             returning="index_of_multiple_deprivation",
             round_to_nearest=100,
         )
     ),
+
+    
 )
