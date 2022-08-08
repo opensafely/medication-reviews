@@ -20,7 +20,16 @@ study = StudyDefinition(
        (sex = 'M' OR sex = 'F')
        """
     ),
-    registered=patients.registered_practice_as_of(
+    registered=patients.registered_as_of("index_date"),
+    practice=patients.registered_practice_as_of(
+        "index_date",
+        returning="pseudo_id",
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 25, "stddev": 5},
+            "incidence": 0.5,
+        },
+    ),
+    region=patients.registered_practice_as_of(
         "index_date",
         returning="nuts1_region_name",
         return_expectations={
@@ -40,7 +49,6 @@ study = StudyDefinition(
             },
         },
     ),
-    # Or should this be registered with one practice?
     died=patients.died_from_any_cause(
         on_or_before="index_date",
         returning="binary_flag",
