@@ -18,7 +18,26 @@ study = StudyDefinition(
        (sex = 'M' OR sex = 'F')
        """
     ),
-    registered=patients.registered_as_of("index_date"),
+    registered=patients.registered_practice_as_of(
+        "index_date",
+        returning="nuts1_region_name",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "North East": 0.1,
+                    "North West": 0.1,
+                    "Yorkshire and The Humber": 0.1,
+                    "East Midlands": 0.1,
+                    "West Midlands": 0.1,
+                    "East": 0.1,
+                    "London": 0.2,
+                    "South East": 0.1,
+                    "South West": 0.1,
+                },
+            },
+        },
+    ),
     # Or should this be registered with one practice?
     died=patients.died_from_any_cause(
         on_or_before="index_date",
