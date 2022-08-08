@@ -15,6 +15,8 @@ study = StudyDefinition(
     population=patients.satisfying(
         """
        registered AND
+       (age_band != "missing") AND
+       (imd != -1) AND
        NOT died AND
        (age >=18 AND age <=120) AND
        (sex = 'M' OR sex = 'F')
