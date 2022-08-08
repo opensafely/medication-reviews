@@ -1,5 +1,7 @@
 from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv  # NOQA
 
+from codelists import *
+
 start_date = "2019-02-01"
 end_date = "2020-02-01"
 
