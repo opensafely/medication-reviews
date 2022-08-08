@@ -69,4 +69,32 @@ study = StudyDefinition(
             "category": {"ratios": {"M": 0.5, "F": 0.5}},
         }
     ),
+    imdQ5=patients.categorised_as(
+        {
+            "Unknown": "DEFAULT",
+            "1 (most deprived)": "imd >= 0 AND imd < 32844*1/5",
+            "2": "imd >= 32844*1/5 AND imd < 32844*2/5",
+            "3": "imd >= 32844*2/5 AND imd < 32844*3/5",
+            "4": "imd >= 32844*3/5 AND imd < 32844*4/5",
+            "5 (least deprived)": "imd >= 32844*4/5 AND imd <= 32844",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "Unknown": 0.005,
+                    "1 (most deprived)": 0.199,
+                    "2": 0.199,
+                    "3": 0.199,
+                    "4": 0.199,
+                    "5 (least deprived)": 0.199,
+                }
+            },
+        },
+        imd=patients.address_as_of(
+            "index_date",
+            returning="index_of_multiple_deprivation",
+            round_to_nearest=100,
+        )
+    ),
 )
