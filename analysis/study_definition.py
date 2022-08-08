@@ -128,6 +128,12 @@ study = StudyDefinition(
             round_to_nearest=100,
         )
     ),
-
-    
+    learning_disability=patients.with_these_clinical_events(
+        learning_disability_codes,
+        on_or_before="last_day_of_month(index_date)",
+        returning="binary_flag",
+        return_expectations={
+            "incidence": 0.01,
+        },
+    ),
 )
