@@ -141,7 +141,15 @@ common_variables = dict(
         },
         return_expectations={
             "rate": "universal",
-            "category": {"ratios": {"PC": 0.05, "PN": 0.05, "PS": 0.05, "PR": 0.84, "": 0.01},},
+            "category": {
+                "ratios": {
+                    "PC": 0.05,
+                    "PN": 0.05,
+                    "PS": 0.05,
+                    "PR": 0.84,
+                    "": 0.01
+                    },
+                },
         },
     ),    
 )
