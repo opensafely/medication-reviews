@@ -17,8 +17,6 @@ study = StudyDefinition(
         """
        registered AND
        (age >=18 AND age <=120) AND
-       (age_band != "missing") AND
-       (imd != -1) AND
        NOT died AND
        (sex = 'M' OR sex = 'F')
        """
