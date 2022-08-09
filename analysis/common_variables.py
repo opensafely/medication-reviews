@@ -6,12 +6,6 @@ from cohortextractor import patients
 from codelists import *
 
 common_variables = dict(
-    registered=patients.registered_as_of("last_day_of_month(index_date)"),
-    died=patients.died_from_any_cause(
-        on_or_before="last_day_of_month(index_date)",
-        returning="binary_flag",
-        return_expectations={"incidence": 0.1},
-    ),
     age=patients.age_as_of(
         "last_day_of_month(index_date)",
         return_expectations={
@@ -151,5 +145,5 @@ common_variables = dict(
                     },
                 },
         },
-    ),    
+    ),
 )

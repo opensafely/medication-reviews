@@ -19,7 +19,13 @@ study = StudyDefinition(
        (age >=18 AND age <=120) AND
        NOT died AND
        (sex = 'M' OR sex = 'F')
-       """
+       """,
+        registered=patients.registered_as_of("last_day_of_month(index_date)"),
+        died=patients.died_from_any_cause(
+            on_or_before="last_day_of_month(index_date)",
+            returning="binary_flag",
+            return_expectations={"incidence": 0.1},
+        ),
     ),
     **common_variables,
 )
