@@ -44,4 +44,11 @@ measures = [
         group_by=["population"],
         small_number_suppression=True,
     ),
+    Measure(
+        id="smr_age_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["age_band"],
+        small_number_suppression=True,
+    ),
 ]
