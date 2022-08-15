@@ -32,7 +32,7 @@ study = StudyDefinition(
             smr_codes,
             between =["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
             returning='binary_flag',
-            return_expectations={"incidence": 0.2}
+            return_expectations={"rate": "exponential_increase", "incidence": 0.1}
     ),
 )
 
