@@ -51,4 +51,18 @@ measures = [
         group_by=["age_band"],
         small_number_suppression=True,
     ),
+    Measure(
+        id="smr_sex_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["sex"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_imdQ5_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["imdQ5"],
+        small_number_suppression=True,
+    ),   
 ]
