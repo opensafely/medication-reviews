@@ -43,4 +43,4 @@ actions:
      needs: [join_cohorts]
      outputs:
        moderately_sensitive:
-         measure_csv: output/joined/measure_smr_rate_*.csv
+         measure_csv: output/joined/measure_smr_*_rate_*.csv

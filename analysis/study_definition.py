@@ -38,7 +38,7 @@ study = StudyDefinition(
 
 measures = [
     Measure(
-        id="smr_rate",
+        id="smr_pop_rate",
         numerator="had_smr",
         denominator="population",
         group_by=["population"],
@@ -48,7 +48,7 @@ measures = [
         id="smr_age_rate",
         numerator="had_smr",
         denominator="population",
-        group_by=["age_band"],
+        group_by=["sex", "age_band"],
         small_number_suppression=True,
     ),
 ]
