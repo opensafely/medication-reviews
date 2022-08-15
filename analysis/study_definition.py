@@ -45,7 +45,7 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
-        id="smr_age_rate",
+        id="smr_breakdown_rate",
         numerator="had_smr",
         denominator="population",
         group_by=["sex", "age_band"],
