@@ -28,20 +28,21 @@ study = StudyDefinition(
         ),
     ),
     **common_variables,
-    had_smr=patients.with_these_clinical_events(
-            smr_codes,
-            between =["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
-            returning='binary_flag',
-            return_expectations={"incidence": 0.2}
-    ),
 )
 
 measures = [
     Measure(
-        id="smr_rate",
+        id="smr_population_rate",
         numerator="had_smr",
         denominator="population",
         group_by=["population"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_practice_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["practice"],
         small_number_suppression=True,
     ),
     Measure(
@@ -59,10 +60,38 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
-        id="smr_imdQ5_rate",
+        id="smr_imd_rate",
         numerator="had_smr",
         denominator="population",
         group_by=["imdQ5"],
         small_number_suppression=True,
-    ),   
+    ),
+    Measure(
+        id="smr_region_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["region"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_ethnicity_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["ethnicity"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_learning_disability_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["learning_disability"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_care_home_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["care_home_type"],
+        small_number_suppression=True,
+    ),
 ]
