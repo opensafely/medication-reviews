@@ -1,4 +1,4 @@
-from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv  # NOQA
+from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv, Measure  # NOQA
 
 from codelists import *
 from common_variables import common_variables
@@ -35,3 +35,13 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.2}
     ),
 )
+
+measures = [
+    Measure(
+        id="smr_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["population"],
+        small_number_suppression=True,
+    ),
+]
