@@ -11,6 +11,12 @@
       "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/ld_cod/20210127/",
       "downloaded_at": "2022-08-08 16:45:31.856237Z",
       "sha": "0c5bc3b050a55c2090e16932fd7364a0be775cb4"
+    },
+    "opensafely-structured-medication-review-nhs-england.csv": {
+      "id": "opensafely/structured-medication-review-nhs-england/5459205f",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/structured-medication-review-nhs-england/5459205f/",
+      "downloaded_at": "2022-08-15 09:54:04.522714Z",
+      "sha": "7bd4843c423ef7618c6d8f27164dc0939f2c9a9a"
     }
   }
 }

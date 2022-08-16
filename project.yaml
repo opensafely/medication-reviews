@@ -34,3 +34,20 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/joined/input_*.csv.gz
+
+  generate_measures_smr:
+     run: >
+       cohortextractor:latest generate_measures 
+       --study-definition study_definition 
+       --output-dir=output/joined
+     needs: [join_cohorts]
+     outputs:
+       moderately_sensitive:
+         measure_csv: output/joined/measure_smr_*_rate.csv
+  
+#  describe: 
+#      run: python:latest python analysis/report.py
+#      needs: [generate_study_population]
+#      outputs:
+#      moderately_sensitive:
+#        cohort: output/descriptive.png

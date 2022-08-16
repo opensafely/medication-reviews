@@ -1,4 +1,4 @@
-from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv  # NOQA
+from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv, Measure  # NOQA
 
 from codelists import *
 from common_variables import common_variables
@@ -29,3 +29,69 @@ study = StudyDefinition(
     ),
     **common_variables,
 )
+
+measures = [
+    Measure(
+        id="smr_population_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["population"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_practice_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["practice"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_age_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["age_band"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_sex_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["sex"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_imd_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["imdQ5"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_region_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["region"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_ethnicity_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["ethnicity"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_learning_disability_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["learning_disability"],
+        small_number_suppression=True,
+    ),
+    Measure(
+        id="smr_care_home_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["care_home_type"],
+        small_number_suppression=True,
+    ),
+]
