@@ -51,3 +51,19 @@ actions:
     outputs:
       moderately_sensitive:
         cohort: output/figures/smr_*_rate.jpeg
+
+  generate_deciles_charts:
+    run: >
+      deciles-charts:v0.0.33
+        --input-files output/joined/measure_smr_practice_rate.csv
+        --output-dir output/joined
+    config:
+      show_outer_percentiles: false
+      tables:
+        output: true
+      charts:
+        output: true
+    needs: [generate_measures_smr]
+    outputs:
+      moderately_sensitive:
+        deciles_charts: output/joined/deciles_*_*.*
