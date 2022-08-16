@@ -1,5 +1,8 @@
 import pandas as pd
-from utilities import plot_measures
+from utilities import *
+
+if not (OUTPUT_DIR / "figures").exists():
+    Path.mkdir(OUTPUT_DIR / "figures")
 
 df = pd.read_csv("output/joined/measure_smr_population_rate.csv", parse_dates=["date"])
 plot_measures(df, filename="smr_population_rate", title="", column_to_plot="value", y_label="Rate")
