@@ -46,7 +46,7 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
-        id="smr_age_rate",
+        id="smr_age_band_rate",
         numerator="had_smr",
         denominator="population",
         group_by=["age_band"],
@@ -60,7 +60,7 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
-        id="smr_imd_rate",
+        id="smr_imdQ5_rate",
         numerator="had_smr",
         denominator="population",
         group_by=["imdQ5"],
@@ -88,7 +88,7 @@ measures = [
         small_number_suppression=True,
     ),
     Measure(
-        id="smr_care_home_rate",
+        id="smr_care_home_type_rate",
         numerator="had_smr",
         denominator="population",
         group_by=["care_home_type"],
