@@ -25,7 +25,7 @@ def plot_measures(
     """
     plt.figure(figsize=(15, 8))
     if category:
-        for unique_category in sorted(df[category].unique()):
+        for unique_category in sorted(df[category].astype(str).unique()):
 
             # subset on category column and sort by date
             df_subset = df[df[category] == unique_category].sort_values("date")
@@ -52,7 +52,7 @@ def plot_measures(
 
     if category:
         plt.legend(
-            sorted(df[category].unique()), bbox_to_anchor=(1.04, 1), loc="upper left"
+            sorted(df[category].astype(str).unique()), bbox_to_anchor=(1.04, 1), loc="upper left"
         )
 
     plt.tight_layout()
