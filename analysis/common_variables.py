@@ -135,7 +135,7 @@ common_variables = dict(
             """,
             "CareOrNursingHome": "IsPotentialCareHome",
             "PrivateHome": "NOT IsPotentialCareHome",
-            "": "DEFAULT",
+            "Default": "DEFAULT",
         },
         return_expectations={
             "rate": "universal",
