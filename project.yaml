@@ -45,9 +45,9 @@ actions:
        moderately_sensitive:
          measure_csv: output/joined/measure_smr_*_rate.csv
   
-#  describe: 
-#      run: python:latest python analysis/report.py
-#      needs: [generate_study_population]
-#      outputs:
-#      moderately_sensitive:
-#        cohort: output/descriptive.png
+  smr_plots:
+    run: python:latest python analysis/plots.py
+    needs: [generate_measures_smr]
+    outputs:
+      moderately_sensitive:
+        cohort: output/figures/smr_*_rate.jpeg
