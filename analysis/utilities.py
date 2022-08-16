@@ -63,5 +63,5 @@ def plot_measures(
 
     plt.tight_layout()
 
-    plt.savefig(f"output/figures/{filename}.jpeg")
+    plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
     plt.clf()
