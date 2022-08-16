@@ -2,5 +2,16 @@ import pandas as pd
 from utilities import plot_measures
 
 df = pd.read_csv("output/joined/measure_smr_population_rate.csv", parse_dates=["date"])
-
 plot_measures(df, filename="smr_population_rate", title="", column_to_plot="value", y_label="Rate")
+
+breakdowns=[
+"practice",
+"sex",
+"imdQ5",
+"region",
+"learning_disability"
+]
+
+for breakdownby in breakdowns:
+    df = pd.read_csv(f"output/joined/measure_smr_{breakdownby}_rate.csv", parse_dates=["date"])
+    plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)

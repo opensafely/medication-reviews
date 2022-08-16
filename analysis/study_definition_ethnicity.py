@@ -30,8 +30,9 @@ study = StudyDefinition(
                         "Mixed": 0.2,
                         "South Asian": 0.2,
                         "Black": 0.2,
-                        "Other": 0.2}
-                    },
+                        "Other": 0.2
+                    }
+                },
             "incidence": 0.4,
         },
         ethnicity_sus=patients.with_ethnicity_from_sus(
