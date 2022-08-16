@@ -16,6 +16,7 @@ def plot_measures(
     category within the category column. Saves output in 'output' dir as jpeg file.
     Args:
         df: A measure table
+        filename: Saved plot filename
         title: Plot title
         column_to_plot: Column name for y-axis values
         y_label: Label to use for y-axis
@@ -31,7 +32,7 @@ def plot_measures(
 
             plt.plot(df_subset["date"], df_subset[column_to_plot])
     else:
-        if bar:
+        if as_bar:
             df.plot.bar("date", column_to_plot, legend=False)
         else:
             plt.plot(df["date"], df[column_to_plot])
