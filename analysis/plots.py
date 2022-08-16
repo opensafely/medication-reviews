@@ -13,8 +13,7 @@ breakdowns=[
 "imdQ5",
 "region",
 "ethnicity",
-"learning_disability",
-"care_home_type"
+"learning_disability"
 ]
 
 for breakdownby in breakdowns:
@@ -22,8 +21,6 @@ for breakdownby in breakdowns:
 
     if (breakdownby=="ethnicity"):
         # Dummy data cannot match ethnicity as samples aren't linked - replace blank values with string "missing" 
-        df['ethnicity'] = df['ethnicity'].fillna('missing')
-    elif (breakdownby=="care_home_type"):
-        df['care_home_type'] = df['care_home_type'].fillna('missing')   
+        df['ethnicity'] = df['ethnicity'].fillna('missing')   
 
     plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
