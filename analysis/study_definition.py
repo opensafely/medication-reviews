@@ -3,8 +3,8 @@ from cohortextractor import StudyDefinition, patients, codelist, codelist_from_c
 from codelists import *
 from common_variables import common_variables
 
-start_date = "2019-02-01"
-end_date = "2020-02-01"
+start_date = "2020-01-01"
+end_date = "2020-12-01"
 
 study = StudyDefinition(
     index_date=start_date,
