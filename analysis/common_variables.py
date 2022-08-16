@@ -123,33 +123,23 @@ common_variables = dict(
     care_home_type=patients.care_home_status_as_of(
         "last_day_of_month(index_date)",
         categorised_as={
-            "PC":
-            """
-            IsPotentialCareHome
-            AND LocationDoesNotRequireNursing='Y'
-            AND LocationRequiresNursing='N'
+            "CareHome": """
+              IsPotentialCareHome
+              AND LocationDoesNotRequireNursing='Y'
+              AND LocationRequiresNursing='N'
             """,
-            "PN":
-            """
-            IsPotentialCareHome
-            AND LocationDoesNotRequireNursing='N'
-            AND LocationRequiresNursing='Y'
+            "NursingHome": """
+              IsPotentialCareHome
+              AND LocationDoesNotRequireNursing='N'
+              AND LocationRequiresNursing='Y'
             """,
-            "PS": "IsPotentialCareHome",
-            "PR": "NOT IsPotentialCareHome",
+            "CareOrNursingHome": "IsPotentialCareHome",
+            "PrivateHome": "NOT IsPotentialCareHome",
             "": "DEFAULT",
         },
         return_expectations={
             "rate": "universal",
-            "category": {
-                "ratios": {
-                    "PC": 0.05,
-                    "PN": 0.05,
-                    "PS": 0.05,
-                    "PR": 0.84,
-                    "": 0.01
-                    },
-                },
+            "category": {"ratios": {"CareHome": 0.30, "NursingHome": 0.10, "CareOrNursingHome": 0.10, "PrivateHome":0.45, "":0.05},},
         },
     ),
 )
