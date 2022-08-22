@@ -18,9 +18,5 @@ breakdowns=[
 
 for breakdownby in breakdowns:
     df = pd.read_csv(OUTPUT_DIR / f"joined/measure_smr_{breakdownby}_rate.csv", parse_dates=["date"])
-
-    if (breakdownby=="ethnicity"):
-        # Dummy data cannot match ethnicity as samples aren't linked - replace blank values with string "missing" 
-        df['ethnicity'] = df['ethnicity'].fillna('missing')   
-
+    df[breakdownby] = df[breakdownby].fillna('missing')
     plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
