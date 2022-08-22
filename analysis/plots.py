@@ -13,7 +13,8 @@ breakdowns=[
 "imdQ5",
 "region",
 "ethnicity",
-"learning_disability"
+"learning_disability",
+"care_home_type"
 ]
 
 for breakdownby in breakdowns:
