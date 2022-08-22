@@ -67,5 +67,16 @@ def plot_measures(
     plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
     plt.clf()
 
-df = pd.read_csv(OUTPUT_DIR / f"joined/measure_smr_population_rate.csv", parse_dates=["date"])
-df['percentage'] = 'value'*100
+def add_percent_column(
+    df,
+    numerator_column: str,
+    denominator_column: str,
+):
+    """Add percentage as a new column.
+    Args:
+        df: A measure table
+        numerator_column: Column heading to use as numerator
+        denominator_column: Column heading to use as denominator
+    """ 
+    df['percentage'] = df[numerator_column]/df[denominator_column]*100
+    return df
