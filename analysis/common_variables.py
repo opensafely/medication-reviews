@@ -142,4 +142,10 @@ common_variables = dict(
             "category": {"ratios": {"CareHome": 0.30, "NursingHome": 0.10, "CareOrNursingHome": 0.10, "PrivateHome":0.45, "":0.05},},
         },
     ),
+    nhome=patients.with_these_clinical_events(
+        nhse_care_homes_codes,
+        returning="binary_flag",
+        on_or_before="last_day_of_month(index_date)",
+        return_expectations={"incidence": 0.2},
+    ),
 )

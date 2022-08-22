@@ -22,3 +22,9 @@ smr_codes = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+nhse_care_homes_codes = codelist_from_csv(
+    "codelists/nhsd-primary-care-domain-refsets-carehome_cod.csv",
+    system="snomed",
+    column="code",
+)

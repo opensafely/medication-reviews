@@ -17,6 +17,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/structured-medication-review-nhs-england/5459205f/",
       "downloaded_at": "2022-08-15 09:54:04.522714Z",
       "sha": "7bd4843c423ef7618c6d8f27164dc0939f2c9a9a"
+    },
+    "nhsd-primary-care-domain-refsets-carehome_cod.csv": {
+      "id": "nhsd-primary-care-domain-refsets/carehome_cod/5d2f363a",
+      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/carehome_cod/5d2f363a/",
+      "downloaded_at": "2022-08-22 10:14:27.808287Z",
+      "sha": "11a75f8c271f6cd05276f49b038fbda8dfab77fe"
     }
   }
 }

@@ -88,6 +88,13 @@ measures = [
         small_number_suppression=False,
     ),
     Measure(
+        id="smr_nhome_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["nhome"],
+        small_number_suppression=False,
+    ),
+    Measure(
         id="smr_care_home_type_rate",
         numerator="had_smr",
         denominator="population",
