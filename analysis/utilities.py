@@ -65,3 +65,17 @@ def plot_measures(
 
     plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
     plt.clf()
+
+def add_percent_column(
+    df,
+    numerator_column: str,
+    denominator_column: str,
+):
+    """Add percentage as a new column.
+    Args:
+        df: A measure table
+        numerator_column: Column heading to use as numerator
+        denominator_column: Column heading to use as denominator
+    """ 
+    df['percentage'] = df[numerator_column]/df[denominator_column]*100
+    return df
