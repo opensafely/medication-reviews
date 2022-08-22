@@ -15,7 +15,7 @@ breakdowns=[
 "ethnicity",
 "learning_disability",
 "care_home_type",
-"nhome",
+"nhome"
 ]
 
 for breakdownby in breakdowns:

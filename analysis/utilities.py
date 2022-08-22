@@ -1,3 +1,4 @@
+from token import *
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -65,3 +66,6 @@ def plot_measures(
 
     plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
     plt.clf()
+
+df = pd.read_csv(OUTPUT_DIR / f"joined/measure_smr_population_rate.csv", parse_dates=["date"])
+df['percentage'] = 'value'*100
