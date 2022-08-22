@@ -120,6 +120,12 @@ common_variables = dict(
         returning='binary_flag',
         return_expectations={"incidence": 0.2},
     ),
+    had_mr=patients.with_these_clinical_events(
+        med_review,
+        between =["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.3},
+    ),
     care_home_type=patients.care_home_status_as_of(
         "last_day_of_month(index_date)",
         categorised_as={

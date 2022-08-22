@@ -51,3 +51,20 @@ actions:
     outputs:
       moderately_sensitive:
         cohort: output/figures/smr_*_rate.jpeg
+
+generate_measures_med_review:
+     run: >
+       cohortextractor:latest generate_measures 
+       --study-definition study_definition 
+       --output-dir=output/joined
+     needs: [join_cohorts]
+     outputs:
+       moderately_sensitive:
+         measure_csv: output/joined/measure_med_review_*_rate.csv
+
+med_review_plots:
+  run: python:latest python analysis/plots.py
+  needs: [generate_measures_med_review]
+  outputs:
+    moderately_sensitive:
+      cohort: output/figures/med_review_*_rate.jpeg

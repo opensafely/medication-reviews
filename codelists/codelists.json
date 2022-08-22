@@ -23,6 +23,12 @@
       "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/carehome_cod/5d2f363a/",
       "downloaded_at": "2022-08-22 10:14:27.808287Z",
       "sha": "11a75f8c271f6cd05276f49b038fbda8dfab77fe"
+    },
+    "opensafely-care-planning-medication-review-simple-reference-set-nhs-digital.csv": {
+      "id": "opensafely/care-planning-medication-review-simple-reference-set-nhs-digital/61b13c39",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/care-planning-medication-review-simple-reference-set-nhs-digital/61b13c39/",
+      "downloaded_at": "2022-08-22 15:39:59.583092Z",
+      "sha": "40e14bd0b0bea5057db28eb44e3c22624b17046a"
     }
   }
 }
