@@ -2,8 +2,8 @@ from cohortextractor import StudyDefinition, patients
 
 from codelists import *
 
-start_date = "2019-02-01"
-end_date = "2020-02-01"
+start_date = "2020-01-01"
+end_date = "2020-12-01"
 
 study = StudyDefinition(
     index_date=end_date,
@@ -30,8 +30,9 @@ study = StudyDefinition(
                         "Mixed": 0.2,
                         "South Asian": 0.2,
                         "Black": 0.2,
-                        "Other": 0.2}
-                    },
+                        "Other": 0.2
+                    }
+                },
             "incidence": 0.4,
         },
         ethnicity_sus=patients.with_ethnicity_from_sus(
