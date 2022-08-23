@@ -84,4 +84,4 @@ actions:
     needs: [generate_measures_smr, generate_measures_mr]
     outputs:
       moderately_sensitive:
-        cohort: output/figures/smr_*_rate.jpeg
+        cohort: output/figures/*_*_rate.jpeg
