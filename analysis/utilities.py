@@ -78,9 +78,9 @@ def calculate_rate(df, value_col, population_col, rate_per=1000, round_rate=Fals
         round: Bool indicating whether to round rate to 2dp.
     """
     if round_rate:
-        num_per_thousand = round(df[value_col] / (df[population_col] / 1000), 2)
+        num_per_thousand = round(df[value_col] / (df[population_col] / rate_per), 2)
 
     else:
-        num_per_thousand = df[value_col] / (df[population_col] / 1000)
+        num_per_thousand = df[value_col] / (df[population_col] / rate_per)
 
     df["rate"] = num_per_thousand
