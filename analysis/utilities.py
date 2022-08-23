@@ -82,4 +82,5 @@ def add_percent_column(
     return df
 
 def binary_care_home_status(df):
-	df.replace({'CareHome': 1, 'CareOrNursingHome': 1, 'NursingHome':1, 'PrivateHome':0, 'missing': 0},inplace = True)
+    df.replace({'CareHome': 1, 'CareOrNursingHome': 1, 'NursingHome':1, 'PrivateHome':0, 'missing': 0},inplace = True)
+    df.groupby("care_home_type")[["had_smr", "population"]].sum() # To fix this
