@@ -13,29 +13,31 @@ breakdowns=[
 "imdQ5",
 "region",
 "ethnicity",
+"nhome",
 "learning_disability",
-"care_home_type",
-"nhome"
+"care_home_type"
 ]
 
 for breakdownby in breakdowns:
     df = pd.read_csv(OUTPUT_DIR / f"joined/measure_smr_{breakdownby}_rate.csv", parse_dates=["date"])
     df[breakdownby] = df[breakdownby].fillna('missing')
+    plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
 
-replace_map = {'nhome': {'Yes': 1, 'No': 2,}}
-            
-# by rate (numerator/denominator)
+df = pd.read_csv(OUTPUT_DIR / f"joined/measure_mr_population_rate.csv", parse_dates=["date"])
+plot_measures(df, filename="mr_population_rate", title="", column_to_plot="value", y_label="Rate")
 
-plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
-df = add_percent_column(df, 'had_smr', 'population')
+breakdowns=[
+"age_band",
+"sex",
+"imdQ5",
+"region",
+"ethnicity",
+"nhome",
+"learning_disability",
+"care_home_type"
+]
 
-#by percentage
-
-plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="percentage", y_label="Percent", category=breakdownby)
-df = add_percent_column(df, 'had_smr', 'population')
-
-# By count
-
-    #plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="had_smr", y_label="Count", category=breakdownby)
-
-    #plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="had_smr", y_label="Count", category=breakdownby)
+for breakdownby in breakdowns:
+    df = pd.read_csv(OUTPUT_DIR / f"joined/measure_mr_{breakdownby}_rate.csv", parse_dates=["date"])
+    df[breakdownby] = df[breakdownby].fillna('missing')
+plot_measures(df, filename=f"mr_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)

@@ -47,13 +47,6 @@ actions:
        moderately_sensitive:
          measure_csv: output/joined/measure_smr_*_rate.csv
   
-  smr_plots:
-    run: python:latest python analysis/plots.py
-    needs: [generate_measures_smr]
-    outputs:
-      moderately_sensitive:
-        cohort: output/figures/smr_*_rate.jpeg
-
 ## generate Medication Review measures
   generate_study_population_mr:
       run: >
@@ -85,3 +78,10 @@ actions:
     outputs:
       moderately_sensitive:
         measure_csv: output/joined/measure_mr_*_rate.csv
+ 
+  smr_plots:
+    run: python:latest python analysis/plots.py
+    needs: [generate_measures_smr, generate_measures_mr]
+    outputs:
+      moderately_sensitive:
+        cohort: output/figures/smr_*_rate.jpeg
