@@ -20,4 +20,5 @@ breakdowns=[
 for breakdownby in breakdowns:
     df = pd.read_csv(OUTPUT_DIR / f"joined/measure_smr_{breakdownby}_rate.csv", parse_dates=["date"])
     df[breakdownby] = df[breakdownby].fillna('missing')
-    plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
+    calculate_rate(df, 'had_smr', 'population', rate_per=1000, round_rate=False)
+    plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="value", y_label="%", category=breakdownby)

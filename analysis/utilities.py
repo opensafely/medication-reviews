@@ -65,3 +65,22 @@ def plot_measures(
 
     plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
     plt.clf()
+
+def calculate_rate(df, value_col, population_col, rate_per=1000, round_rate=False):
+    """Calculates the number of events per 1,000 or passed rate_per variable of the population.
+    This function operates on the given measure table in-place, adding
+    a `rate` column.
+    Args:
+        df: A measure table.
+        value_col: The name of the numerator column in the measure table.
+        population_col: The name of the denominator column in the measure table.
+        rate_per: Value to calculate rate per
+        round: Bool indicating whether to round rate to 2dp.
+    """
+    if round_rate:
+        num_per_thousand = round(df[value_col] / (df[population_col] / 1000), 2)
+
+    else:
+        num_per_thousand = df[value_col] / (df[population_col] / 1000)
+
+    df["rate"] = num_per_thousand
