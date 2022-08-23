@@ -80,3 +80,6 @@ def add_percent_column(
     """ 
     df['percentage'] = df[numerator_column]/df[denominator_column]*100
     return df
+
+def binary_care_home_status(df):
+	df.replace({'CareHome': 1, 'CareOrNursingHome': 1, 'NursingHome':1, 'PrivateHome':0, 'missing': 0},inplace = True)
