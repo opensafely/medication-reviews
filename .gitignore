@@ -9,3 +9,5 @@ venv/
 .DS_Store
 .Rhistory
 .Rproj.user/
+analysis/.ipynb_checkpoints/care_home_binary_test-checkpoint.ipynb
+analysis/care_home_binary_test.ipynb
