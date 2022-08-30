@@ -67,3 +67,11 @@ actions:
     outputs:
       moderately_sensitive:
         deciles_charts: output/joined/deciles_*_*.*
+
+  generate_tables:
+    run: python:latest python analysis/tabulate.py --study_def_paths="output/joined/input_*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type" --outcome "had_smr"
+    needs: [join_cohorts]
+    outputs:
+      moderately_sensitive:
+        counts: output/table_1.csv
+        at_risk: output/table_1_at_risk.csv
