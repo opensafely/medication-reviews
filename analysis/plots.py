@@ -24,5 +24,5 @@ for med_review in med_review_type:
         df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
         df[breakdownby] = df[breakdownby].fillna('missing')
         if (breakdownby == "care_home_type"): 
-            binary_care_home_status(df)
+            df=binary_care_home_status(df, f'had_{med_review_type}', 'population')
         plot_measures(df, filename=f"{med_review}_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
