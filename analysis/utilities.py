@@ -83,4 +83,4 @@ def calculate_rate(df, value_col, population_col, rate_per=1000, round_rate=Fals
     else:
         rate = df[value_col] / (df[population_col] / rate_per)
 
-    df["rate"] = num_per_thousand
+    df["rate"] = rate
