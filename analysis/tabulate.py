@@ -13,7 +13,6 @@ def create_table_1(paths, demographics, outcome):
 
     demographics_dict_had_outcome = {d: {} for d in demographics}
     demographics_dict_had_outcome_total = {d: {} for d in demographics}
-    paths = [OUTPUT_DIR / "joined/input_2020-01-01.csv.gz", OUTPUT_DIR / "joined/input_2020-02-01.csv.gz", OUTPUT_DIR / "joined/input_2020-03-01.csv.gz"]
     for path in paths:
         df = pd.read_csv(path, usecols=demographics + ["patient_id", outcome])
 
