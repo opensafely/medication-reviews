@@ -66,7 +66,6 @@ def plot_measures(
 
     plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
     plt.clf()
-    plt.show()
 
 def add_percent_column(
     df,
