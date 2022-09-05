@@ -17,8 +17,14 @@ breakdowns=[
 "care_home_type"
 ]
 
-for breakdownby in breakdowns:
-    df = pd.read_csv(OUTPUT_DIR / f"joined/measure_smr_{breakdownby}_rate.csv", parse_dates=["date"])
-    df[breakdownby] = df[breakdownby].fillna('missing')
-    calculate_rate(df, 'had_smr', 'population', rate_per=1000, round_rate=False)
-    plot_measures(df, filename=f"smr_{breakdownby}_rate", title="", column_to_plot="rate", y_label="Rate per thousand", category=breakdownby)
+med_review_type=["smr"]
+
+for med_review in med_review_type:
+    df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_population_rate.csv", parse_dates=["date"])
+    plot_measures(df, filename=f"{med_review}_population_rate", title="", column_to_plot="value", y_label="Rate")
+    for breakdownby in breakdowns:
+        df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
+        df[breakdownby] = df[breakdownby].fillna('missing')
+        if (breakdownby == "care_home_type"): 
+            df=binary_care_home_status(df, f'had_{med_review}', 'population')
+        plot_measures(df, filename=f"{med_review}_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)

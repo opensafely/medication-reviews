@@ -82,5 +82,20 @@ def calculate_rate(df, value_col, population_col, rate_per=1000, round_rate=Fals
 
     else:
         rate = df[value_col] / (df[population_col] / rate_per)
-
     df["rate"] = rate
+
+def binary_care_home_status(
+    df,
+    numerator_column: str,
+    denominator_column: str,
+):
+    """Converts various care home types into binary value..
+    Args:
+        df: A measure table
+        numerator_column: Column heading to use as numerator
+        denominator_column: Column heading to use as denominator
+    """ 
+    df = df.replace({'CareHome': 1, 'CareOrNursingHome': 1, 'NursingHome':1, 'PrivateHome':0, 'missing': 0})
+    grouped_df = df.groupby(["care_home_type", "date"], as_index=False)[[numerator_column, denominator_column]].sum()
+    grouped_df['value'] = grouped_df[numerator_column]/grouped_df[denominator_column]
+    return grouped_df
