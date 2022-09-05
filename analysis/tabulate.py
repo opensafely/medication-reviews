@@ -42,9 +42,22 @@ def create_table_1(paths, demographics, outcome):
     reformed_dict = reform_dict(demographics_dict_total)
     reformed_dict_had_outcome = reform_dict(demographics_dict_had_outcome_total)
     
+    reformed_df = pd.DataFrame(reformed_dict, index=[0]).T
+    reformed_df_had_outcome = pd.DataFrame(reformed_dict_had_outcome, index=[0]).T
+    
+    def join_summary_tables(reformed_df, reformed_df_had_outcome):
+        reformed_df=reformed_df.rename(columns = {0: "Population"})
+        reformed_df_had_outcome=reformed_df_had_outcome.rename(columns = {0: outcome})
+        reformed_df_joined = pd.merge(reformed_df, reformed_df_had_outcome,  left_index=True, right_index=True)
+        reformed_df_joined["%"] = reformed_df_joined[outcome]/reformed_df_joined["Population"]
+        return reformed_df_joined
+
+    reformed_df_joined = join_summary_tables(reformed_df, reformed_df_had_outcome)
+
     return (
-        pd.DataFrame(reformed_dict, index=[0]).T,
-        pd.DataFrame(reformed_dict_had_outcome, index=[0]).T,
+        reformed_df,
+        reformed_df_had_outcome,
+        reformed_df_joined
     )
 
 
@@ -90,9 +103,10 @@ def main():
     demographics = args.demographics.split(",")
     outcome = args.outcome
 
-    table_1, had_outcome = create_table_1(paths, demographics, outcome)
+    table_1, had_outcome, joined_table = create_table_1(paths, demographics, outcome)
     table_1.to_csv(OUTPUT_DIR / "table_1.csv")
     had_outcome.to_csv(OUTPUT_DIR / "table_1_at_risk.csv")
+    joined_table.to_csv(OUTPUT_DIR / "table_1_joined.csv")
 
 
 main()
