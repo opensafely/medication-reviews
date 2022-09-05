@@ -1,3 +1,4 @@
+from token import *
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -99,3 +100,17 @@ def binary_care_home_status(
     grouped_df = df.groupby(["care_home_type", "date"], as_index=False)[[numerator_column, denominator_column]].sum()
     grouped_df['value'] = grouped_df[numerator_column]/grouped_df[denominator_column]
     return grouped_df
+
+def convert_binary(df, binary_column, positive, negative):
+    """Converts a column with binary variable codes as 0 and 1 to understandable strings.
+    Args:
+        df: dataframe with binary column
+        binary_column: column name of binary variable
+        positive: string to encode 1 as
+        negative: string to encode 0 as
+    Returns:
+        Input dataframe with converted binary column
+    """
+    replace_dict = {0: negative, 1: positive}
+    df[binary_column] = df[binary_column].replace(replace_dict)
+    return df

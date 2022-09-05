@@ -9,7 +9,7 @@ actions:
     run: >
       cohortextractor:latest generate_cohort
         --study-definition study_definition
-        --index-date-range "2020-01-01 to 2020-12-01 by month"
+        --index-date-range "2020-01-01 to 2020-03-01 by month"
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
@@ -35,6 +35,8 @@ actions:
       highly_sensitive:
         cohort: output/joined/input_*.csv.gz
 
+## generate Structured Medication Review Measures and plots
+
   generate_measures_smr:
      run: >
        cohortextractor:latest generate_measures 
@@ -45,12 +47,44 @@ actions:
        moderately_sensitive:
          measure_csv: output/joined/measure_smr_*_rate.csv
   
-  smr_plots:
-    run: python:latest python analysis/plots.py
-    needs: [generate_measures_smr]
+## generate Medication Review measures
+  generate_study_population_mr:
+      run: >
+        cohortextractor:latest generate_cohort
+          --study-definition study_definition_mr
+          --index-date-range "2020-01-01 to 2020-03-01 by month"
+          --output-format='csv.gz'
+      outputs:
+        highly_sensitive:
+          cohort: output/input_mr*.csv.gz
+
+  join_cohorts_mr:
+    run: >
+      cohort-joiner:v0.0.44
+        --lhs output/input_mr*.csv.gz
+        --rhs output/input_ethnicity.csv.gz
+        --output-dir output/joined
+    needs: [generate_study_population_mr, generate_ethnicity_cohort]
+    outputs:
+      highly_sensitive:
+        cohort: output/joined/input_mr*.csv.gz
+ 
+  generate_measures_mr:
+    run: >
+      cohortextractor:latest generate_measures 
+        --study-definition study_definition_mr 
+        --output-dir=output/joined
+    needs: [join_cohorts_mr]
     outputs:
       moderately_sensitive:
-        cohort: output/figures/smr_*_rate.jpeg
+        measure_csv: output/joined/measure_mr_*_rate.csv
+ 
+  smr_plots:
+    run: python:latest python analysis/plots.py
+    needs: [generate_measures_smr, generate_measures_mr]
+    outputs:
+      moderately_sensitive:
+        cohort: output/figures/*_*_rate.jpeg
 
   generate_deciles_charts:
     run: >
