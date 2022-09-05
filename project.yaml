@@ -73,6 +73,6 @@ actions:
     needs: [join_cohorts]
     outputs:
       moderately_sensitive:
-        counts: output/table_1.csv
-        at_risk: output/table_1_at_risk.csv
-        joined: output/table_1_joined.csv
+        counts: output/table.csv
+        at_risk: output/table_had_outcome.csv
+        joined: output/table_joined.csv

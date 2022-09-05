@@ -6,7 +6,7 @@ from utilities import OUTPUT_DIR
 from collections import Counter
 
 
-def create_table_1(paths, demographics, outcome):
+def create_table(paths, demographics, outcome):
 
     demographics_dict = {d: {} for d in demographics}
     demographics_dict_total = {d: {} for d in demographics}
@@ -103,10 +103,10 @@ def main():
     demographics = args.demographics.split(",")
     outcome = args.outcome
 
-    table_1, had_outcome, joined_table = create_table_1(paths, demographics, outcome)
-    table_1.to_csv(OUTPUT_DIR / "table_1.csv")
-    had_outcome.to_csv(OUTPUT_DIR / "table_1_at_risk.csv")
-    joined_table.to_csv(OUTPUT_DIR / "table_1_joined.csv")
+    table, had_outcome, joined_table = create_table(paths, demographics, outcome)
+    table.to_csv(OUTPUT_DIR / "table.csv")
+    had_outcome.to_csv(OUTPUT_DIR / "table_had_outcome.csv")
+    joined_table.to_csv(OUTPUT_DIR / "table_joined.csv")
 
 
 main()
