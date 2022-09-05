@@ -17,6 +17,7 @@ breakdowns=[
 ]
 
 med_review_type=["smr", "mr"]
+
 for med_review in med_review_type:
     df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_population_rate.csv", parse_dates=["date"])
     plot_measures(df, filename=f"{med_review}_population_rate", title="", column_to_plot="value", y_label="Rate")
@@ -26,4 +27,4 @@ for med_review in med_review_type:
         if (breakdownby == "care_home_type"): 
             df=binary_care_home_status(df, f'had_{med_review}', 'population')
             convert_binary(df, 'care_home_type', 'Record of positive care home status', 'No record of positive care home status')
-    plot_measures(df, filename=f"{med_review}_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
+        plot_measures(df, filename=f"{med_review}_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
