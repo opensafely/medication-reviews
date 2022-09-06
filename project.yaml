@@ -37,7 +37,7 @@ actions:
 
 ## generate Structured Medication Review Measures and plots
 
-  generate_measures_smr:
+  generate_measures_all_reviews:
      run: >
        cohortextractor:latest generate_measures 
        --study-definition study_definition 
@@ -45,43 +45,11 @@ actions:
      needs: [join_cohorts]
      outputs:
        moderately_sensitive:
-         measure_csv: output/joined/measure_smr_*_rate.csv
+         measure_csv: output/joined/measure_*_*_rate.csv
   
-## generate Medication Review measures
-  generate_study_population_mr:
-      run: >
-        cohortextractor:latest generate_cohort
-          --study-definition study_definition_mr
-          --index-date-range "2020-01-01 to 2020-03-01 by month"
-          --output-format='csv.gz'
-      outputs:
-        highly_sensitive:
-          cohort: output/input_mr*.csv.gz
-
-  join_cohorts_mr:
-    run: >
-      cohort-joiner:v0.0.44
-        --lhs output/input_mr*.csv.gz
-        --rhs output/input_ethnicity.csv.gz
-        --output-dir output/joined
-    needs: [generate_study_population_mr, generate_ethnicity_cohort]
-    outputs:
-      highly_sensitive:
-        cohort: output/joined/input_mr*.csv.gz
- 
-  generate_measures_mr:
-    run: >
-      cohortextractor:latest generate_measures 
-        --study-definition study_definition_mr 
-        --output-dir=output/joined
-    needs: [join_cohorts_mr]
-    outputs:
-      moderately_sensitive:
-        measure_csv: output/joined/measure_mr_*_rate.csv
- 
   smr_plots:
     run: python:latest python analysis/plots.py
-    needs: [generate_measures_smr, generate_measures_mr]
+    needs: [generate_measures_all_reviews]
     outputs:
       moderately_sensitive:
         cohort: output/figures/*_*_rate.jpeg
@@ -89,7 +57,7 @@ actions:
   generate_deciles_charts:
     run: >
       deciles-charts:v0.0.33
-        --input-files output/joined/measure_smr_practice_rate.csv
+        --input-files output/joined/measure_*_practice_rate.csv
         --output-dir output/joined
     config:
       show_outer_percentiles: false
@@ -97,7 +65,7 @@ actions:
         output: true
       charts:
         output: true
-    needs: [generate_measures_smr]
+    needs: [generate_measures_all_reviews]
     outputs:
       moderately_sensitive:
         deciles_charts: output/joined/deciles_*_*.*
