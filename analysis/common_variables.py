@@ -120,6 +120,12 @@ common_variables = dict(
         returning='binary_flag',
         return_expectations={"incidence": 0.2},
     ),
+    had_mr=patients.with_these_clinical_events(
+        med_review_codes,
+        between =["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.3},
+    ),
     care_home_type=patients.care_home_status_as_of(
         "last_day_of_month(index_date)",
         categorised_as={
@@ -141,5 +147,11 @@ common_variables = dict(
             "rate": "universal",
             "category": {"ratios": {"CareHome": 0.30, "NursingHome": 0.10, "CareOrNursingHome": 0.10, "PrivateHome":0.45, "":0.05},},
         },
+    ),
+    nhome=patients.with_these_clinical_events(
+        nhse_care_homes_codes,
+        returning="binary_flag",
+        on_or_before="last_day_of_month(index_date)",
+        return_expectations={"incidence": 0.2},
     ),
 )

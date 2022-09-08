@@ -4,7 +4,7 @@ from codelists import *
 from common_variables import common_variables
 
 start_date = "2020-01-01"
-end_date = "2020-12-01"
+end_date = "2020-03-01"
 
 study = StudyDefinition(
     index_date=start_date,
@@ -31,6 +31,7 @@ study = StudyDefinition(
 )
 
 measures = [
+    ## SMR codelist measures
     Measure(
         id="smr_population_rate",
         numerator="had_smr",
@@ -88,8 +89,86 @@ measures = [
         small_number_suppression=False,
     ),
     Measure(
+        id="smr_nhome_rate",
+        numerator="had_smr",
+        denominator="population",
+        group_by=["nhome"],
+        small_number_suppression=False,
+    ),
+    Measure(
         id="smr_care_home_type_rate",
         numerator="had_smr",
+        denominator="population",
+        group_by=["care_home_type"],
+        small_number_suppression=False,
+    ),
+    ## Medication review codelist measures
+    Measure(
+        id="mr_population_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["population"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_practice_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["practice"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_age_band_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["age_band"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_sex_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["sex"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_imdQ5_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["imdQ5"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_region_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["region"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_ethnicity_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["ethnicity"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_learning_disability_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["learning_disability"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_nhome_rate",
+        numerator="had_mr",
+        denominator="population",
+        group_by=["nhome"],
+        small_number_suppression=False,
+    ),
+    Measure(
+        id="mr_care_home_type_rate",
+        numerator="had_mr",
         denominator="population",
         group_by=["care_home_type"],
         small_number_suppression=False,
