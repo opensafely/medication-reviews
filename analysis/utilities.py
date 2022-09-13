@@ -2,6 +2,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from cohortextractor import patients, codelist
 
 from pathlib import Path
 
@@ -113,3 +114,24 @@ def convert_binary(df, binary_column, positive, negative):
     replace_dict = {0: negative, 1: positive}
     df[binary_column] = df[binary_column].replace(replace_dict)
     return df
+
+def loop_over_codes(code_list):
+    def make_variable(code):
+        return {
+            f"count_{code}": (
+                patients.with_these_clinical_events(
+                    codelist([code], system="snomed"),
+                    on_or_after="index_date",
+                    returning="number_of_matches_in_period",
+                    return_expectations={
+                         "incidence": 0.1,
+                         "int": {"distribution": "normal", "mean": 3, "stddev": 1},
+                    },
+                )
+            )
+        }
+
+    variables = {}
+    for code in code_list:
+        variables.update(make_variable(code))
+    return variables
