@@ -29,6 +29,12 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/care-planning-medication-review-simple-reference-set-nhs-digital/61b13c39/",
       "downloaded_at": "2022-08-22 15:39:59.583092Z",
       "sha": "40e14bd0b0bea5057db28eb44e3c22624b17046a"
+    },
+    "nhsd-primary-care-domain-refsets-medrvw_cod.csv": {
+      "id": "nhsd-primary-care-domain-refsets/medrvw_cod/20200812",
+      "url": "https://codelists.opensafely.org/codelist/nhsd-primary-care-domain-refsets/medrvw_cod/20200812/",
+      "downloaded_at": "2022-09-20 10:17:48.812297Z",
+      "sha": "a07dfedffda67d1a84ef3e7e8f90214c93e89a51"
     }
   }
 }

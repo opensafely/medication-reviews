@@ -30,7 +30,7 @@ nhse_care_homes_codes = codelist_from_csv(
 )
 
 med_review_codes = codelist_from_csv(
-    "codelists/opensafely-care-planning-medication-review-simple-reference-set-nhs-digital.csv",
+    "codelists/nhsd-primary-care-domain-refsets-medrvw_cod.csv",
     system="snomed",
     column="code",
 )
