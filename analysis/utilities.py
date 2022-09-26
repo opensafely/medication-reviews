@@ -121,7 +121,7 @@ def loop_over_codes(code_list):
             f"count_{code}": (
                 patients.with_these_clinical_events(
                     codelist([code], system="snomed"),
-                    on_or_after="index_date",
+                    between =["first_day_of_month(index_date)", "last_day_of_month(index_date)"],
                     returning="number_of_matches_in_period",
                     return_expectations={
                          "incidence": 0.1,
