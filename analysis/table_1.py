@@ -6,34 +6,34 @@ from utilities import OUTPUT_DIR, update_df
 from collections import Counter
 
 
-def create_table_1(paths, demographics):
+def create_table_1(paths, demographics, outcome):
 
     for i, path in enumerate(paths):
         if i ==0:
-            df = pd.read_csv(path, usecols=demographics + ["patient_id", "at_risk"])
-            df_at_risk = df.loc[df["at_risk"]==1,:]
-            df = df.drop("at_risk", axis=1)
-            df_at_risk = df_at_risk.drop("at_risk", axis=1)
+            df = pd.read_csv(path, usecols=demographics + ["patient_id", outcome])
+            df_had_outcome = df.loc[df[outcome]==1,:]
+            df = df.drop(outcome, axis=1)
+            df_had_outcome = df_had_outcome.drop(outcome, axis=1)
            
         
         else:
-            updated_df = pd.read_csv(path, usecols=demographics + ["patient_id", "at_risk"])
-            updated_df_at_risk = updated_df.loc[updated_df["at_risk"]==1,:]
-            updated_df = updated_df.drop("at_risk", axis=1)
-            updated_df_at_risk = updated_df_at_risk.drop("at_risk", axis=1)
+            updated_df = pd.read_csv(path, usecols=demographics + ["patient_id", outcome])
+            updated_df_had_outcome = updated_df.loc[updated_df[outcome]==1,:]
+            updated_df = updated_df.drop(outcome, axis=1)
+            updated_df_had_outcome = updated_df_had_outcome.drop(outcome, axis=1)
 
 
             
             df = update_df(df, updated_df, columns=demographics)
-            df_at_risk = update_df(df_at_risk, updated_df_at_risk, columns=demographics)
+            df_had_outcome = update_df(df_had_outcome, updated_df_had_outcome, columns=demographics)
     
     df = df.drop("patient_id", axis=1)
     df_counts = df.apply(lambda x: x.value_counts()).T.stack()
 
-    df_at_risk = df_at_risk.drop("patient_id", axis=1)
-    df_counts_at_risk = df_at_risk.apply(lambda x: x.value_counts()).T.stack()
+    df_had_outcome = df_had_outcome.drop("patient_id", axis=1)
+    df_counts_had_outcome = df_had_outcome.apply(lambda x: x.value_counts()).T.stack()
 
-    return df_counts, df_counts_at_risk
+    return df_counts, df_counts_had_outcome
    
 
 
@@ -63,6 +63,13 @@ def parse_args():
         help="List of strings representing variables to include",
     )
 
+    parser.add_argument(
+        "--outcome",
+        dest="outcome",
+        required=True,
+        help="String representing column title for outcome being looked at",
+    )
+
     return parser.parse_args()
 
 
@@ -70,10 +77,11 @@ def main():
     args = parse_args()
     paths = args.study_def_paths
     demographics = args.demographics.split(",")
+    outcome = args.outcome
 
-    table_1, at_risk = create_table_1(paths, demographics)
+    table_1, had_outcome = create_table_1(paths, demographics, outcome)
     table_1.to_csv(OUTPUT_DIR / "table_1.csv")
-    at_risk.to_csv(OUTPUT_DIR / "table_1_at_risk.csv")
+    had_outcome.to_csv(OUTPUT_DIR / "table_1_had_outcome.csv")
 
 
 main()
