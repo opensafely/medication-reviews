@@ -2,7 +2,7 @@ import pandas as pd
 import argparse
 import glob
 import pathlib
-from utilities import OUTPUT_DIR, update_df
+from utilities import OUTPUT_DIR
 import numpy as np
 
 

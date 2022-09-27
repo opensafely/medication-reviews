@@ -69,7 +69,7 @@ actions:
         deciles_charts: output/joined/deciles_*_*.*
 
   generate_tables:
-    run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type,nhome" --outcome "had_smr"
+    run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type" --outcome "had_smr"
     needs: [join_cohorts]
     outputs:
       moderately_sensitive:
