@@ -3,7 +3,7 @@ import argparse
 import glob
 import pathlib
 from utilities import OUTPUT_DIR, update_df
-from collections import Counter
+import numpy as np
 
 
 def create_table_1(paths, demographics, outcome):
@@ -35,7 +35,18 @@ def create_table_1(paths, demographics, outcome):
 
     return df_counts, df_counts_had_outcome
    
+def update_df(original_df, new_df, columns=[], on="patient_id"):
+    updated = original_df.merge(
+        new_df, on=on, how="outer", suffixes=("_old", "_new"), indicator=True
+    )
 
+    for c in columns:
+        updated[c] = np.nan
+        updated.loc[updated["_merge"] == "left_only", c] = updated[f"{c}_old"]
+        updated.loc[updated["_merge"] != "left_only", c] = updated[f"{c}_new"]
+        updated = updated.drop([f"{c}_old", f"{c}_new"], axis=1)
+    updated = updated.drop(["_merge"], axis=1)
+    return updated
 
 def get_path(*args):
     return pathlib.Path(*args).resolve()
