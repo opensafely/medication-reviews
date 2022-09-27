@@ -27,4 +27,8 @@ for med_review in med_review_type:
         if (breakdownby == "care_home_type"): 
             df=binary_care_home_status(df, f'had_{med_review}', 'population')
             convert_binary(df, 'care_home_type', 'Record of positive care home status', 'No record of positive care home status')
+        if (breakdownby == "learning_disability"):
+            convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
+        if (breakdownby == "nhome"):
+            convert_binary(df, 'nhome', 'Record of individual living at a nursing home', 'No record of individual living at a nursing home')
         plot_measures(df, filename=f"{med_review}_{breakdownby}_rate", title="", column_to_plot="value", y_label="Rate", category=breakdownby)
