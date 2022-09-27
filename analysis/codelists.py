@@ -30,7 +30,7 @@ nhse_care_homes_codes = codelist_from_csv(
 )
 
 med_review_codes = codelist_from_csv(
-    "codelists/nhsd-primary-care-domain-refsets-medrvw_cod.csv",
+    "codelists/user-chriswood-medication-review.csv",
     system="snomed",
     column="code",
 )
