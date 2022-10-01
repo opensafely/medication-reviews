@@ -77,3 +77,10 @@ actions:
       moderately_sensitive:
         counts: output/table_1.csv
         had_outcome: output/table_1_had_outcome.csv
+
+  generate_codeuse_table:
+    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_*.csv.gz"
+    needs: [join_cohorts]
+    outputs:
+      moderately_sensitive:
+        code_counts: output/codeuse.csv
