@@ -2,12 +2,11 @@ import pandas as pd
 import argparse
 import glob
 import pathlib
-from utilities import OUTPUT_DIR
+from utilities import OUTPUT_DIR, plot_measures
 import numpy as np
 import os
 
 def create_codeuse_summary(paths):
-    df_codeuse = pd.DataFrame(columns=['Code','Uses','Date'])
     codelistcolumns=[]
     CodeColumn=[]
     UsesColumn=[]
@@ -33,9 +32,9 @@ def create_codeuse_summary(paths):
                 CodeColumn.append(codeonly)
                 UsesColumn.append(df[codecolumnname].sum())
                 DateColumn.append(filedate)
-    dict = {'Code':CodeColumn,
-            'Uses':UsesColumn,
-            'Date':DateColumn
+    dict = {'code':CodeColumn,
+            'uses':UsesColumn,
+            'date':DateColumn
             }
   
     df_codeuse = pd.DataFrame(dict) 
@@ -76,7 +75,8 @@ def main():
     args = parse_args()
     paths = args.study_def_paths
     df_codeuse=create_codeuse_summary(paths)
-    df_codeuse.to_csv(OUTPUT_DIR / "codeuse.csv")
+    df_codeuse.to_csv(OUTPUT_DIR / "codeuse.csv", index=False)
+    plot_measures(df_codeuse, 'codeuse', '', 'uses', 'Uses of code',  category='code')
 
 
 main()
