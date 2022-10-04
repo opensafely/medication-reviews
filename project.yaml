@@ -79,7 +79,7 @@ actions:
         had_outcome: output/table_1_had_outcome.csv
 
   generate_codeuse_output:
-    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_*.csv.gz"
+    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_*.csv.gz" --codelistfile="user-chriswood-medication-review.csv"
     needs: [join_cohorts]
     outputs:
       moderately_sensitive:
