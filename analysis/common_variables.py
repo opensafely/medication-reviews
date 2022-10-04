@@ -106,6 +106,22 @@ common_variables = dict(
             },
         },
     ),
+    msoa=patients.address_as_of(
+        "last_day_of_month(index_date)",
+        returning="msoa",
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "E02000239": 0.3,  #Inland
+                    "E02001586": 0.3,  #Inland
+                    "E02001263": 0.3,  #Inland
+                    "E02004584": 0.05,  #Coastal
+                    "E02003979": 0.05,  #Coastal
+                },
+            },
+        },
+    ),
     learning_disability=patients.with_these_clinical_events(
         learning_disability_codes,
         on_or_before="last_day_of_month(index_date)",
