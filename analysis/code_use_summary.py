@@ -5,6 +5,10 @@ import pathlib
 from utilities import OUTPUT_DIR, plot_measures
 import numpy as np
 import os
+from pathlib import Path
+
+if not (OUTPUT_DIR / "figures").exists():
+    Path.mkdir(OUTPUT_DIR / "figures")
 
 def create_codeuse_summary(paths):
     codelistcolumns=[]
@@ -37,7 +41,7 @@ def create_codeuse_summary(paths):
             'date':DateColumn
             }
   
-    df_codeuse = pd.DataFrame(dict) 
+    df_codeuse = pd.DataFrame(dict)
     return df_codeuse                        
 
 
@@ -76,6 +80,7 @@ def main():
     paths = args.study_def_paths
     df_codeuse=create_codeuse_summary(paths)
     df_codeuse.to_csv(OUTPUT_DIR / "codeuse.csv", index=False)
+    df_codeuse['date']= pd.to_datetime(df_codeuse['date'])
     plot_measures(df_codeuse, 'codeuse', '', 'uses', 'Uses of code',  category='code')
 
 
