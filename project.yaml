@@ -9,7 +9,7 @@ actions:
     run: >
       cohortextractor:latest generate_cohort
         --study-definition study_definition
-        --index-date-range "2019-04-01 to 2022-04-01 by month"
+        --index-date-range "2019-04-01 to 2022-03-01 by month"
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
