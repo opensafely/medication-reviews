@@ -5,7 +5,7 @@ from common_variables import common_variables
 from utilities import loop_over_codes
 
 start_date = "2019-04-01"
-end_date = "2022-03-31"
+end_date = "2022-04-01"
 
 study = StudyDefinition(
     index_date=start_date,
