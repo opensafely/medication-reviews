@@ -47,7 +47,7 @@ actions:
        moderately_sensitive:
          measure_csv: output/joined/measure_*_*_rate.csv
   
-  smr_plots:
+  generate_plots:
     run: python:latest python analysis/plots.py
     needs: [generate_measures_all_reviews]
     outputs:
