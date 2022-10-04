@@ -6,23 +6,22 @@ from utilities import OUTPUT_DIR, CODELIST_DIR, plot_measures
 import numpy as np
 import os
 from pathlib import Path
-from codelists import med_review_codes
 
 if not (OUTPUT_DIR / "figures").exists():
     Path.mkdir(OUTPUT_DIR / "figures")
 
-def get_column_codes(code_list):
-    variables = []
-    for code in code_list:
-        variables.append(code)
-    return variables
+def get_column_codes(codelist_file):
+    df = pd.read_csv(CODELIST_DIR / codelist_file)
+    df['code'] = df['code'].astype(str)
+    listofcodes=df['code'].values.tolist()
+    return listofcodes
 
 def get_terms_for_codes(codelist_file):
     df = pd.read_csv(CODELIST_DIR / codelist_file)
+    df['code'] = df['code'].astype(str)
+    #Create column with term and code
+    df['termcode']=df['term']+' ('+df['code']+')'
     return df
-
-
-"codelists/user-chriswood-medication-review.csv"
 
 def create_codeuse_summary(paths, code_columns):
     CodeColumn=[]
@@ -71,21 +70,39 @@ def parse_args():
         type=match_paths,
         help="Glob pattern for matching input files",
     )
+    parser.add_argument(
+        "--codelistfile",
+        dest="codelistfile",
+        required=True,
+        help="Filename of codelist",
+    )
 
     return parser.parse_args()
 
 def main():
     args = parse_args()
     paths = args.study_def_paths
-    code_columns = get_column_codes(med_review_codes)
+    codelist_file = args.codelistfile
+
+    #Get codes from codelist to use to identify columns of interest
+    code_columns = get_column_codes(codelist_file)
+
+    #Get term names from codelist to use to translate to understandable terms
+    terms_lookup=get_terms_for_codes(codelist_file)
+
     df_codeuse=create_codeuse_summary(paths, code_columns)
-    df_codeuse['code']=df_codeuse['code'].astype(int)
-    terms_lookup=get_terms_for_codes()
+
+    #Add term names onto table
     df_codeuse = pd.merge(df_codeuse, terms_lookup, how='left', left_on = 'code', right_on = 'code')
-    df_codeuse=df_codeuse.reindex(columns=['code','term','uses','date'])
+
+    #Reorder columns
+    df_codeuse=df_codeuse.reindex(columns=['code','term','termcode','uses','date'])
+    
     df_codeuse.to_csv(OUTPUT_DIR / "codeuse.csv", index=False)
+    
+    #Set date column type to datetime to enable plotting 
     df_codeuse['date']= pd.to_datetime(df_codeuse['date'])
-    plot_measures(df_codeuse, 'codeuse', '', 'uses', 'Uses of code',  category='term')
+    plot_measures(df_codeuse, 'codeuse', '', 'uses', 'Uses of code',  category='termcode')
 
 
 main()
