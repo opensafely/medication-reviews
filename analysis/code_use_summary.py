@@ -99,10 +99,5 @@ def main():
     df_codeuse=df_codeuse.reindex(columns=['code','term','termcode','uses','date'])
     
     df_codeuse.to_csv(OUTPUT_DIR / "codeuse.csv", index=False)
-    
-    #Set date column type to datetime to enable plotting 
-    df_codeuse['date']= pd.to_datetime(df_codeuse['date'])
-    plot_measures(df_codeuse, 'codeuse', '', 'uses', 'Uses of code',  category='termcode')
-
 
 main()
