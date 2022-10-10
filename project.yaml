@@ -84,4 +84,3 @@ actions:
     outputs:
       moderately_sensitive:
         code_counts: output/codeuse.csv
-        code_count_plot: output/figures/codeuse.jpeg
