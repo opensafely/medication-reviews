@@ -1,5 +1,6 @@
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 import pandas as pd
 from cohortextractor import patients, codelist
@@ -50,6 +51,12 @@ def plot_measures(
     plt.ylabel(y_label)
     plt.xlabel("Date")
     plt.xticks(x_labels, rotation="vertical")
+
+    #Format dates for x-axis
+    dtFmt = mdates.DateFormatter('%B %Y') # define the date formatting
+    plt.gca().xaxis.set_major_formatter(dtFmt) # apply the format to the desired axis 
+
+
     plt.title(title)
     plt.ylim(
         bottom=0,
