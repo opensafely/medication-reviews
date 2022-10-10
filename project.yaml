@@ -47,7 +47,7 @@ actions:
        moderately_sensitive:
          measure_csv: output/joined/measure_*_*_rate.csv
   
-  smr_plots:
+  generate_plots:
     run: python:latest python analysis/plots.py
     needs: [generate_measures_all_reviews]
     outputs:
@@ -77,3 +77,10 @@ actions:
       moderately_sensitive:
         counts: output/table_1.csv
         had_outcome: output/table_1_had_outcome.csv
+
+  generate_codeuse_output:
+    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_*.csv.gz" --codelistfile="user-chriswood-medication-review.csv"
+    needs: [join_cohorts]
+    outputs:
+      moderately_sensitive:
+        code_counts: output/codeuse.csv

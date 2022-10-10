@@ -9,6 +9,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parents[1]
 OUTPUT_DIR = BASE_DIR / "output"
 ANALYSIS_DIR = BASE_DIR / "analysis"
+CODELIST_DIR = BASE_DIR / "codelists"
 
 def plot_measures(
     df,
