@@ -33,18 +33,20 @@ def plot_measures(
         category: Name of column indicating different categories
     """
     plt.figure(figsize=(15, 8))
+    mask = np.isfinite(df[column_to_plot])
+
     if category:
         for unique_category in sorted(df[category].unique()):
 
             # subset on category column and sort by date
             df_subset = df[df[category] == unique_category].sort_values("date")
 
-            plt.plot(df_subset["date"], df_subset[column_to_plot])
+            plt.plot(df_subset["date"][mask], df_subset[column_to_plot][mask], marker='o')
     else:
         if as_bar:
             df.plot.bar("date", column_to_plot, legend=False)
         else:
-            plt.plot(df["date"], df[column_to_plot])
+            plt.plot(df["date"][mask], df[column_to_plot][mask], marker='o')
 
     x_labels = sorted(df["date"].unique())
 
