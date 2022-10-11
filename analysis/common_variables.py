@@ -169,5 +169,5 @@ common_variables = dict(
         returning="binary_flag",
         on_or_before="last_day_of_month(index_date)",
         return_expectations={"incidence": 0.2},
-    ),
+    ),   
 )

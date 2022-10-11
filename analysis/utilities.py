@@ -69,6 +69,33 @@ def plot_measures(
         plt.legend(
             sorted(df[category].unique()), bbox_to_anchor=(1.04, 1), loc="upper left"
         )
+    plt.vlines(
+        x=[pd.to_datetime("2020-03-23")],
+        ymin=0,
+        ymax=df[column_to_plot].max() * 1.05,
+        colors="orange",
+        ls="--",
+        label="First National Lockdown",
+    )
+    
+    plt.vlines(
+        x=[pd.to_datetime("2021-01-04")],
+        ymin=0,
+        ymax=df[column_to_plot].max() * 1.05,
+        colors="orange",
+        ls="--",
+        label="Third National Lockdown",
+    )
+    
+    plt.vlines(
+        x=[pd.to_datetime("2020-05-31")],
+        ymin=0,
+        ymax=df[column_to_plot].max() * 1.05, 
+        colors="orange",
+        ls="--",
+        label="Second National Lockdown",
+    )
+
 
     plt.tight_layout()
 
