@@ -79,21 +79,21 @@ def plot_measures(
     )
     
     plt.vlines(
-        x=[pd.to_datetime("2021-01-04")],
+        x=[pd.to_datetime("2020-11-05")],
         ymin=0,
         ymax=df[column_to_plot].max() * 1.05,
         colors="orange",
         ls="--",
-        label="Third National Lockdown",
+        label="Second National Lockdown",
     )
     
     plt.vlines(
-        x=[pd.to_datetime("2020-05-31")],
+        x=[pd.to_datetime("2021-01-04")],
         ymin=0,
         ymax=df[column_to_plot].max() * 1.05, 
         colors="orange",
         ls="--",
-        label="Second National Lockdown",
+        label="Third National Lockdown",
     )
 
 
