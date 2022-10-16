@@ -72,7 +72,7 @@ actions:
 
   generate_plots:
     run: python:latest python analysis/plots.py
-    needs: [generate_measures_all_reviews]
+    needs: [generate_measures_all_reviews, redact_and_round]
     outputs:
       moderately_sensitive:
         cohort: output/figures/*_*_rate.jpeg    
