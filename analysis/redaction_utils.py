@@ -17,7 +17,7 @@ def round_values(x, base=5):
 
 
 def drop_and_round(column, base=5, threshold=7):
-    column[column <= threshold] = 0
+    column[column <= threshold] = np.nan
     return round_column(column, base)
 
 
