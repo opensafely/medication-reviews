@@ -1,10 +1,23 @@
 import pandas as pd
 from redaction_utils import *
 from pathlib import Path
-from plots import OUTPUT_DIR, breakdowns, med_review_type
+from utilities import *
 
 if not (OUTPUT_DIR / "redacted").exists():
     Path.mkdir(OUTPUT_DIR / "redacted")
+
+breakdowns=[
+"age_band",
+"sex",
+"imdQ5",
+"region",
+"ethnicity",
+"nhome",
+"learning_disability",
+"care_home_type"
+]
+
+med_review_type=["smr", "mr"]
 
 #Redact counts <=7 then round counts to nearest 5
 for med_review in med_review_type:
