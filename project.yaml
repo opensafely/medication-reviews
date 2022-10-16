@@ -46,13 +46,6 @@ actions:
      outputs:
        moderately_sensitive:
          measure_csv: output/joined/measure_*_*_rate.csv
-  
-  generate_plots:
-    run: python:latest python analysis/plots.py
-    needs: [generate_measures_all_reviews]
-    outputs:
-      moderately_sensitive:
-        cohort: output/figures/*_*_rate.jpeg
 
   generate_deciles_charts:
     run: >
@@ -69,6 +62,20 @@ actions:
     outputs:
       moderately_sensitive:
         deciles_charts: output/joined/deciles_*_*.*
+
+  redact_and_round:
+    run: python:latest python analysis/redact_and_round.py
+    needs: [generate_measures_all_reviews]
+    outputs:
+      moderately_sensitive:
+        cohort: output/redacted/redacted_measure_*.csv
+
+  generate_plots:
+    run: python:latest python analysis/plots.py
+    needs: [generate_measures_all_reviews]
+    outputs:
+      moderately_sensitive:
+        cohort: output/figures/*_*_rate.jpeg    
 
   generate_table_1:
     run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type" --outcome "had_smr"
