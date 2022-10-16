@@ -24,10 +24,8 @@ med_review_type=["smr", "mr"]
 #Redact counts <=7 then round counts to nearest 5
 for med_review in med_review_type:
     df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_population_rate.csv", parse_dates=["date"])
-    df[f'had_{med_review}'] = df[f'had_{med_review}'].astype('int')
-    df['population'] = df['population'].astype('int')
-    df = drop_and_round(f'had_{med_review}', base=5, threshold=7)
-    df = drop_and_round('population', base=5, threshold=7)
+    df[f'had_{med_review}'] = drop_and_round(df[f'had_{med_review}'], base=5, threshold=7)
+    df['population'] = drop_and_round(df['population'], base=5, threshold=7)
     df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_population_rate.csv", index=False,)
     for breakdownby in breakdowns:
         df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
