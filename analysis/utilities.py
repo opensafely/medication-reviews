@@ -41,7 +41,7 @@ def plot_measures(
             # subset on category column and sort by date
             df_subset = df[df[category] == unique_category].sort_values("date")
 
-            plt.plot(df_subset["date"][mask], df_subset[column_to_plot][mask], marker='o')
+            plt.plot(df_subset["date"][mask], df_subset[column_to_plot][mask])
     else:
         if as_bar:
             df.plot.bar("date", column_to_plot, legend=False)
