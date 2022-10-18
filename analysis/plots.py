@@ -4,7 +4,6 @@ from utilities import *
 if not (OUTPUT_DIR / "figures").exists():
     Path.mkdir(OUTPUT_DIR / "figures")
 
-
 breakdowns=[
 "age_band",
 "sex",
@@ -24,7 +23,7 @@ med_review_dict={
 }
 
 for med_review in med_review_type:
-    df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_population_rate.csv", parse_dates=["date"])
+    df = pd.read_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_population_rate.csv", parse_dates=["date"])
     if (med_review=="smr"):
         df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
     #Add column for rate per 1000 patients
@@ -32,7 +31,7 @@ for med_review in med_review_type:
     #Plot
     plot_measures(df, filename=f"{med_review}_population_rate", title="", column_to_plot="rate", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients")
     for breakdownby in breakdowns:
-        df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
+        df = pd.read_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
         if (med_review=="smr"):
             df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
         df[breakdownby] = df[breakdownby].fillna('missing')
