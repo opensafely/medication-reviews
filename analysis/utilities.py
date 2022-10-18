@@ -90,7 +90,7 @@ def plot_measures(
     )
     
     plt.vlines(
-        x=[pd.to_datetime("2021-01-04")],
+        x=[pd.to_datetime("2021-01-05")],
         ymin=0,
         ymax=df[column_to_plot].max() * 1.05, 
         colors="orange",
