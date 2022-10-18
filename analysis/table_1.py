@@ -11,6 +11,8 @@ def create_table_1(paths, demographics, outcome):
     for i, path in enumerate(paths):
         if i ==0:
             df = pd.read_csv(path, usecols=demographics + ["patient_id", outcome])
+            #fill in missing values
+            df.loc[:,demographics] = df.loc[:,demographics].fillna("missing")
             df_had_outcome = df.loc[df[outcome]==1,:]
             df = df.drop(outcome, axis=1)
             df_had_outcome = df_had_outcome.drop(outcome, axis=1)
@@ -18,6 +20,7 @@ def create_table_1(paths, demographics, outcome):
         
         else:
             updated_df = pd.read_csv(path, usecols=demographics + ["patient_id", outcome])
+            updated_df.loc[:,demographics] = updated_df.loc[:,demographics].fillna("missing")
             updated_df_had_outcome = updated_df.loc[updated_df[outcome]==1,:]
             updated_df = updated_df.drop(outcome, axis=1)
             updated_df_had_outcome = updated_df_had_outcome.drop(outcome, axis=1)
