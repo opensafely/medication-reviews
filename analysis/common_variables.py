@@ -99,9 +99,10 @@ common_variables = dict(
                     "East Midlands": 0.1,
                     "West Midlands": 0.1,
                     "East": 0.1,
-                    "London": 0.2,
+                    "London": 0.1,
                     "South East": 0.1,
                     "South West": 0.1,
+                    "missing": 0.1,
                 },
             },
         },
@@ -169,5 +170,5 @@ common_variables = dict(
         returning="binary_flag",
         on_or_before="last_day_of_month(index_date)",
         return_expectations={"incidence": 0.2},
-    ),
+    ),   
 )

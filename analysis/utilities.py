@@ -33,13 +33,13 @@ def plot_measures(
         category: Name of column indicating different categories
     """
     plt.figure(figsize=(15, 8))
+
     if category:
         for unique_category in sorted(df[category].unique()):
-
-            # subset on category column and sort by date
-            df_subset = df[df[category] == unique_category].sort_values("date")
-
-            plt.plot(df_subset["date"], df_subset[column_to_plot])
+            if (unique_category!="missing" and unique_category!="Unknown"):
+                # subset on category column and sort by date
+                df_subset = df[df[category] == unique_category].sort_values("date")
+                plt.plot(df_subset["date"], df_subset[column_to_plot])
     else:
         if as_bar:
             df.plot.bar("date", column_to_plot, legend=False)
@@ -69,6 +69,33 @@ def plot_measures(
         plt.legend(
             sorted(df[category].unique()), bbox_to_anchor=(1.04, 1), loc="upper left"
         )
+    plt.vlines(
+        x=[pd.to_datetime("2020-03-23")],
+        ymin=0,
+        ymax=df[column_to_plot].max() * 1.05,
+        colors="orange",
+        ls="--",
+        label="First National Lockdown",
+    )
+    
+    plt.vlines(
+        x=[pd.to_datetime("2020-11-05")],
+        ymin=0,
+        ymax=df[column_to_plot].max() * 1.05,
+        colors="orange",
+        ls="--",
+        label="Second National Lockdown",
+    )
+    
+    plt.vlines(
+        x=[pd.to_datetime("2021-01-05")],
+        ymin=0,
+        ymax=df[column_to_plot].max() * 1.05, 
+        colors="orange",
+        ls="--",
+        label="Third National Lockdown",
+    )
+
 
     plt.tight_layout()
 
@@ -121,6 +148,15 @@ def convert_binary(df, binary_column, positive, negative):
     """
     replace_dict = {0: negative, 1: positive}
     df[binary_column] = df[binary_column].replace(replace_dict)
+    return df
+
+def relabel_sex(df):
+    sex_codes = {
+        "F": "Female",
+        "M": "Male",
+    }
+
+    df = df.replace({"sex": sex_codes})
     return df
 
 def loop_over_codes(code_list):
