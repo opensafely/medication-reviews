@@ -150,6 +150,15 @@ def convert_binary(df, binary_column, positive, negative):
     df[binary_column] = df[binary_column].replace(replace_dict)
     return df
 
+def relabel_sex(df):
+    sex_codes = {
+        "F": "Female",
+        "M": "Male",
+    }
+
+    df = df.replace({"sex": sex_codes})
+    return df
+
 def loop_over_codes(code_list):
     def make_variable(code):
         return {
