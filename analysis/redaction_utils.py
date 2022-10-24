@@ -27,12 +27,17 @@ def redact_small_numbers(
 
     def suppress_column(column):
         suppressed_count = column[column <= n].sum()
+        suppressed_column = column[column > n]
 
-        # if 0 dont need to suppress anything
-        if suppressed_count == 0:
-            pass
+     
+        # if suppressed values >0 ensure total suppressed count > threshold.
+        # Also suppress if all values 0
+        if (suppressed_count > 0) | (
+            (suppressed_count == 0) & (len(suppressed_column) != len(column))
+        ):
 
-        else:
+
+    
             column[column <= n] = np.nan
 
             while suppressed_count <= n:
