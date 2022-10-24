@@ -25,7 +25,7 @@ for med_review in med_review_type:
     if (med_review=="smr"):
         df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
     
-    df = redact_small_numbers(df, n=7, rounding_base=5, numerator=f'had_{med_review}', denominator="population", rate_column="rate", date_column="date")  
+    df = redact_small_numbers(df, n=7, rounding_base=5, numerator=f'had_{med_review}', denominator="population", rate_column="value", date_column="date")  
    
     df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_population_rate.csv", index=False,)
     for breakdownby in breakdowns:
@@ -33,7 +33,7 @@ for med_review in med_review_type:
         if (med_review=="smr"):
             df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
         
-        df = redact_small_numbers(df, n=7, rounding_base=5, numerator=f'had_{med_review}', denominator="population", rate_column="rate", date_column="date")  
+        df = redact_small_numbers(df, n=7, rounding_base=5, numerator=f'had_{med_review}', denominator="population", rate_column="value", date_column="date")  
    
  
         df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", index=False,)
