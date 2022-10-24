@@ -24,15 +24,16 @@ for med_review in med_review_type:
     df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_population_rate.csv", parse_dates=["date"])
     if (med_review=="smr"):
         df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
-    df[f'had_{med_review}'] = drop_and_round(df[f'had_{med_review}'], base=5, threshold=7)
-    df['population'] = drop_and_round(df['population'], base=5, threshold=7)
-    df['value'] = df[f'had_{med_review}']/df['population']
+    
+    df = redact_small_numbers(df, n=7, rounding_base=5, numerator=f'had_{med_review}', denominator="population", rate_column="rate", date_column="date")  
+   
     df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_population_rate.csv", index=False,)
     for breakdownby in breakdowns:
         df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
         if (med_review=="smr"):
             df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
-        df[f'had_{med_review}'] = drop_and_round(df[f'had_{med_review}'], base=5, threshold=7)
-        df['population'] = drop_and_round(df['population'], base=5, threshold=7)
-        df['value'] = df[f'had_{med_review}']/df['population']
+        
+        df = redact_small_numbers(df, n=7, rounding_base=5, numerator=f'had_{med_review}', denominator="population", rate_column="rate", date_column="date")  
+   
+ 
         df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", index=False,)
