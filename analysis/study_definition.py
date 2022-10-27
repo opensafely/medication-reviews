@@ -28,6 +28,18 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.1},
         ),
     ),
+    had_smr=patients.with_these_clinical_events(
+        smr_codes,
+        between =["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.2},
+    ),
+    had_mr=patients.with_these_clinical_events(
+        med_review_codes,
+        between =["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.3},
+    ),
     **common_variables,
     **loop_over_codes(med_review_codes),
 )
