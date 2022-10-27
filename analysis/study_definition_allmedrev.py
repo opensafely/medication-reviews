@@ -33,6 +33,7 @@ study = StudyDefinition(
         between=["first_day_of_month(index_date)", "last_day_of_month(index_date)"],
         returning='binary_flag',
         return_expectations={"incidence": 0.3},
+    ),
     **common_variables,
     **loop_over_codes(allmed_review_codes),
 )
