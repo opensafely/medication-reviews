@@ -15,6 +15,16 @@ actions:
       highly_sensitive:
         cohort: output/input_*.csv.gz
 
+  generate_study_population_allmedrev:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition
+        --index-date-range "2019-04-01 to 2022-03-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_allmedrev_*.csv.gz
+
   generate_ethnicity_cohort:
     run: >
       cohortextractor:latest generate_cohort
