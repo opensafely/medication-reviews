@@ -34,3 +34,9 @@ med_review_codes = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+allmed_review_codes = codelist_from_csv(
+    "codelists/user-chriswood-all-medication-reviews.csv",
+    system="snomed",
+    column="code",
+)
