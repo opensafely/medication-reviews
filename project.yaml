@@ -18,8 +18,8 @@ actions:
   generate_study_population_allmedrev:
     run: >
       cohortextractor:latest generate_cohort
-        --study-definition study_definition
-        --index-date-range "2019-04-01 to 2022-03-01 by month"
+        --study-definition study_definition_allmedrev
+        --index-date-range "2020-01-01 to 2020-12-01 by month"
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
@@ -37,10 +37,10 @@ actions:
   join_cohorts:
     run: >
       cohort-joiner:v0.0.44
-        --lhs output/input_20*.csv.gz
+        --lhs output/input_*.csv.gz
         --rhs output/input_ethnicity.csv.gz
         --output-dir output/joined
-    needs: [generate_study_population, generate_ethnicity_cohort]
+    needs: [generate_study_population, generate_study_population_allmedrev, generate_ethnicity_cohort]
     outputs:
       highly_sensitive:
         cohort: output/joined/input_*.csv.gz
