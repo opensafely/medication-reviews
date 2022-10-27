@@ -47,7 +47,9 @@ def create_codeuse_summary(paths, code_columns):
 def get_date_from_filename(path):
     pathsplit=os.path.normpath(path).split(os.path.sep)
     filenamesplit=pathsplit[-1].split('.')
-    filename=filenamesplit[0].replace('input_', '')
+    filename=filenamesplit[0]
+    filename=filename.replace('input_', '')
+    filename=filename.replace('allmedrev_', '')
     filedatesplit=filename.split('-')
     filedate=f'{filedatesplit[2]}/{filedatesplit[1]}/{filedatesplit[0]}'
     return filedate
@@ -76,6 +78,12 @@ def parse_args():
         required=True,
         help="Filename of codelist",
     )
+    parser.add_argument(
+        "--outputfile",
+        dest="outputfile",
+        required=True,
+        help="Output filename",
+    )
 
     return parser.parse_args()
 
@@ -83,6 +91,7 @@ def main():
     args = parse_args()
     paths = args.study_def_paths
     codelist_file = args.codelistfile
+    outputfile = args.outputfile
 
     #Get codes from codelist to use to identify columns of interest
     code_columns = get_column_codes(codelist_file)
@@ -98,6 +107,6 @@ def main():
     #Reorder columns
     df_codeuse=df_codeuse.reindex(columns=['code','term','termcode','uses','date'])
     
-    df_codeuse.to_csv(OUTPUT_DIR / "codeuse.csv", index=False)
+    df_codeuse.to_csv(OUTPUT_DIR / f"{outputfile}.csv", index=False)
 
 main()
