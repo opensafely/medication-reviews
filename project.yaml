@@ -37,25 +37,47 @@ actions:
   join_cohorts:
     run: >
       cohort-joiner:v0.0.44
-        --lhs output/input_*.csv.gz
+        --lhs output/input_20*.csv.gz
         --rhs output/input_ethnicity.csv.gz
         --output-dir output/joined
-    needs: [generate_study_population, generate_study_population_allmedrev, generate_ethnicity_cohort]
+    needs: [generate_study_population, generate_ethnicity_cohort]
     outputs:
       highly_sensitive:
-        cohort: output/joined/input_*.csv.gz
+        cohort: output/joined/input_20*.csv.gz
+
+  join_cohorts_allmedrev:
+    run: >
+      cohort-joiner:v0.0.44
+        --lhs output/input_allmedrev*.csv.gz
+        --rhs output/input_ethnicity.csv.gz
+        --output-dir output/joined
+    needs: [generate_study_population_allmedrev, generate_ethnicity_cohort]
+    outputs:
+      highly_sensitive:
+        cohort: output/joined/input_allmedrev_*.csv.gz
 
 ## generate Structured Medication Review Measures and plots
 
-  generate_measures_all_reviews:
+  generate_measures_mr_smr:
      run: >
        cohortextractor:latest generate_measures 
-       --study-definition study_definition 
+       --study-definition study_definition
        --output-dir=output/joined
      needs: [join_cohorts]
      outputs:
        moderately_sensitive:
-         measure_csv: output/joined/measure_*_*_rate.csv
+         mr_measure_csv: output/joined/measure_mr_*_rate.csv
+         smr_measure_csv: output/joined/measure_smr_*_rate.csv
+
+  generate_measures_all_reviews:
+     run: >
+       cohortextractor:latest generate_measures 
+       --study-definition study_definition_allmedrev
+       --output-dir=output/joined
+     needs: [join_cohorts_allmedrev]
+     outputs:
+       moderately_sensitive:
+         allmedrev_measure_csv: output/joined/measure_allmedrv_*_rate.csv
 
   generate_deciles_charts:
     run: >
@@ -68,21 +90,21 @@ actions:
         output: true
       charts:
         output: true
-    needs: [generate_measures_all_reviews]
+    needs: [generate_measures_mr_smr]
     outputs:
       moderately_sensitive:
         deciles_charts: output/joined/deciles_*_*.*
 
   redact_and_round:
     run: python:latest python analysis/redact_and_round.py
-    needs: [generate_measures_all_reviews]
+    needs: [generate_measures_mr_smr]
     outputs:
       moderately_sensitive:
         cohort: output/redacted/redacted_measure_*.csv
 
   generate_plots:
     run: python:latest python analysis/plots.py
-    needs: [generate_measures_all_reviews, redact_and_round]
+    needs: [generate_measures_mr_smr, redact_and_round]
     outputs:
       moderately_sensitive:
         cohort: output/figures/*_*_rate.jpeg    
@@ -104,7 +126,7 @@ actions:
 
   generate_allmedrev_codeuse_output:
     run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --codelistfile="user-chriswood-all-medication-reviews.csv" --outputfile="codeuse_allmedrev"
-    needs: [join_cohorts]
+    needs: [join_cohorts_allmedrev]
     outputs:
       moderately_sensitive:
         code_counts: output/codeuse_allmedrev.csv
