@@ -47,7 +47,7 @@ def total_codeuses(df, startdate, enddate):
         df=df[(df['date'] >= startdate) & (df['date'] <= enddate)]
     grouped_df = df.groupby(["code", "term", "termcode"], as_index=False)[['uses']].sum()
     grouped_df = grouped_df.sort_values(by=['uses'], ascending=False)
-    print (grouped_df)
+    return grouped_df
 
 def get_date_from_filename(path):
     pathsplit=os.path.normpath(path).split(os.path.sep)
@@ -128,6 +128,8 @@ def main():
     
     df_codeuse.to_csv(OUTPUT_DIR / f"{outputfile}.csv", index=False)
 
-    total_codeuses(df_codeuse, totalstart, totalend)
+    df_totalcodeuse=total_codeuses(df_codeuse, totalstart, totalend)
+
+    df_totalcodeuse.to_csv(OUTPUT_DIR / f"total{outputfile}.csv", index=False)
 
 main()
