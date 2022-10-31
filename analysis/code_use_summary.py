@@ -45,7 +45,9 @@ def create_codeuse_summary(paths, code_columns):
 def total_codeuses(df, startdate, enddate):
     if (startdate!=None and enddate!=None):
         df=df[(df['date'] >= startdate) & (df['date'] <= enddate)]
-    
+    grouped_df = df.groupby(["code", "term", "termcode"], as_index=False)[['uses']].sum()
+    grouped_df = grouped_df.sort_values(by=['uses'], ascending=False)
+    print (grouped_df)
 
 def get_date_from_filename(path):
     pathsplit=os.path.normpath(path).split(os.path.sep)
