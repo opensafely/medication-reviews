@@ -42,7 +42,9 @@ def create_codeuse_summary(paths, code_columns):
     df_codeuse = pd.DataFrame(dict)
     return df_codeuse                        
 
-
+def total_codeuses(df, startdate, enddate):
+    df=df[(df['date'] >= startdate) & (df['date'] <= enddate)]
+    print(df)
 
 def get_date_from_filename(path):
     pathsplit=os.path.normpath(path).split(os.path.sep)
@@ -108,5 +110,7 @@ def main():
     df_codeuse=df_codeuse.reindex(columns=['code','term','termcode','uses','date'])
     
     df_codeuse.to_csv(OUTPUT_DIR / f"{outputfile}.csv", index=False)
+
+    total_codeuses(df_codeuse, '2020-04-01', '2020-06-01')
 
 main()
