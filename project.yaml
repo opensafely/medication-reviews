@@ -123,10 +123,12 @@ actions:
     outputs:
       moderately_sensitive:
         code_counts: output/codeuse.csv
+        total_code_counts: output/totalcodeuse.csv
 
   generate_allmedrev_codeuse_output:
-    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --codelistfile="user-chriswood-all-medication-reviews.csv" --outputfile="codeuse_allmedrev"
+    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --codelistfile="user-chriswood-all-medication-reviews.csv" --outputfile="codeuse_allmedrev" --totalstart="01/01/2020" --totalend="01/12/2020"
     needs: [join_cohorts_allmedrev]
     outputs:
       moderately_sensitive:
         code_counts: output/codeuse_allmedrev.csv
+        total_code_counts: output/totalcodeuse_allmedrev.csv

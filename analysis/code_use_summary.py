@@ -42,7 +42,12 @@ def create_codeuse_summary(paths, code_columns):
     df_codeuse = pd.DataFrame(dict)
     return df_codeuse                        
 
-
+def total_codeuses(df, startdate, enddate):
+    if (startdate!=None and enddate!=None):
+        df=df[(df['date'] >= startdate) & (df['date'] <= enddate)]
+    grouped_df = df.groupby(["code", "term", "termcode"], as_index=False)[['uses']].sum()
+    grouped_df = grouped_df.sort_values(by=['uses'], ascending=False)
+    return grouped_df
 
 def get_date_from_filename(path):
     pathsplit=os.path.normpath(path).split(os.path.sep)
@@ -84,6 +89,18 @@ def parse_args():
         required=True,
         help="Output filename",
     )
+    parser.add_argument(
+        "--totalstart",
+        dest="totalstart",
+        required=False,
+        help="Start month for total code use calculation",
+    )
+    parser.add_argument(
+        "--totalend",
+        dest="totalend",
+        required=False,
+        help="End month for total code use calculation",
+    )
 
     return parser.parse_args()
 
@@ -92,6 +109,8 @@ def main():
     paths = args.study_def_paths
     codelist_file = args.codelistfile
     outputfile = args.outputfile
+    totalstart = args.totalstart
+    totalend = args.totalend
 
     #Get codes from codelist to use to identify columns of interest
     code_columns = get_column_codes(codelist_file)
@@ -108,5 +127,9 @@ def main():
     df_codeuse=df_codeuse.reindex(columns=['code','term','termcode','uses','date'])
     
     df_codeuse.to_csv(OUTPUT_DIR / f"{outputfile}.csv", index=False)
+
+    df_totalcodeuse=total_codeuses(df_codeuse, totalstart, totalend)
+
+    df_totalcodeuse.to_csv(OUTPUT_DIR / f"total{outputfile}.csv", index=False)
 
 main()
