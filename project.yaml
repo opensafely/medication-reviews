@@ -97,7 +97,7 @@ actions:
 
   redact_and_round:
     run: python:latest python analysis/redact_and_round.py
-    needs: [generate_measures_mr_smr]
+    needs: [generate_measures_mr_smr, generate_codeuse_output, generate_allmedrev_codeuse_output]
     outputs:
       moderately_sensitive:
         cohort: output/redacted/redacted_measure_*.csv
