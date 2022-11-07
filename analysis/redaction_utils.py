@@ -97,7 +97,7 @@ def codeuse_redact_small_numbers(
             while suppressed_count <= n:
                 suppressed_count += (column[column>0]).min()
 
-               column[column[column>0].idxmin()] = np.nan
+                column[column[column>0].idxmin()] = np.nan
         column[column==np.nan] = 'REDACTED'
         return column
 
