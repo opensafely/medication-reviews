@@ -19,7 +19,7 @@ breakdowns=[
 
 med_review_type=["smr", "mr"]
 
-#Redact counts <=7 then round counts to nearest 5
+#Redact measures files - Redact counts <=7 then round counts to nearest 5
 for med_review in med_review_type:
     df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_population_rate.csv", parse_dates=["date"])
     if (med_review=="smr"):
@@ -37,3 +37,11 @@ for med_review in med_review_type:
    
  
         df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", index=False,)
+
+
+#Redact total codeuse counts files - Redact counts >0 and <=7 then round counts to nearest 5
+codeusefiles=["totalcodeuse", "totalcodeuse_allmedrev"]
+for file in codeusefiles:
+    df = pd.read_csv(OUTPUT_DIR / f"{file}.csv")
+    df = codeuse_redact_small_numbers(df, n=7, rounding_base=5, column="uses")
+    df.to_csv(OUTPUT_DIR / f"redacted/redacted_{file}.csv", index=False,)

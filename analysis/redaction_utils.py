@@ -64,3 +64,46 @@ def redact_small_numbers(
         df_list.append(df_subset)
 
     return pd.concat(df_list, axis=0)
+
+
+def codeuse_redact_small_numbers(
+    df, n, rounding_base, column
+):
+    """
+    Takes counts df as input and suppresses low numbers.  Sequentially redacts
+    low numbers from column until count of redacted values >=n.
+    Round counts to rounding_base.
+    Rates corresponding to redacted values are also redacted.
+    df: input df
+    n: threshold for low number suppression
+    rounding_base: rounding base to use
+    column: column name for retraction
+    retainzeros: boolean - keep or retract zero values
+    """
+
+    def suppress_column(column):
+        suppressed_count = column[(column >0) & (column <= n)].sum()
+        suppressed_column = column[column > n]
+
+     
+        # if suppressed values >0 ensure total suppressed count > threshold.
+        # Also suppress if all values 0
+        if (suppressed_count > 0) | (
+            (suppressed_count == 0) & (len(suppressed_column) != len(column))
+        ):
+
+            column[(column >0) & (column <= n)] = np.nan
+
+            while suppressed_count <= n:
+                suppressed_count += (column[column>0]).min()
+
+                column[column[column>0].idxmin()] = np.nan
+        column[column==np.nan] = 'REDACTED'
+        return column
+
+    df[column] = suppress_column(df[column])
+    df[column] = round_column(df[column], base=rounding_base)
+
+    df[column].fillna('REDACTED', inplace=True)
+
+    return df
