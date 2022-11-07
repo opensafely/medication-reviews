@@ -101,6 +101,7 @@ actions:
     outputs:
       moderately_sensitive:
         cohort: output/redacted/redacted_measure_*.csv
+        cohort_codeuse: output/redacted/redacted_totalcodeuse*.csv
 
   generate_plots:
     run: python:latest python analysis/plots.py
