@@ -15,7 +15,7 @@ def codeuse_table():
             "code": pd.Series([1, 2, 3, 4, 5]),
             "term": pd.Series(['term1', 'term2', 'term3', 'term4', 'term5']),
             "termcode": pd.Series(['term1 (1)', 'term2 (2)', 'term3 (3)', 'term4 (4)', 'term5 (5)']),
-            "uses": pd.Series([0, 0, 0, 0, 12]),
+            "uses": pd.Series([0, 0, 0, 0, 41]),
         }
     )
 
@@ -27,7 +27,7 @@ def test_redact_events_table(codeuse_table):
                 "code": pd.Series([1, 2, 3, 4, 5]),
                 "term": pd.Series(['term1', 'term2', 'term3', 'term4', 'term5']),
                 "termcode": pd.Series(['term1 (1)', 'term2 (2)', 'term3 (3)', 'term4 (4)', 'term5 (5)']),
-                "uses": pd.Series([0, 0, 0, 0, 12]),
+                "uses": pd.Series([0, 0, 0, 0, 40]),
             }
         )
     testing.assert_frame_equal(obs, exp, check_dtype=False)

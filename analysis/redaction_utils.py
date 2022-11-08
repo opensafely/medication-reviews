@@ -82,22 +82,9 @@ def codeuse_redact_small_numbers(
 
     def suppress_column(column):
         suppressed_count = column[(column >0) & (column <= n)].sum()
-        suppressed_column = column[column > n]
-        print('Suppressed_count')
-        print (suppressed_count)
-        print('Suppressed_column')
-        print (suppressed_column)
-        print('Suppressed_column_len')
-        print (len(suppressed_column))
-        print('column_len')
-        print (len(column))
-        exit()
      
         # if suppressed values >0 ensure total suppressed count > threshold.
-        # Also suppress if all values 0
-        if (suppressed_count > 0) | (
-            (suppressed_count == 0) & (len(suppressed_column) != len(column))
-        ):
+        if (suppressed_count > 0):
 
             column[(column >0) & (column <= n)] = np.nan
 
