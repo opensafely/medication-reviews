@@ -78,19 +78,13 @@ def codeuse_redact_small_numbers(
     n: threshold for low number suppression
     rounding_base: rounding base to use
     column: column name for retraction
-    retainzeros: boolean - keep or retract zero values
     """
 
     def suppress_column(column):
         suppressed_count = column[(column >0) & (column <= n)].sum()
-        suppressed_column = column[column > n]
-
      
         # if suppressed values >0 ensure total suppressed count > threshold.
-        # Also suppress if all values 0
-        if (suppressed_count > 0) | (
-            (suppressed_count == 0) & (len(suppressed_column) != len(column))
-        ):
+        if (suppressed_count > 0):
 
             column[(column >0) & (column <= n)] = np.nan
 

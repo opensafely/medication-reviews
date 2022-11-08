@@ -133,3 +133,9 @@ actions:
       moderately_sensitive:
         code_counts: output/codeuse_allmedrev.csv
         total_code_counts: output/totalcodeuse_allmedrev.csv
+
+  run_tests:
+    run: python:latest python -m pytest --junit-xml=output/pytest.xml --verbose
+    outputs:
+      moderately_sensitive:
+        log: output/pytest.xml
