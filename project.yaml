@@ -105,7 +105,7 @@ actions:
 
   generate_plots:
     run: python:latest python analysis/plots.py
-    needs: [generate_measures_mr_smr, redact_and_round]
+    needs: [redact_and_round, generate_deciles_charts]
     outputs:
       moderately_sensitive:
         cohort: output/figures/*_*_rate.jpeg    

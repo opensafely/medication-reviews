@@ -1,6 +1,7 @@
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 from cohortextractor import patients, codelist
@@ -20,6 +21,7 @@ def plot_measures(
     y_label: str,
     as_bar: bool = False,
     category: str = None,
+    deciles: bool = False,
 ):
     """Produce time series plot from measures table.  One line is plotted for each sub
     category within the category column. Saves output in 'output' dir as jpeg file.
@@ -31,15 +33,22 @@ def plot_measures(
         y_label: Label to use for y-axis
         as_bar: Boolean indicating if bar chart should be plotted instead of line chart. Only valid if no categories.
         category: Name of column indicating different categories
+        deciles: Boolean indicating if plotting deciles chart.
     """
     plt.figure(figsize=(15, 8))
 
     if category:
         for unique_category in sorted(df[category].unique()):
-            if (unique_category!="missing" and unique_category!="Unknown"):
-                # subset on category column and sort by date
-                df_subset = df[df[category] == unique_category].sort_values("date")
-                plt.plot(df_subset["date"], df_subset[column_to_plot])
+            if (unique_category!="missing" and unique_category!="Unknown"): # Don't plot where catagory missing or unknown
+                df_subset = df[df[category] == unique_category].sort_values("date") # subset on category column and sort by date
+                if deciles:
+                    if (unique_category==50):
+                        linestyle="b-"
+                    else:
+                        linestyle="b--"
+                    plt.plot(df_subset["date"], df_subset[column_to_plot], linestyle) # Plot decile
+                else:
+                    plt.plot(df_subset["date"], df_subset[column_to_plot]) # Plot category
     else:
         if as_bar:
             df.plot.bar("date", column_to_plot, legend=False)
@@ -66,15 +75,21 @@ def plot_measures(
     )
 
     if category:
-        plt.legend(
-            sorted(df[category].unique()), bbox_to_anchor=(1.04, 1), loc="upper left"
-        )
+        if deciles:
+            decile_line = Line2D([0,1],[0,1],linestyle='--', color='blue')
+            median_line = Line2D([0,1],[0,1],linestyle='-', color='blue')
+            plt.legend([decile_line, median_line], ["Decile", "Median"], bbox_to_anchor=(1.04, 1), loc="upper left")
+        else:
+            plt.legend(
+                sorted(df[category].unique()), bbox_to_anchor=(1.04, 1), loc="upper left"
+            )
+
     plt.vlines(
         x=[pd.to_datetime("2020-03-23")],
         ymin=0,
         ymax=df[column_to_plot].max() * 1.05,
         colors="orange",
-        ls="--",
+        ls="(0, (5, 10)),
         label="First National Lockdown",
     )
     
@@ -101,6 +116,9 @@ def plot_measures(
 
     plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
     plt.clf()
+
+
+
 
 def calculate_rate(df, value_col, population_col, rate_per=1000, round_rate=False):
     """Calculates the number of events per 1,000 or passed rate_per variable of the population.
