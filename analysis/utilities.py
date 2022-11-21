@@ -89,7 +89,7 @@ def plot_measures(
         ymin=0,
         ymax=df[column_to_plot].max() * 1.05,
         colors="orange",
-        ls="(0, (5, 10)),
+        ls=(0, (5, 10)),
         label="First National Lockdown",
     )
     
@@ -98,7 +98,7 @@ def plot_measures(
         ymin=0,
         ymax=df[column_to_plot].max() * 1.05,
         colors="orange",
-        ls="--",
+        ls=(0, (5, 10)),
         label="Second National Lockdown",
     )
     
@@ -107,7 +107,7 @@ def plot_measures(
         ymin=0,
         ymax=df[column_to_plot].max() * 1.05, 
         colors="orange",
-        ls="--",
+        ls=(0, (5, 10)),
         label="Third National Lockdown",
     )
 

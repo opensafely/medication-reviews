@@ -46,4 +46,5 @@ for med_review in med_review_type:
 
     #Plot deciles chart
     df = pd.read_csv(OUTPUT_DIR / f"joined/deciles_table_{med_review}_practice_rate.csv", parse_dates=["date"])
-    plot_measures(df, filename=f"deciles_chart_{med_review}_practice_rate", title="", column_to_plot="value", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients", category="percentile", deciles=True)
+    df['percentage']=df['value']*100
+    plot_measures(df, filename=f"deciles_chart_{med_review}_practice_rate", title="", column_to_plot="percentage", y_label="Percentage", category="percentile", deciles=True)
