@@ -90,7 +90,7 @@ actions:
         output: true
       charts:
         output: true
-    needs: [generate_measures_mr_smr]
+    needs: [generate_measures_mr_smr, generate_measures_all_reviews]
     outputs:
       moderately_sensitive:
         deciles_charts: output/joined/deciles_*_*.*
