@@ -90,7 +90,7 @@ actions:
         output: true
       charts:
         output: true
-    needs: [generate_measures_mr_smr]
+    needs: [generate_measures_mr_smr, generate_measures_all_reviews]
     outputs:
       moderately_sensitive:
         deciles_charts: output/joined/deciles_*_*.*
@@ -105,10 +105,11 @@ actions:
 
   generate_plots:
     run: python:latest python analysis/plots.py
-    needs: [generate_measures_mr_smr, redact_and_round]
+    needs: [redact_and_round, generate_deciles_charts]
     outputs:
       moderately_sensitive:
-        cohort: output/figures/*_*_rate.jpeg    
+        percent_cohort: output/figures/*_*_rate_percentage.jpeg
+        perthousand_cohort: output/figures/*_*_rate_perthousand.jpeg 
 
   generate_table_1:
     run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_20*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type" --outcome "had_smr"
