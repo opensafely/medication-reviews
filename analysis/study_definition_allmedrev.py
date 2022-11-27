@@ -1,4 +1,4 @@
-from cohortextractor import StudyDefinition, patients, codelist, codelist_from_csv, Measure  # NOQA
+from cohortextractor import StudyDefinition, patients, combine_codelist, codelist, codelist_from_csv, Measure  # NOQA
 
 from codelists import *
 from common_variables import common_variables
@@ -29,11 +29,23 @@ study = StudyDefinition(
         ),
     ),
     **common_variables,
-    femalechildbearingage=patients.satisfying(
+    teratogenicmeds_last12m=patients.satisfying(
         """
-       (age <=45) AND
-       (sex = 'F')
-       """,
+       teratogenicmeds_issuecount >=2 AND
+       femalechildbearingage
+       """,    
+        teratogenicmeds_issuecount=patients.with_these_medications(
+            teratogenicmeds,
+            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning='number_of_matches_in_period',
+            return_expectations={"incidence": 0.3},
+        ),
+        femalechildbearingage=patients.satisfying(
+            """
+            (age <=45) AND
+            (sex = 'F')
+            """,
+        ),
     ),
     had_anymedrev=patients.with_these_clinical_events(
         allmed_review_codes,
