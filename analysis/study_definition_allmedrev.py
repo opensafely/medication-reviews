@@ -47,6 +47,10 @@ study = StudyDefinition(
             """,
         ),
     ),
+    highriskmeds = combine_codelists(
+        dmard_codes,
+        highdoseopioid_codes,
+    ),
     had_anymedrev=patients.with_these_clinical_events(
         allmed_review_codes,
         between=["first_day_of_month(index_date)", "last_day_of_month(index_date)"],
