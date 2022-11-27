@@ -19,7 +19,7 @@ actions:
     run: >
       cohortextractor:latest generate_cohort
         --study-definition study_definition_allmedrev
-        --index-date-range "2020-01-01 to 2020-12-01 by month"
+        --index-date-range "2020-01-01 to 2022-10-01 by month"
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
