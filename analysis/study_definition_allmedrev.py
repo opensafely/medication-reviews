@@ -51,6 +51,17 @@ study = StudyDefinition(
         dmard_codes,
         highdoseopioid_codes,
     ),
+    highriskmeds_last12m=patients.satisfying(
+        """
+       highriskmeds_issuecount >=2
+       """,    
+        highriskmeds_issuecount=patients.with_these_medications(
+            highriskmeds,
+            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning='number_of_matches_in_period',
+            return_expectations={"incidence": 0.3},
+        ),
+    ),
     had_anymedrev=patients.with_these_clinical_events(
         allmed_review_codes,
         between=["first_day_of_month(index_date)", "last_day_of_month(index_date)"],
