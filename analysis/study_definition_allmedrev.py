@@ -34,6 +34,12 @@ study = StudyDefinition(
         returning='binary_flag',
         return_expectations={"incidence": 0.3},
     ),
+    had_anymedrev12m=patients.with_these_clinical_events(
+        allmed_review_codes,
+        between =["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+        returning='binary_flag',
+        return_expectations={"incidence": 0.3},
+    ),
     **common_variables,
     **loop_over_codes(allmed_review_codes),
 )
