@@ -28,10 +28,11 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.1},
         ),
     ),
+    **common_variables,
     femalechildbearingage=patients.satisfying(
         """
-       age <=45
-       sex = 'F'
+       (age <=45) AND
+       (sex = 'F')
        """,
     ),
     had_anymedrev=patients.with_these_clinical_events(
@@ -46,7 +47,6 @@ study = StudyDefinition(
         returning='binary_flag',
         return_expectations={"incidence": 0.3},
     ),
-    **common_variables,
     **loop_over_codes(allmed_review_codes),
 )
 
