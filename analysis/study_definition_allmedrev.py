@@ -28,6 +28,18 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.1},
         ),
     ),
+    femalechildbearingage=patients.satisfying(
+        """
+       age <=45
+       sex = 'F'
+       """,
+        registered=patients.registered_as_of("last_day_of_month(index_date)"),
+        died=patients.died_from_any_cause(
+            on_or_before="last_day_of_month(index_date)",
+            returning="binary_flag",
+            return_expectations={"incidence": 0.1},
+        ),
+    ),
     had_anymedrev=patients.with_these_clinical_events(
         allmed_review_codes,
         between=["first_day_of_month(index_date)", "last_day_of_month(index_date)"],
