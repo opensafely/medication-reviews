@@ -47,6 +47,18 @@
       "url": "https://codelists.opensafely.org/codelist/user/chriswood/all-medication-reviews/26263b8b/",
       "downloaded_at": "2022-10-27 19:33:35.044834Z",
       "sha": "52044b82748e2b1e02d291c320f0927b16e662d5"
+    },
+    "opensafely-dmards.csv": {
+      "id": "opensafely/dmards/2020-06-23",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/dmards/2020-06-23/",
+      "downloaded_at": "2022-11-27 22:45:35.925452Z",
+      "sha": "06aae624d5a02a69c9e9e518a6d64e0a8e74e66e"
+    },
+    "opensafely-high-dose-long-acting-opioids-openprescribing-dmd.csv": {
+      "id": "opensafely/high-dose-long-acting-opioids-openprescribing-dmd/52f27403",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/high-dose-long-acting-opioids-openprescribing-dmd/52f27403/",
+      "downloaded_at": "2022-11-27 22:45:36.220056Z",
+      "sha": "998d956447c4aa67f9b3b8f21a757b4bfbe6d9c1"
     }
   }
 }

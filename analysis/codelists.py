@@ -40,3 +40,15 @@ allmed_review_codes = codelist_from_csv(
     system="snomed",
     column="code",
 )
+
+highdoseopioid_codes = codelist_from_csv(
+    "codelists/opensafely-high-dose-long-acting-opioids-openprescribing-dmd.csv",
+    system="snomed",
+    column="code",
+)
+
+dmard_codes = codelist_from_csv(
+    "codelists/opensafely-dmards.csv",
+    system="snomed",
+    column="code",
+)
