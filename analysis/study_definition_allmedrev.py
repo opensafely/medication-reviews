@@ -47,10 +47,7 @@ study = StudyDefinition(
             """,
         ),
     ),
-    highriskmeds = combine_codelists(
-        dmard_codes,
-        highdoseopioid_codes,
-    ),
+
     highriskmeds_last12m=patients.satisfying(
         """
        highriskmeds_issuecount >=2
