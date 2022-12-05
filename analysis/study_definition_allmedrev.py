@@ -42,7 +42,7 @@ study = StudyDefinition(
         ),
         femalechildbearingage=patients.satisfying(
             """
-            (age <=45) AND
+            (age <=55) AND
             (sex = 'F')
             """,
         ),
