@@ -61,7 +61,7 @@ study = StudyDefinition(
     ),
     combined_addictive_codes = combine_codelist(
         highdoseopioid_codes,
-        benzos & gabapentinoids & z-drugs,
+        addictivemeds_codes,
     ),
 
     addictivemeds_last12m=patients.satisfying(
