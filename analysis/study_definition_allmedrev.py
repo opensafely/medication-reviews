@@ -63,7 +63,7 @@ study = StudyDefinition(
         highdoseopioid_codes,
         benzos & gabapentinoids & z-drugs,
     ),
-    
+
     highriskmeds_last12m=patients.satisfying(
         """
        highriskmeds_issuecount >=2
@@ -75,6 +75,7 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.3},
         ),
     ),
+    
     had_anymedrev=patients.with_these_clinical_events(
         allmed_review_codes,
         between=["first_day_of_month(index_date)", "last_day_of_month(index_date)"],
