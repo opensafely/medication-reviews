@@ -48,6 +48,22 @@ study = StudyDefinition(
         ),
     ),
 
+    dmards_last12m=patients.satisfying(
+        """
+       dmard_codes_issuecount >=2
+       """,    
+        dmard_codes_issuecount=patients.with_these_medications(
+            dmard_codes,
+            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning='number_of_matches_in_period',
+            return_expectations={"incidence": 0.3},
+        ),
+    ),
+    addictive = combine_codelist(
+        highdoseopioid_codes,
+        benzos & gabapentinoids & z-drugs,
+    ),
+    
     highriskmeds_last12m=patients.satisfying(
         """
        highriskmeds_issuecount >=2
