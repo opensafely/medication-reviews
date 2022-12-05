@@ -59,17 +59,17 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.3},
         ),
     ),
-    addictive = combine_codelist(
+    combined_addictive_codes = combine_codelist(
         highdoseopioid_codes,
         benzos & gabapentinoids & z-drugs,
     ),
 
-    highriskmeds_last12m=patients.satisfying(
+    addictivemeds_last12m=patients.satisfying(
         """
-       highriskmeds_issuecount >=2
+       addictive_issuecount >=2
        """,    
-        highriskmeds_issuecount=patients.with_these_medications(
-            highriskmeds,
+        addictive_issuecount=patients.with_these_medications(
+            combined_addictive_codes,
             between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
             returning='number_of_matches_in_period',
             return_expectations={"incidence": 0.3},
