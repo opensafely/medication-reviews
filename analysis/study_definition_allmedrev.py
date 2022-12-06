@@ -34,56 +34,6 @@ study = StudyDefinition(
         ),
     ),
     **common_variables,
-    teratogenicmeds_last12m=patients.satisfying(
-        """
-       teratogenicmeds_issuecount >=2 AND
-       femalechildbearingage
-       """,    
-        teratogenicmeds_issuecount=patients.with_these_medications(
-            teratogenic_codes,
-            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
-            returning='number_of_matches_in_period',
-            return_expectations={"incidence": 0.3},
-        ),
-        femalechildbearingage=patients.satisfying(
-            """
-            (age <=55) AND
-            (sex = 'F')
-            """,
-        ),
-    ),
-
-    dmards_last12m=patients.satisfying(
-        """
-       dmard_codes_issuecount >=2
-       """,    
-        dmard_codes_issuecount=patients.with_these_medications(
-            dmard_codes,
-            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
-            returning='number_of_matches_in_period',
-            return_expectations={"incidence": 0.3},
-        ),
-    ),
-
-    addictivemeds_last12m=patients.satisfying(
-        """
-       addictive_issuecount >=2
-       """,    
-        addictive_issuecount=patients.with_these_medications(
-            combined_addictive_codes,
-            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
-            returning='number_of_matches_in_period',
-            return_expectations={"incidence": 0.3},
-        ),
-    ),
-
-    highriskmeds_last12m=patients.satisfying(
-        """
-        teratogenicmeds_last12m OR
-        dmards_last12m OR
-        addictivemeds_last12m
-        """,
-    ),
     
     had_anymedrev=patients.with_these_clinical_events(
         allmed_review_codes,
