@@ -75,6 +75,14 @@ study = StudyDefinition(
             return_expectations={"incidence": 0.3},
         ),
     ),
+
+    highriskmeds_last12m=patients.satisfying(
+        """
+        teratogenicmeds_last12m OR
+        dmards_last12m OR
+        addictivemeds_last12m
+        """,
+    )
     
     had_anymedrev=patients.with_these_clinical_events(
         allmed_review_codes,
