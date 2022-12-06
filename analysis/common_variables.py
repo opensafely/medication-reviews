@@ -1,9 +1,14 @@
 # Sharing common study definition variables
 # https://docs.opensafely.org/study-def-tricks/
 
-from cohortextractor import patients
+from cohortextractor import patients, combine_codelists
 
 from codelists import *
+
+combined_addictive_codes = combine_codelists(
+    highdoseopioid_codes,
+    addictivemeds_codes,
+)
 
 common_variables = dict(
     age=patients.age_as_of(

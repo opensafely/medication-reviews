@@ -7,11 +7,6 @@ from utilities import loop_over_codes
 start_date = "2019-04-01"
 end_date = "2022-03-01"
 
-combined_addictive_codes = combine_codelists(
-    highdoseopioid_codes,
-    addictivemeds_codes,
-)
-
 study = StudyDefinition(
     index_date=start_date,
     default_expectations={
