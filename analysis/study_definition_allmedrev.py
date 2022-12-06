@@ -46,7 +46,6 @@ study = StudyDefinition(
 )
 
 measures = [
-    ## SMR codelist measures
     Measure(
         id="allmedrv_population_rate",
         numerator="had_anymedrev",
@@ -214,5 +213,162 @@ measures = [
         numerator="had_anymedrev12m",
         denominator="population",
         group_by=["highriskmeds_last12m"],
+    ),
+    ## Age Standardisation Measures
+    Measure(
+        id="allmedrv_population_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup"],
+    ),
+    Measure(
+        id="allmedrv12m_population_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup"],
+    ),
+    Measure(
+        id="allmedrv_practice_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "practice"],
+    ),
+    Measure(
+        id="allmedrv_sex_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "sex"],
+    ),
+    Measure(
+        id="allmedrv_imdQ5_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "imdQ5"],
+    ),
+    Measure(
+        id="allmedrv_region_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "region"],
+    ),
+    Measure(
+        id="allmedrv_ethnicity_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "ethnicity"],
+    ),
+    Measure(
+        id="allmedrv_learning_disability_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "learning_disability"],
+    ),
+    Measure(
+        id="allmedrv_nhome_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "nhome"],
+    ),
+    Measure(
+        id="allmedrv_care_home_type_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "care_home_type"],
+    ),
+    Measure(
+        id="allmedrv_teratogenic_meds_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "teratogenicmeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv_dmards_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "dmards_last12m"],
+    ),
+    Measure(
+        id="allmedrv_addictive_meds_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "addictivemeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv_highrisk_meds_rate_agestandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup","highriskmeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv12m_practice_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "practice"],
+    ),
+    Measure(
+        id="allmedrv12m_sex_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "sex"],
+    ),
+    Measure(
+        id="allmedrv12m_imdQ5_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "imdQ5"],
+    ),
+    Measure(
+        id="allmedrv12m_region_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "region"],
+    ),
+    Measure(
+        id="allmedrv12m_ethnicity_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "ethnicity"],
+    ),
+    Measure(
+        id="allmedrv12m_learning_disability_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "learning_disability"],
+    ),
+    Measure(
+        id="allmedrv12m_nhome_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "nhome"],
+    ),
+    Measure(
+        id="allmedrv12m_care_home_type_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "care_home_type"],
+    ),
+    Measure(
+        id="allmedrv12m_teratogenic_meds_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "teratogenicmeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv12m_dmards_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "dmards_last12m"],
+    ),
+    Measure(
+        id="allmedrv12m_addictive_meds_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "addictivemeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv12m_highrisk_meds_rate_agestandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup","highriskmeds_last12m"],
     ),
 ]
