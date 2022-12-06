@@ -8,3 +8,5 @@ user/chriswood/medication-review/250a4bb0/
 user/chriswood/all-medication-reviews/26263b8b/
 opensafely/dmards/2020-06-23/
 opensafely/high-dose-long-acting-opioids-openprescribing-dmd/52f27403/
+opensafely/addictive-medicines/4f5cc587
+opensafely/teratogenic-medicines/339a925c
