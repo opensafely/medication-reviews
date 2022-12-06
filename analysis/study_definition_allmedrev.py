@@ -163,6 +163,30 @@ measures = [
         group_by=["care_home_type"],
     ),
     Measure(
+        id="allmedrv_teratogenic_meds_rate",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["teratogenicmeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv_dmards_rate",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["dmards_last12m"],
+    ),
+    Measure(
+        id="allmedrv_addictive_meds_rate",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["addictivemeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv_highrisk_meds_rate",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["highriskmeds_last12m"],
+    ),
+    Measure(
         id="allmedrv12m_population_rate",
         numerator="had_anymedrev12m",
         denominator="population",
@@ -221,5 +245,29 @@ measures = [
         numerator="had_anymedrev12m",
         denominator="population",
         group_by=["care_home_type"],
+    ),
+    Measure(
+        id="allmedrv12m_teratogenic_meds_rate",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["teratogenicmeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv12m_dmards_rate",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["dmards_last12m"],
+    ),
+    Measure(
+        id="allmedrv12m_addictive_meds_rate",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["addictivemeds_last12m"],
+    ),
+    Measure(
+        id="allmedrv12m_highrisk_meds_rate",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["highriskmeds_last12m"],
     ),
 ]
