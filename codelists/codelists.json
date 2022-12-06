@@ -59,6 +59,18 @@
       "url": "https://codelists.opensafely.org/codelist/opensafely/high-dose-long-acting-opioids-openprescribing-dmd/52f27403/",
       "downloaded_at": "2022-11-27 22:45:36.220056Z",
       "sha": "998d956447c4aa67f9b3b8f21a757b4bfbe6d9c1"
+    },
+    "opensafely-addictive-medicines.csv": {
+      "id": "opensafely/addictive-medicines/4f5cc587",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/addictive-medicines/4f5cc587/",
+      "downloaded_at": "2022-12-06 16:17:40.021205Z",
+      "sha": "42c3e4bf0f4f1c1ef76bd03ca3e989c200e5f354"
+    },
+    "opensafely-teratogenic-medicines.csv": {
+      "id": "opensafely/teratogenic-medicines/339a925c",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/teratogenic-medicines/339a925c/",
+      "downloaded_at": "2022-12-06 16:17:40.242304Z",
+      "sha": "43149c2e968122c8f4b3b1ba365f5510c8522878"
     }
   }
 }
