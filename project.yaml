@@ -9,21 +9,81 @@ actions:
     run: >
       cohortextractor:latest generate_cohort
         --study-definition study_definition
-        --index-date-range "2019-04-01 to 2022-03-01 by month"
+        --index-date-range "2019-04-01 to 2019-12-01 by month"
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
-        cohort: output/input_*.csv.gz
+        cohort: output/input_2019*.csv.gz
+
+  generate_study_population_range2:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition
+        --index-date-range "2020-01-01 to 2020-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_2020*.csv.gz
+
+  generate_study_population_range3:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition
+        --index-date-range "2021-01-01 to 2021-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_2021*.csv.gz
+
+  generate_study_population_range4:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition
+        --index-date-range "2022-01-01 to 2022-03-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_2022*.csv.gz
 
   generate_study_population_allmedrev:
     run: >
       cohortextractor:latest generate_cohort
         --study-definition study_definition_allmedrev
-        --index-date-range "2019-04-01 to 2022-03-01 by month"
+        --index-date-range "2019-04-01 to 2019-12-01 by month"
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
-        cohort: output/input_allmedrev_*.csv.gz
+        cohort: output/input_allmedrev_2019*.csv.gz
+
+  generate_study_population_allmedrev_range2:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition_allmedrev
+        --index-date-range "2020-01-01 to 2020-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort2: output/input_allmedrev_2020*.csv.gz
+
+  generate_study_population_allmedrev_range3:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition_allmedrev
+        --index-date-range "2021-01-01 to 2021-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort3: output/input_allmedrev_2021*.csv.gz
+
+  generate_study_population_allmedrev_range4:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition_allmedrev
+        --index-date-range "2022-01-01 to 2022-03-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort3: output/input_allmedrev_2022*.csv.gz
 
   generate_ethnicity_cohort:
     run: >
@@ -40,7 +100,7 @@ actions:
         --lhs output/input_20*.csv.gz
         --rhs output/input_ethnicity.csv.gz
         --output-dir output/joined
-    needs: [generate_study_population, generate_ethnicity_cohort]
+    needs: [generate_study_population, generate_study_population_range2, generate_study_population_range3, generate_study_population_range4, generate_ethnicity_cohort]
     outputs:
       highly_sensitive:
         cohort: output/joined/input_20*.csv.gz
@@ -51,7 +111,7 @@ actions:
         --lhs output/input_allmedrev*.csv.gz
         --rhs output/input_ethnicity.csv.gz
         --output-dir output/joined
-    needs: [generate_study_population_allmedrev, generate_ethnicity_cohort]
+    needs: [generate_study_population_allmedrev, generate_study_population_allmedrev_range2, generate_study_population_allmedrev_range3, generate_study_population_allmedrev_range4, generate_ethnicity_cohort]
     outputs:
       highly_sensitive:
         cohort: output/joined/input_allmedrev_*.csv.gz
