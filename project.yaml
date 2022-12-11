@@ -177,7 +177,7 @@ actions:
         perthousand_cohort: output/figures/*_*_rate_perthousand.jpeg 
 
   generate_table_1:
-    run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_20*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type" --outcome "had_smr"
+    run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_20*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type,addictive_meds,dmards,teratogenic_meds,highrisk_meds" --outcome "had_smr"
     needs: [join_cohorts]
     outputs:
       moderately_sensitive:
