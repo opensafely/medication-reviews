@@ -128,6 +128,8 @@ actions:
        moderately_sensitive:
          mr_measure_csv: output/joined/measure_mr_*_rate.csv
          smr_measure_csv: output/joined/measure_smr_*_rate.csv
+         mr_12m_measure_csv: output/joined/measure_mr12m_*_rate.csv
+         smr_12m_measure_csv: output/joined/measure_smr12m_*_rate.csv
 
   generate_measures_all_reviews:
      run: >
