@@ -14,7 +14,11 @@ breakdowns=[
 "ethnicity",
 "nhome",
 "learning_disability",
-"care_home_type"
+"care_home_type",
+"addictive_meds",
+"dmards",
+"highrisk_meds",
+"teratogenic_meds"
 ]
 
 med_review_type=["smr", "smr12m", "mr", "mr12m", "allmedrv", "allmedrv12m"]
