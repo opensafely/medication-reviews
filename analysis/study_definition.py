@@ -2,7 +2,7 @@ from cohortextractor import StudyDefinition, patients, codelist, codelist_from_c
 
 from codelists import *
 from common_variables import common_variables
-from utilities import loop_over_codes
+from study_definition_utilities import loop_over_codes
 
 start_date = "2019-04-01"
 end_date = "2022-03-01"
