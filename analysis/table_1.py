@@ -73,10 +73,25 @@ def update_df(original_df, new_df, columns=[], on="patient_id"):
         new_df, on=on, how="outer", suffixes=("_old", "_new"), indicator=True
     )
 
+
+    # empty value pandas
+
+  
     for c in columns:
+    
         updated[c] = np.nan
+        
+
+        # if a patient is only in the left, we use the old value
         updated.loc[updated["_merge"] == "left_only", c] = updated[f"{c}_old"]
-        updated.loc[updated["_merge"] != "left_only", c] = updated[f"{c}_new"]
+
+        # if a patient is only in the right, or both, we use the new value, except when the new value is "missing"
+        updated.loc[
+            (updated["_merge"] == "right_only") | (updated["_merge"] == "both"),
+            c,
+        ] = updated[f"{c}_new"]
+        updated.loc[updated[f"{c}_new"] == "missing", c] = updated[f"{c}_old"]
+
         updated = updated.drop([f"{c}_old", f"{c}_new"], axis=1)
     updated = updated.drop(["_merge"], axis=1)
     return updated
