@@ -71,5 +71,27 @@ def test_get_counts():
 
     testing.assert_series_equal(obs, exp)
 
+def test_update_df():
+    original_df = pd.DataFrame(
+        {
+            "patient_id": pd.Series([1, 2, 3, 4, 5]),
+            "age_band": pd.Series(['0-9', '10-19', '20-29', '30-39', '40-49']),
+        })
+    
+    new_df = pd.DataFrame(
+        {
+            "patient_id": pd.Series([1, 2, 3, 4, 5, 6]),
+            "age_band": pd.Series(['10-19', '10-19', '20-29', '40-49', "missing", '40-49']),
+        })
+
+    obs = update_df(original_df, new_df, columns=["age_band"])
+    exp = pd.DataFrame(
+        {
+            "patient_id": pd.Series([1, 2, 3, 4, 5, 6]),
+            "age_band": pd.Series(['10-19', '10-19', '20-29', '40-49', '40-49', '40-49']),
+        })
+
+    testing.assert_frame_equal(obs, exp)
+
 
 
