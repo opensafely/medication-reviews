@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import numpy as np
 from pandas import testing
-import redaction_utils
+import analysis.redaction_utils as redaction_utils
 #from hypothesis import strategies as st
 #from hypothesis import assume, given
 
