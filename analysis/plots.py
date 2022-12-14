@@ -69,6 +69,8 @@ for med_review in med_review_type:
             convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
         if (breakdownby == "nhome"):
             convert_binary(df, 'nhome', 'Record of individual living at a nursing home', 'No record of individual living at a nursing home')
+        if (breakdownby == "addictivemeds_last12m"):
+            convert_binary(df, 'addictivemeds_last12m', 'addictive meds yes', 'addictive meds no')
         if (breakdownby == "sex"):
             df = relabel_sex(df)
         #Add column for rate per 1000 patients
