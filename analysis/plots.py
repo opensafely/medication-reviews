@@ -38,10 +38,10 @@ med_review_type=["smr", "smr12m", "mr", "mr12m", "allmedrv", "allmedrv12m"]
 med_review_dict={
     "smr" : "structured medication review",
     "mr" : "medication review",
-    "allmedrv": "any types of medication review",
+    "allmedrv": "medication review",
     "smr12m" : "structured medication review in preceding 12 months",
     "mr12m" : "medication review  in preceding 12 months",
-    "allmedrv12m": "any type of medication review in preceding 12 months",
+    "allmedrv12m": "medication review in preceding 12 months",
 }
 
 for med_review in med_review_type:
