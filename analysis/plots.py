@@ -38,10 +38,10 @@ med_review_type=["smr", "smr12m", "mr", "mr12m", "allmedrv", "allmedrv12m"]
 med_review_dict={
     "smr" : "structured medication review",
     "mr" : "medication review",
-    "allmedrv": "any types of medication review",
+    "allmedrv": "medication review",
     "smr12m" : "structured medication review in preceding 12 months",
     "mr12m" : "medication review  in preceding 12 months",
-    "allmedrv12m": "any type of medication review in preceding 12 months",
+    "allmedrv12m": "medication review in preceding 12 months",
 }
 
 for med_review in med_review_type:
@@ -69,6 +69,14 @@ for med_review in med_review_type:
             convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
         if (breakdownby == "nhome"):
             convert_binary(df, 'nhome', 'Record of individual living at a nursing home', 'No record of individual living at a nursing home')
+        if (breakdownbycol == "addictivemeds_last12m"):
+            convert_binary(df, 'addictivemeds_last12m', 'Record of prescription for an addictive medicine', 'No record of prescription for an addictive medicine')
+        if (breakdownbycol == "dmards_last12m"):
+            convert_binary(df, 'dmards_last12m', 'Record of prescription for a DMARD', 'No record of prescription for a DMARD')
+        if (breakdownbycol == "highriskmeds_last12m"):
+            convert_binary(df, 'highriskmeds_last12m', 'Record of prescription for a high risk medication', 'No record of prescription for a high risk medication')
+        if (breakdownbycol == "teratogenicmeds_last12m"):
+            convert_binary(df, 'teratogenicmeds_last12m', 'Record of prescription for a teratogenic medication', 'No record of prescription for a teratogenic medication')
         if (breakdownby == "sex"):
             df = relabel_sex(df)
         #Add column for rate per 1000 patients
