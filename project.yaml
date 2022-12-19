@@ -200,6 +200,15 @@ actions:
         code_counts: output/codeuse_allmedrev.csv
         total_code_counts: output/totalcodeuse_allmedrev.csv
 
+  agestandardise_populationrate:
+    run: python:latest python analysis/rate_calculations.py
+    needs: [generate_measures_all_reviews]
+    outputs:
+      moderately_sensitive:
+        standarised_tables: output/joined/allmedrv_*_table.csv
+        standarised_tables12m: output/joined/allmedrv12m_*_table.csv
+
+
   run_tests:
     run: python:latest python -m pytest --junit-xml=output/pytest.xml --verbose
     outputs:
