@@ -60,3 +60,55 @@ def make_table(demographic_var, redact=True):
         standardised_totals = redact_small_numbers(standardised_totals)
     return standardised_totals
 
+def checkColumnDict(dic, key):
+    if key in dic.keys():
+        print("Present, ", end =" ")
+        return dic[key]
+    else:
+        return key       
+
+def main():
+    breakdowns=[
+    "age_band",
+    "sex",
+    "imdQ5",
+    "region",
+    "ethnicity",
+    "nhome",
+    "learning_disability",
+    "care_home_type",
+    "addictive_meds",
+    "dmards",
+    "highrisk_meds",
+    "teratogenic_meds"
+    ]
+
+    columnlookupdict={
+        "addictive_meds": "addictivemeds_last12m",
+        "dmards": "dmards_last12m",
+        "highrisk_meds": "highriskmeds_last12m",
+        "teratogenic_meds": "teratogenicmeds_last12m"
+    }
+
+    for breakdownby in breakdowns:
+        file=f"allmedrv_{breakdownby}_rate_agestandardgrouped"
+        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
+        numeratorcol="had_anymedrev"
+        denominatorcol="population"
+        group_by=["AgeGroup", breakdownbycol]
+        standard_pop=load_standard_pop()
+
+        df = make_table(demographic_var = group_by[0])
+
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
+        df.to_csv(f"output/joined/{file}_breakdown_table.csv")
+
+        file="allmedrv12m_population_rate_agestandardgrouped"
+        numeratorcol="had_anymedrev12m"
+        denominatorcol="population"
+        group_by="AgeGroup"
+        standard_pop=load_standard_pop()
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
+        df.to_csv(f"output/joined/{file}_breakdown_table.csv")
+
+main()
