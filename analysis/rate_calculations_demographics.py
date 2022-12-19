@@ -102,6 +102,14 @@ def main():
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
         df.to_csv(f"output/joined/{file}_table.csv")
 
+        file=f"allmedrv12m_{breakdownby}_rate_agestandardgrouped"
+        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
+        numeratorcol="had_anymedrev12m"
+        denominatorcol="population"
+        group_by=["AgeGroup", breakdownbycol]
+        standard_pop=load_standard_pop()
 
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
+        df.to_csv(f"output/joined/{file}_table.csv")
 
 main()
