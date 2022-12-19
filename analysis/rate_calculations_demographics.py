@@ -31,7 +31,7 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
     #return by_age, totals
     return by_age
 
-def standardise_rates_apply(by_age_row):
+def standardise_rates_apply(by_age_row, standard_pop):
     row_age_group = by_age_row['AgeGroup']
     if row_age_group == 'missing':
         row_standardised_rate = np.nan
@@ -50,8 +50,8 @@ def redact_small_numbers(df):
     return df
 
 
-def make_table(demographic_var, redact=True):
-    by_age = get_data(demographic_var)
+def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var, redact=True):
+    by_age = get_data(file, numeratorcol, denominatorcol, group_by, demographic_var)
     by_age['age_rates'] = calculate_rates(by_age)
     by_age["European Standard population rate per 100,000"] = by_age.apply(
         standardise_rates_apply, axis=1)
@@ -71,7 +71,7 @@ def checkColumnDict(dic, key):
 
 def main():
     breakdowns=[
-    "age_band",
+    #"age_band",
     "sex",
     "imdQ5",
     "region",
@@ -100,17 +100,8 @@ def main():
         group_by=["AgeGroup", breakdownbycol]
         standard_pop=load_standard_pop()
 
-        df = make_table(demographic_var = group_by[0])
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
 
-        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
-        df.to_csv(f"output/joined/{file}_breakdown_table.csv")
-
-        file="allmedrv12m_population_rate_agestandardgrouped"
-        numeratorcol="had_anymedrev12m"
-        denominatorcol="population"
-        group_by="AgeGroup"
-        standard_pop=load_standard_pop()
-        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
-        df.to_csv(f"output/joined/{file}_breakdown_table.csv")
+        df.to_csv(f"output/joined/{file}_table.csv")
 
 main()
