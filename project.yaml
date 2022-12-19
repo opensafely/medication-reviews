@@ -205,3 +205,41 @@ actions:
     outputs:
       moderately_sensitive:
         log: output/pytest.xml
+
+
+
+  generate_study_population_report_ethnicity:
+    run: cohortextractor:latest generate_cohort 
+      --study-definition study_definition_report_ethnicity
+    outputs:
+      highly_sensitive:
+        cohort: output/report/input_ethnicity.csv
+
+
+  generate_study_population_report:
+    run: cohortextractor:latest generate_cohort 
+      --study-definition study_definition_report 
+      --param codelist_1_frequency="monthly"
+      --param codelist_2_comparison_date="event_1_date"
+      --param codelist_2_period_start="- 365"
+      --param codelist_2_period_end="+ 0"
+      --param operator="AND"
+      --param population="registered_adults"
+      --param breakdowns="sex,age_band" ["sex", "age_band", "imd", "region"]
+      --index-date-range "2019-01-01 to 2022-11-01 by month" 
+      --output-dir=output/report
+      --output-format=csv
+    outputs:
+      highly_sensitive:
+        cohort: output/report/input_*.csv
+
+  join_cohorts_report:
+    run: >
+      cohort-joiner:v0.0.44
+        --lhs output/report/input_20*.csv.gz
+        --rhs output/report/input_ethnicity.csv.gz
+        --output-dir output/report/joined
+    needs: [generate_study_population_report, generate_study_population_report_ethnicity]
+    outputs:
+      highly_sensitive:
+        cohort: output/report/joined/input_20*.csv.gz
