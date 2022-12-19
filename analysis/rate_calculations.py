@@ -62,4 +62,12 @@ def main():
     df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
     df.to_csv(f"output/joined/{file}_table.csv")
 
+    file="allmedrv12m_population_rate_agestandardgrouped"
+    numeratorcol="had_anymedrev12m"
+    denominatorcol="population"
+    group_by="AgeGroup"
+    standard_pop=load_standard_pop()
+    df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
+    df.to_csv(f"output/joined/{file}_table.csv")
+
 main()
