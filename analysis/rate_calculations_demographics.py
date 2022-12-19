@@ -42,9 +42,9 @@ def standardise_rates_apply(by_age_row, standard_pop):
         return row_standardised_rate
 
 
-def redact_small_numbers(df):
-    mask_n = df[m.numerator].isin([1, 2, 3, 4, 5])
-    mask_d = df[m.denominator].isin([1, 2, 3, 4, 5])
+def redact_small_numbers(df, numeratorcol, denominatorcol):
+    mask_n = df[numeratorcol].isin([1, 2, 3, 4, 5])
+    mask_d = df[denominatorcol].isin([1, 2, 3, 4, 5])
     mask = mask_n | mask_d
     df.loc[mask, :] = np.nan
     return df
@@ -59,7 +59,7 @@ def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demog
     standardised_totals = by_age.groupby(
         ["date", demographic_var]).sum().reset_index()
     if redact:
-        standardised_totals = redact_small_numbers(standardised_totals)
+        standardised_totals = redact_small_numbers(standardised_totals, numeratorcol, denominatorcol)
     return standardised_totals
 
 def checkColumnDict(dic, key):
