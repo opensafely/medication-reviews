@@ -60,6 +60,6 @@ def main():
     group_by="AgeGroup"
     standard_pop=load_standard_pop()
     df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
-    df.to_csv(f"output/{file}_table.csv")
+    df.to_csv(f"output/joined/{file}_table.csv")
 
 main()
