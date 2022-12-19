@@ -210,7 +210,7 @@ actions:
 
   generate_study_population_report_ethnicity:
     run: cohortextractor:latest generate_cohort 
-      --study-definition study_definition_report_ethnicity
+      --study-definition study_definition_ethnicity_report
     outputs:
       highly_sensitive:
         cohort: output/report/input_ethnicity.csv
