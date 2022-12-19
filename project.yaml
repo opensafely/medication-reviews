@@ -243,3 +243,12 @@ actions:
     outputs:
       highly_sensitive:
         cohort: output/report/joined/input_20*.csv.gz
+  
+  generate_measures_report:
+    run: >
+      python:latest python analysis/measures_report.py --breakdowns="sex,age_band,imd,region,ethnicity" --input_dir="output/report/joined" --measure="med_review"
+
+    needs: [join_cohorts_report]
+    outputs:
+      moderately_sensitive:
+        measure: output/report/measure*rate.csv
