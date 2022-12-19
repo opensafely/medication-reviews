@@ -1,16 +1,18 @@
 import numpy as np
 import pandas as pd
 
-path = "analysis/european_standard_population.csv"
-## European standardisation data from:
-# from urllib.request import urlopen
-# url = "https://www.opendata.nhs.scot/dataset/4dd86111-7326-48c4-8763-8cc4aa190c3e/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69/download/european_standard_population.csv"
-# with urlopen(url) as f:
-#     pd.read_csv(f).to_csv(path, index=False)
-standard_pop = pd.read_csv(path)
-standard_pop["AgeGroup"] = standard_pop["AgeGroup"].str.replace(" years", "")
-standard_pop = standard_pop.set_index("AgeGroup")["EuropeanStandardPopulation"]
-standard_pop = standard_pop / standard_pop.sum()
+def load_standard_pop():
+    path = "analysis/european_standard_population.csv"
+    ## European standardisation data from:
+    # from urllib.request import urlopen
+    # url = "https://www.opendata.nhs.scot/dataset/4dd86111-7326-48c4-8763-8cc4aa190c3e/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69/download/european_standard_population.csv"
+    # with urlopen(url) as f:
+    #     pd.read_csv(f).to_csv(path, index=False)
+    standard_pop = pd.read_csv(path)
+    standard_pop["AgeGroup"] = standard_pop["AgeGroup"].str.replace(" years", "")
+    standard_pop = standard_pop.set_index("AgeGroup")["EuropeanStandardPopulation"]
+    standard_pop = standard_pop / standard_pop.sum()
+    return standard_pop
 
 def calculate_rates(df, numeratorcol, denominatorcol):
     rates = (df[numeratorcol] / df[denominatorcol]) * 100000
