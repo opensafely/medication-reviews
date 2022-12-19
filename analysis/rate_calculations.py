@@ -15,10 +15,10 @@ def load_standard_pop():
     return standard_pop
 
 def get_data(file, numeratorcol, denominatorcol, group_by):
-    p = f"output/measure_{file}.csv"
-    by_age = pd.read_csv(p, usecols=["date", numeratorcol, denominatorcol] + group_by)
+    p = f"output/joined/measure_{file}.csv"
+    by_age = pd.read_csv(p, usecols=["date", numeratorcol, denominatorcol, group_by])
     by_age["date"] = pd.to_datetime(by_age["date"])
-    by_age = by_age.set_index(["date"] + group_by)
+    by_age = by_age.set_index(["date", group_by])
     totals = by_age.groupby("date").sum()
     return by_age, totals
 
@@ -28,8 +28,8 @@ def calculate_rates(df, numeratorcol, denominatorcol):
     return rates.round()
 
 
-def standardise_rates(df_standard_pop, by_age):
-    rates = calculate_rates(by_age)
+def standardise_rates(standard_pop, by_age, numeratorcol, denominatorcol):
+    rates = calculate_rates(by_age, numeratorcol, denominatorcol)
     standardised_rates = rates * standard_pop
     standardised_totals = standardised_rates.groupby("date").sum()
     return standardised_totals
@@ -43,11 +43,11 @@ def redact_small_numbers(df, numeratorcol, denominatorcol):
     return df
 
 
-def make_table(df_standard_pop, file, numeratorcol, denominatorcol, group_by):
+def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by):
     by_age, totals = get_data(file, numeratorcol, denominatorcol, group_by)
     rates = calculate_rates(totals, numeratorcol, denominatorcol)
     rates.name = "Crude rate per 100,000 population"
-    standardised_rates = standardise_rates(df_standard_pop, by_age)
+    standardised_rates = standardise_rates(standard_pop, by_age, numeratorcol, denominatorcol)
     standardised_rates.name = "European Standard population rate per 100,000"
     df = pd.concat([totals, rates, standardised_rates], axis=1)
     df = redact_small_numbers(df, numeratorcol, denominatorcol)
@@ -55,11 +55,11 @@ def make_table(df_standard_pop, file, numeratorcol, denominatorcol, group_by):
 
 def main():
     file="allmedrv_population_rate_agestandardgrouped"
-    numeratorcol="had_anymedrv"
+    numeratorcol="had_anymedrev"
     denominatorcol="population"
     group_by="AgeGroup"
-    df_standard_pop=load_standard_pop()
-    df = make_table(df_standard_pop, file, numeratorcol, denominatorcol, group_by)
+    standard_pop=load_standard_pop()
+    df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by)
     df.to_csv(f"output/{file}_table.csv")
 
 main()
