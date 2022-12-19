@@ -252,3 +252,19 @@ actions:
     outputs:
       moderately_sensitive:
         measure: output/report/measure*rate.csv
+
+  deciles_chart_report:
+    run: >
+      deciles-charts:v0.0.24
+        --input-files output/report/measure_practice_rate.csv
+        --output-dir output/report
+    config:
+      show_outer_percentiles: true
+      tables:
+        output: true
+      charts:
+        output: true
+    needs: [generate_measures_report]
+    outputs:
+      moderately_sensitive:
+        deciles_charts: output/report/deciles_*.*
