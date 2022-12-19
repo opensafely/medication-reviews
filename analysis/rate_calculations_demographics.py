@@ -20,7 +20,7 @@ def calculate_rates(df, numeratorcol, denominatorcol):
 
 def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
     p = f"output/joined/measure_{file}.csv"
-    by_age = pd.read_csv(p, usecols=["date", numeratorcol, denominatorcol, group_by])
+    by_age = pd.read_csv(p, usecols=["date", numeratorcol, denominatorcol] + group_by)
     by_age["date"] = pd.to_datetime(by_age["date"])
 
     #remove people with "Missing" in demographic vars
@@ -52,9 +52,9 @@ def redact_small_numbers(df):
 
 def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var, redact=True):
     by_age = get_data(file, numeratorcol, denominatorcol, group_by, demographic_var)
-    by_age['age_rates'] = calculate_rates(by_age)
+    by_age['age_rates'] = calculate_rates(by_age, numeratorcol, denominatorcol)
     by_age["European Standard population rate per 100,000"] = by_age.apply(
-        standardise_rates_apply, axis=1)
+        standardise_rates_apply, standard_pop=standard_pop, axis=1)
     by_age.drop(['age_rates'], axis=1, inplace=True)
     standardised_totals = by_age.groupby(
         ["date", demographic_var]).sum().reset_index()
@@ -64,7 +64,6 @@ def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demog
 
 def checkColumnDict(dic, key):
     if key in dic.keys():
-        print("Present, ", end =" ")
         return dic[key]
     else:
         return key       
@@ -101,7 +100,8 @@ def main():
         standard_pop=load_standard_pop()
 
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
-
         df.to_csv(f"output/joined/{file}_table.csv")
+
+
 
 main()
