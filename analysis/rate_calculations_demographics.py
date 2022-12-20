@@ -62,12 +62,6 @@ def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demog
         standardised_totals = redact_small_numbers(standardised_totals, numeratorcol, denominatorcol)
     return standardised_totals
 
-def checkColumnDict(dic, key):
-    if key in dic.keys():
-        return dic[key]
-    else:
-        return key       
-
 def main():
     breakdowns=[
     #"age_band",
@@ -93,7 +87,7 @@ def main():
 
     for breakdownby in breakdowns:
         file=f"allmedrv_{breakdownby}_rate_agestandardgrouped"
-        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
+        breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
         numeratorcol="had_anymedrev"
         denominatorcol="population"
         group_by=["AgeGroup", breakdownbycol]
@@ -103,7 +97,7 @@ def main():
         df.to_csv(f"output/joined/{file}_table.csv")
 
         file=f"allmedrv12m_{breakdownby}_rate_agestandardgrouped"
-        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
+        breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
         numeratorcol="had_anymedrev12m"
         denominatorcol="population"
         group_by=["AgeGroup", breakdownbycol]
