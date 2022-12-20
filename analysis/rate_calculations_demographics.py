@@ -23,8 +23,12 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
     by_age = pd.read_csv(p, usecols=["date", numeratorcol, denominatorcol] + group_by)
     by_age["date"] = pd.to_datetime(by_age["date"])
 
-    #remove people with "Missing" in demographic vars
+    #remove people with "Missing", "missing" or "Unknown" in demographic vars
+    by_age[demographic_var] = by_age[demographic_var].fillna("missing")
+    by_age = by_age[by_age[demographic_var] != "missing"]
     by_age = by_age[by_age[demographic_var] != "Missing"]
+    by_age = by_age[by_age[demographic_var] != "Unknown"]
+    by_age = by_age[by_age[demographic_var] != ""]
 
     #by_age = by_age.set_index(["date", group_by])
     #totals = by_age.groupby("date").sum()
