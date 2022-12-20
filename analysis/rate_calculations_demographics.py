@@ -50,7 +50,7 @@ def redact_small_numbers(df, numeratorcol, denominatorcol):
     mask_n = df[numeratorcol].isin([1, 2, 3, 4, 5])
     mask_d = df[denominatorcol].isin([1, 2, 3, 4, 5])
     mask = mask_n | mask_d
-    df.loc[mask, :] = np.nan
+    df.loc[mask, [numeratorcol, denominatorcol, "European Standard population rate per 100,000"]] = np.nan
     return df
 
 
@@ -68,7 +68,7 @@ def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demog
 
 def main():
     breakdowns=[
-    #"age_band",
+    #"age_band", #excluded from age standardisation
     "sex",
     "imdQ5",
     "region",
