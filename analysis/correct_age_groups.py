@@ -21,7 +21,11 @@ CODELIST_DIR = BASE_DIR / "codelists"
 #Save as CSV
 
 def regroupAgeGroup(df, demographic, numerator_column):
-
+    print (df.head(50))
+    df["AgeGroup"] = df["AgeGroup"].replace({'15-19': '18-24', '20-24': '18-24'})
+    df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
+    print (df.head(50))
+    exit()
 
 def main():
     breakdowns=[
