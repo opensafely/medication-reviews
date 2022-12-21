@@ -33,12 +33,15 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
 
 def standardise_rates_apply(by_age_row, standard_pop):
     row_age_group = by_age_row['AgeGroup']
-    if row_age_group == 'missing':
+    row_sex_group = by_age_row['sex']
+    print (row_age_group)
+    print (row_sex_group)
+
+    if row_age_group == 'missing' or row_sex_group == 'missing':
         row_standardised_rate = np.nan
         return row_standardised_rate
     else:
-        
-        row_standardised_rate = by_age_row['age_rates'] * standard_pop[row_age_group]
+        row_standardised_rate = by_age_row['age_rates'] * standard_pop.loc[(standard_pop["age_stand"]==row_age_group) & (standard_pop["sex"]==row_sex_group), "uk_pop"]
         return row_standardised_rate
 
 
