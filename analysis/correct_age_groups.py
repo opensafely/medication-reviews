@@ -5,10 +5,12 @@ from pathlib import Path
 #if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
     #Path.mkdir(OUTPUT_DIR / "correctedagegroupsmeasures")
 
+BASE_DIR = Path(__file__).parents[1]
+OUTPUT_DIR = BASE_DIR / "output"
+ANALYSIS_DIR = BASE_DIR / "analysis"
+CODELIST_DIR = BASE_DIR / "codelists"
+
 #Open files
-
-
-#Load CSV
 
 
 #Update age standardised group
@@ -18,8 +20,12 @@ from pathlib import Path
 
 #Save as CSV
 
+def regroupAgeGroup(df, demographic, numerator_column):
+
+
 def main():
     breakdowns=[
+        "population",
         "age_band",
         "sex",
         "imdQ5",
@@ -39,16 +45,19 @@ def main():
         "highrisk_meds": "highriskmeds_last12m",
         "teratogenic_meds": "teratogenicmeds_last12m"
     }
-    med_review_type=["smr", "smr12m", "mr", "mr12m", "allmedrv", "allmedrv12m"]
+    columnlookupdict_medrevtype={
+        "allmedrv": "had_anymedrev",
+        "allmedrv12m": "had_anymedrev12m"
+    }
+    med_review_type=["allmedrv", "allmedrv12m"]
 
     for med_review in med_review_type:
-        df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_population_rate.csv", parse_dates=["date"])
-
-
-    for breakdownby in breakdowns:
-        df = pd.read_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
-        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
-        df[breakdownbycol] = df[breakdownbycol].fillna('missing')
-        if (breakdownby == "care_home_type"): 
+        for breakdownby in breakdowns:
+            filename=f"measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped.csv"
+            breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
+            numerator_column=columnlookupdict_medrevtype.get(med_review, med_review)
+            df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"])
+            regroupAgeGroup(df, breakdownbycol, numerator_column)
+            print (df.head(20))
 
 main()
