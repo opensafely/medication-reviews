@@ -264,7 +264,7 @@ measures = [
         group_by=["AgeGroup", "sex", "learning_disability"],
     ),
     Measure(
-        id="allmedrv_nhome_rate_agessextandardgrouped",
+        id="allmedrv_nhome_rate_agesexstandardgrouped",
         numerator="had_anymedrev",
         denominator="population",
         group_by=["AgeGroup", "sex", "nhome"],
@@ -366,9 +366,9 @@ measures = [
         group_by=["AgeGroup", "sex", "addictivemeds_last12m"],
     ),
     Measure(
-        id="allmedrv12m_highrisk_meds_rate_agessextandardgrouped",
+        id="allmedrv12m_highrisk_meds_rate_agesexstandardgrouped",
         numerator="had_anymedrev12m",
         denominator="population",
-        group_by=["AgeGroup", "sex","highriskmeds_last12m"],
+        group_by=["AgeGroup", "sex", "highriskmeds_last12m"],
     ),
 ]
