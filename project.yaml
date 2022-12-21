@@ -141,8 +141,8 @@ actions:
        moderately_sensitive:
          allmedrev_measure_csv: output/joined/measure_allmedrv_*_rate.csv
          allmedrev12m_measure_csv: output/joined/measure_allmedrv12m_*_rate.csv
-         allmedrev_measure_asgrouped_csv: output/joined/measure_allmedrv_*_rate_agestandardgrouped.csv
-         allmedrev12m_measure_asgrouped_csv: output/joined/measure_allmedrv12m_*_rate_agestandardgrouped.csv
+         allmedrev_measure_asgrouped_csv: output/joined/measure_allmedrv_*_rate_agesexstandardgrouped.csv                   
+         allmedrev12m_measure_asgrouped_csv: output/joined/measure_allmedrv12m_*_rate_agesexstandardgrouped.csv
 
   generate_deciles_charts:
     run: >
