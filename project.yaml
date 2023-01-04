@@ -225,7 +225,7 @@ actions:
       --param codelist_2_period_end="+ 0"
       --param operator="AND"
       --param population="registered_adults"
-      --param breakdowns="sex,age_band" ["sex", "age_band", "imd", "region"]
+      --param breakdowns="sex,age_band,imd,region"
       --index-date-range "2019-01-01 to 2022-11-01 by month" 
       --output-dir=output/report
       --output-format=csv.gz
@@ -251,13 +251,13 @@ actions:
     needs: [join_cohorts_report]
     outputs:
       moderately_sensitive:
-        measure: output/report/measure*rate.csv
+        measure: output/report/joined/measure*rate.csv
 
   deciles_chart_report:
     run: >
-      deciles-charts:v0.0.24
-        --input-files output/report/measure_practice_rate.csv
-        --output-dir output/report
+      deciles-charts:v0.0.33
+        --input-files output/report/joined/measure_practice_rate.csv
+        --output-dir output/report/joined
     config:
       show_outer_percentiles: true
       tables:
@@ -267,4 +267,4 @@ actions:
     needs: [generate_measures_report]
     outputs:
       moderately_sensitive:
-        deciles_charts: output/report/deciles_*.*
+        deciles_charts: output/report/joined/deciles_*.*
