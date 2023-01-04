@@ -278,3 +278,13 @@ actions:
     outputs:
       moderately_sensitive:
         deciles_charts: output/report/joined/deciles_*.*
+  
+  plot_measure_report:
+    run: >
+      python:latest python analysis/plot_measures_report.py --breakdowns="sex,imd,region,age_band"
+    needs: [generate_measures_report]
+    outputs:
+      moderately_sensitive:
+        measure: output/report/plot_measure*.jpeg
+
+  
