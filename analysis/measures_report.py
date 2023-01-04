@@ -52,7 +52,7 @@ def main():
             df["date"] = date
             count = df.loc[:,"event_measure"].sum()
             population = df.loc[:,"event_measure"].count()
-            value = count/population
+            value = (count/population)*1000
             row_dict ={
                 "date": pd.Series([date]),
                 "event_measure": pd.Series([count]),
@@ -71,7 +71,7 @@ def main():
             for breakdown in breakdowns:
                 counts = df.groupby(by=[breakdown])[["event_measure"]].sum()
                 counts["population"] = df.groupby(by=[breakdown])[["event_measure"]].count()
-                counts["value"] = counts["event_measure"] / counts["population"]
+                counts["value"] = (counts["event_measure"] / counts["population"])*1000
                 counts=counts.reset_index()
                 counts["date"] = date
                 data[breakdown].append(counts)
