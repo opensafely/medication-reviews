@@ -235,14 +235,14 @@ actions:
 
   join_cohorts_report:
     run: >
-      cohort-joiner:v0.0.44
-        --lhs output/report/input_20*.csv.gz
+      cohort-joiner:v0.0.38
+        --lhs output/report/input_report_20*.csv.gz
         --rhs output/report/input_ethnicity_report.csv.gz
         --output-dir output/report/joined
     needs: [generate_study_population_report, generate_study_population_report_ethnicity]
     outputs:
       highly_sensitive:
-        cohort: output/report/joined/input_20*.csv.gz
+        cohort: output/report/joined/input_report_20*.csv.gz
   
   generate_measures_report:
     run: >
