@@ -206,8 +206,9 @@ actions:
       moderately_sensitive:
         log: output/pytest.xml
 
-
-
+  ####
+  # REPORT ACTIONS
+  ####
   generate_study_population_report_ethnicity:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_ethnicity_report --output-dir output/report --output-format=csv.gz
@@ -246,7 +247,7 @@ actions:
   
   generate_measures_report:
     run: >
-      python:latest python analysis/measures_report.py --breakdowns="sex,age_band,imd,region,ethnicity" --input_dir="output/report/joined" --measure="med_review"
+      python:latest python analysis/report/measures_report.py --breakdowns="sex,age_band,imd,region,ethnicity" --input_dir="output/report/joined" --measure="med_review"
 
     needs: [join_cohorts_report]
     outputs:
@@ -255,13 +256,12 @@ actions:
 
   top_5_table_report:
     run: >
-      python:latest python analysis/top_5_report.py
+      python:latest python analysis/report/top_5_report.py
   
     needs: [generate_measures_report]
     outputs:
       moderately_sensitive:
         tables: output/report/joined/top_5*.csv
-
 
   deciles_chart_report:
     run: >
@@ -281,7 +281,7 @@ actions:
   
   plot_measure_report:
     run: >
-      python:latest python analysis/plot_measures_report.py --breakdowns="sex,imd,region,age_band"
+      python:latest python analysis/report/plot_measures_report.py --breakdowns="sex,imd,region,age_band"
     needs: [generate_measures_report]
     outputs:
       moderately_sensitive:
