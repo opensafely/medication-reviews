@@ -9,13 +9,53 @@ actions:
     run: >
       cohortextractor:latest generate_cohort
         --study-definition study_definition
-        --index-date-range "2019-04-01 to 2022-03-01 by month"
+        --index-date-range "2019-04-01 to 2019-12-01 by month"
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
-        cohort: output/input_*.csv.gz
+        cohort: output/input_2019*.csv.gz
+
+  generate_study_population_range2:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition
+        --index-date-range "2020-01-01 to 2020-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_2020*.csv.gz
+
+  generate_study_population_range3:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition
+        --index-date-range "2021-01-01 to 2021-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_2021*.csv.gz
+
+  generate_study_population_range4:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition
+        --index-date-range "2022-01-01 to 2022-03-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_2022*.csv.gz
 
   generate_study_population_allmedrev:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition_allmedrev
+        --index-date-range "2019-04-01 to 2019-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort: output/input_allmedrev_2019*.csv.gz
+
+  generate_study_population_allmedrev_range2:
     run: >
       cohortextractor:latest generate_cohort
         --study-definition study_definition_allmedrev
@@ -23,7 +63,27 @@ actions:
         --output-format='csv.gz'
     outputs:
       highly_sensitive:
-        cohort: output/input_allmedrev_*.csv.gz
+        cohort2: output/input_allmedrev_2020*.csv.gz
+
+  generate_study_population_allmedrev_range3:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition_allmedrev
+        --index-date-range "2021-01-01 to 2021-12-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort3: output/input_allmedrev_2021*.csv.gz
+
+  generate_study_population_allmedrev_range4:
+    run: >
+      cohortextractor:latest generate_cohort
+        --study-definition study_definition_allmedrev
+        --index-date-range "2022-01-01 to 2022-03-01 by month"
+        --output-format='csv.gz'
+    outputs:
+      highly_sensitive:
+        cohort3: output/input_allmedrev_2022*.csv.gz
 
   generate_ethnicity_cohort:
     run: >
@@ -40,7 +100,7 @@ actions:
         --lhs output/input_20*.csv.gz
         --rhs output/input_ethnicity.csv.gz
         --output-dir output/joined
-    needs: [generate_study_population, generate_ethnicity_cohort]
+    needs: [generate_study_population, generate_study_population_range2, generate_study_population_range3, generate_study_population_range4, generate_ethnicity_cohort]
     outputs:
       highly_sensitive:
         cohort: output/joined/input_20*.csv.gz
@@ -51,7 +111,7 @@ actions:
         --lhs output/input_allmedrev*.csv.gz
         --rhs output/input_ethnicity.csv.gz
         --output-dir output/joined
-    needs: [generate_study_population_allmedrev, generate_ethnicity_cohort]
+    needs: [generate_study_population_allmedrev, generate_study_population_allmedrev_range2, generate_study_population_allmedrev_range3, generate_study_population_allmedrev_range4, generate_ethnicity_cohort]
     outputs:
       highly_sensitive:
         cohort: output/joined/input_allmedrev_*.csv.gz
@@ -67,7 +127,9 @@ actions:
      outputs:
        moderately_sensitive:
          mr_measure_csv: output/joined/measure_mr_*_rate.csv
+         mr12m_measure_csv: output/joined/measure_mr12m_*_rate.csv
          smr_measure_csv: output/joined/measure_smr_*_rate.csv
+         smr12m_measure_csv: output/joined/measure_smr12m_*_rate.csv
 
   generate_measures_all_reviews:
      run: >
@@ -78,6 +140,9 @@ actions:
      outputs:
        moderately_sensitive:
          allmedrev_measure_csv: output/joined/measure_allmedrv_*_rate.csv
+         allmedrev12m_measure_csv: output/joined/measure_allmedrv12m_*_rate.csv
+         allmedrev_measure_asgrouped_csv: output/joined/measure_allmedrv_*_rate_agestandardgrouped.csv
+         allmedrev12m_measure_asgrouped_csv: output/joined/measure_allmedrv12m_*_rate_agestandardgrouped.csv
 
   generate_deciles_charts:
     run: >
@@ -112,8 +177,8 @@ actions:
         perthousand_cohort: output/figures/*_*_rate_perthousand.jpeg 
 
   generate_table_1:
-    run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_20*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type" --outcome "had_smr"
-    needs: [join_cohorts]
+    run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type,addictivemeds_last12m,dmards_last12m,teratogenicmeds_last12m,highriskmeds_last12m" --outcome "had_anymedrev"
+    needs: [join_cohorts_allmedrev]
     outputs:
       moderately_sensitive:
         counts: output/table_1.csv
@@ -128,7 +193,7 @@ actions:
         total_code_counts: output/totalcodeuse.csv
 
   generate_allmedrev_codeuse_output:
-    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --codelistfile="user-chriswood-all-medication-reviews.csv" --outputfile="codeuse_allmedrev" --totalstart="01/01/2020" --totalend="01/12/2020"
+    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --codelistfile="user-chriswood-all-medication-reviews.csv" --outputfile="codeuse_allmedrev"
     needs: [join_cohorts_allmedrev]
     outputs:
       moderately_sensitive:
@@ -140,3 +205,86 @@ actions:
     outputs:
       moderately_sensitive:
         log: output/pytest.xml
+
+  ####
+  # REPORT ACTIONS
+  ####
+  generate_study_population_report_ethnicity:
+    run: cohortextractor:latest generate_cohort 
+      --study-definition study_definition_ethnicity_report --output-dir output/report --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/report/input_ethnicity_report.csv.gz
+
+
+  generate_study_population_report:
+    run: cohortextractor:latest generate_cohort 
+      --study-definition study_definition_report 
+      --param codelist_1_frequency="monthly"
+      --param codelist_2_comparison_date="event_1_date"
+      --param codelist_2_period_start="- 365"
+      --param codelist_2_period_end="+ 0"
+      --param operator="AND"
+      --param population="registered_adults"
+      --param breakdowns="sex,age_band,imd,region"
+      --index-date-range "2019-01-01 to 2022-11-01 by month" 
+      --output-dir=output/report
+      --output-format=csv.gz
+    outputs:
+      highly_sensitive:
+        cohort: output/report/input_*.csv.gz
+
+  join_cohorts_report:
+    run: >
+      cohort-joiner:v0.0.38
+        --lhs output/report/input_report_20*.csv.gz
+        --rhs output/report/input_ethnicity_report.csv.gz
+        --output-dir output/report/joined
+    needs: [generate_study_population_report, generate_study_population_report_ethnicity]
+    outputs:
+      highly_sensitive:
+        cohort: output/report/joined/input_report_20*.csv.gz
+  
+  generate_measures_report:
+    run: >
+      python:latest python analysis/report/measures_report.py --breakdowns="sex,age_band,imd,region,ethnicity" --input_dir="output/report/joined" --measure="med_review"
+
+    needs: [join_cohorts_report]
+    outputs:
+      moderately_sensitive:
+        measure: output/report/joined/measure*rate.csv
+
+  top_5_table_report:
+    run: >
+      python:latest python analysis/report/top_5_report.py
+  
+    needs: [generate_measures_report]
+    outputs:
+      moderately_sensitive:
+        tables: output/report/joined/top_5*.csv
+
+  deciles_chart_report:
+    run: >
+      deciles-charts:v0.0.33
+        --input-files output/report/joined/measure_practice_rate.csv
+        --output-dir output/report/joined
+    config:
+      show_outer_percentiles: true
+      tables:
+        output: true
+      charts:
+        output: true
+    needs: [generate_measures_report]
+    outputs:
+      moderately_sensitive:
+        deciles_charts: output/report/joined/deciles_*.*
+  
+  plot_measure_report:
+    run: >
+      python:latest python analysis/report/plot_measures_report.py --breakdowns="sex,imd,region,age_band"
+    needs: [generate_measures_report]
+    outputs:
+      moderately_sensitive:
+        measure: output/report/plot_measure*.jpeg
+
+  

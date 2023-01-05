@@ -1,9 +1,14 @@
 # Sharing common study definition variables
 # https://docs.opensafely.org/study-def-tricks/
 
-from cohortextractor import patients
+from cohortextractor import patients, combine_codelists
 
 from codelists import *
+
+combined_addictive_codes = combine_codelists(
+    highdoseopioid_codes,
+    addictivemeds_codes,
+)
 
 common_variables = dict(
     age=patients.age_as_of(
@@ -40,6 +45,57 @@ common_variables = dict(
                     "70-79": 0.12,
                     "80-89": 0.12,
                     "90+": 0.12,
+                }
+            },
+        },
+    ),
+    AgeGroup=patients.categorised_as(
+        {
+            "0-4": "age >= 0 AND age < 5",
+            "5-9": "age >= 5 AND age < 10",
+            "10-14": "age >= 10 AND age < 15",
+            "15-19": "age >= 15 AND age < 20",
+            "20-24": "age >= 20 AND age < 25",
+            "25-29": "age >= 25 AND age < 30",
+            "30-34": "age >= 30 AND age < 35",
+            "35-39": "age >= 35 AND age < 40",
+            "40-44": "age >= 40 AND age < 45",
+            "45-49": "age >= 45 AND age < 50",
+            "50-54": "age >= 50 AND age < 55",
+            "55-59": "age >= 55 AND age < 60",
+            "60-64": "age >= 60 AND age < 65",
+            "65-69": "age >= 65 AND age < 70",
+            "70-74": "age >= 70 AND age < 75",
+            "75-79": "age >= 75 AND age < 80",
+            "80-84": "age >= 80 AND age < 85",
+            "85-89": "age >= 85 AND age < 90",
+            "90plus": "age >= 90",
+            "missing": "DEFAULT",
+        },
+        return_expectations={
+            "rate": "universal",
+            "category": {
+                "ratios": {
+                    "0-4": 0.05,
+                    "5-9": 0.05,
+                    "10-14": 0.05,
+                    "15-19": 0.05,
+                    "20-24": 0.05,
+                    "25-29": 0.05,
+                    "30-34": 0.05,
+                    "35-39": 0.05,
+                    "40-44": 0.05,
+                    "45-49": 0.1,
+                    "50-54": 0.05,
+                    "55-59": 0.05,
+                    "60-64": 0.05,
+                    "65-69": 0.05,
+                    "70-74": 0.05,
+                    "75-79": 0.05,
+                    "80-84": 0.05,
+                    "85-89": 0.05,
+                    "90plus": 0.03,
+                    "missing": 0.02,
                 }
             },
         },
@@ -158,5 +214,55 @@ common_variables = dict(
         returning="binary_flag",
         on_or_before="last_day_of_month(index_date)",
         return_expectations={"incidence": 0.2},
-    ),   
+    ),
+    femalechildbearingage=patients.satisfying(
+            """
+            (age <=55) AND
+            (sex = 'F')
+            """,
+    ),
+    teratogenicmeds_last12m=patients.satisfying(
+        """
+       teratogenicmeds_issuecount >=2 AND
+       femalechildbearingage
+       """,    
+        teratogenicmeds_issuecount=patients.with_these_medications(
+            teratogenic_codes,
+            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning='number_of_matches_in_period',
+            return_expectations={"incidence": 0.3},
+        ),
+    ),
+
+    dmards_last12m=patients.satisfying(
+        """
+       dmard_codes_issuecount >=2
+       """,    
+        dmard_codes_issuecount=patients.with_these_medications(
+            dmard_codes,
+            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning='number_of_matches_in_period',
+            return_expectations={"incidence": 0.3},
+        ),
+    ),
+
+    addictivemeds_last12m=patients.satisfying(
+        """
+       addictive_issuecount >=2
+       """,    
+        addictive_issuecount=patients.with_these_medications(
+            combined_addictive_codes,
+            between=["last_day_of_month(index_date) - 365 days", "last_day_of_month(index_date)"],
+            returning='number_of_matches_in_period',
+            return_expectations={"incidence": 0.3},
+        ),
+    ),
+
+    highriskmeds_last12m=patients.satisfying(
+        """
+        teratogenicmeds_last12m OR
+        dmards_last12m OR
+        addictivemeds_last12m
+        """,
+    ), 
 )
