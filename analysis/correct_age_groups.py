@@ -1,14 +1,18 @@
 import pandas as pd
 from pathlib import Path
-from utilities import *
+#from utilities import *
 
-if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
-    Path.mkdir(OUTPUT_DIR / "correctedagegroupsmeasures")
+from pathlib import Path
 
 BASE_DIR = Path(__file__).parents[1]
 OUTPUT_DIR = BASE_DIR / "output"
 ANALYSIS_DIR = BASE_DIR / "analysis"
 CODELIST_DIR = BASE_DIR / "codelists"
+
+if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
+    Path.mkdir(OUTPUT_DIR / "correctedagegroupsmeasures")
+
+
 
 #Open files
 
@@ -23,14 +27,16 @@ CODELIST_DIR = BASE_DIR / "codelists"
 def regroupAgeGroup(df, demographic, numerator_column):
     df["AgeGroup"] = df["AgeGroup"].replace({'15-19': '18-24', '20-24': '18-24'})
     df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
-    df = df.sort_values(by=['date', 'AgeGroup', 'sex', 'demographic'])
+    df = df.sort_values(by=['date', 'AgeGroup', 'sex', demographic])
+    #RECALCULATE RATE
+    df["value"]=df["numerator_column"]/df["population"]
     return df
 
 def main():
     breakdowns=[
         "population",
         "age_band",
-        "sex",
+        #"sex",
         "imdQ5",
         "region",
         "ethnicity",
@@ -59,8 +65,12 @@ def main():
             filename=f"measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped.csv"
             breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
             numerator_column=columnlookupdict_medrevtype.get(med_review, med_review)
-            df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"])
+            df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["AgeGroup", "sex", breakdownbycol, numerator_column, "population", "date"])
             df = regroupAgeGroup(df, breakdownbycol, numerator_column)
+            if (breakdownby=='age_band'):
+                df = regroupage_band(df, demographic, numerator_column)
+            if (breakdownby=='sex'):
+                print('here')
             df.to_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected.csv", index=False,)
-
+            testagebands(df, filename)
 main()
