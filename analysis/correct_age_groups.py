@@ -74,7 +74,7 @@ def main():
             df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["AgeGroup", "sex", breakdownbycol, numerator_column, "population", "date"])
             df = regroupAgeGroup(df, breakdownbycol, numerator_column)
             if (breakdownby=='age_band'):
-                df = regroupage_band(df, demographic, numerator_column)
+                df = regroupage_band(df, breakdownbycol, numerator_column)
             if (breakdownby=='sex'):
                 print('here')
             df.to_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected.csv", index=False,)
