@@ -31,6 +31,7 @@ if codelist_1_frequency == "weekly":
 elif codelist_1_frequency == "monthly":
     codelist_1_date_range = ["index_date", "last_day_of_month(index_date"]
 
+
 #codelist 2 date range
 if codelist_2_comparison_date == "start_date":
     codelist_2_date_range = [f"index_date {codelist_2_period_start} days", f"index_date {codelist_2_period_end} days"]
@@ -244,14 +245,14 @@ study = StudyDefinition(
         return_expectations={"date": {"earliest": "index_date", "latest": "last_day_of_month(index_date)"}},
     ),
 
-    event_2=patients.with_these_clinical_events(
+    event_2=patients.with_these_medications(
         codelist=codelist_2,
         between=codelist_2_date_range,
         returning="binary_flag",
         return_expectations={"incidence": 0.5}
     ),
 
-    event_2_code=patients.with_these_clinical_events(
+    event_2_code=patients.with_these_medications(
         codelist=codelist_2,
         between=codelist_2_date_range,
         returning="code",
@@ -261,7 +262,7 @@ study = StudyDefinition(
         },
     ),
 
-    event_2_date = patients.with_these_clinical_events(
+    event_2_date = patients.with_these_medications(
         codelist=codelist_2,
         between=codelist_2_date_range,
         returning="date",
