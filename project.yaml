@@ -253,6 +253,16 @@ actions:
       moderately_sensitive:
         measure: output/report/joined/measure*rate.csv
 
+  top_5_table_report:
+    run: >
+      python:latest python analysis/top_5_report.py
+  
+    needs: [generate_measures_report]
+    outputs:
+      moderately_sensitive:
+        tables: output/report/joined/top_5*.csv
+
+
   deciles_chart_report:
     run: >
       deciles-charts:v0.0.33
@@ -268,3 +278,13 @@ actions:
     outputs:
       moderately_sensitive:
         deciles_charts: output/report/joined/deciles_*.*
+  
+  plot_measure_report:
+    run: >
+      python:latest python analysis/plot_measures_report.py --breakdowns="sex,imd,region,age_band"
+    needs: [generate_measures_report]
+    outputs:
+      moderately_sensitive:
+        measure: output/report/plot_measure*.jpeg
+
+  
