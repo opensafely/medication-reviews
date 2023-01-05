@@ -12,30 +12,18 @@ CODELIST_DIR = BASE_DIR / "codelists"
 if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
     Path.mkdir(OUTPUT_DIR / "correctedagegroupsmeasures")
 
-
-
-#Open files
-
-
-#Update age standardised group
-
-
-#Update age plot group
-
-#Save as CSV
-
 def regroupAgeGroup(df, demographic, numerator_column):
     df["AgeGroup"] = df["AgeGroup"].replace({'15-19': '18-24', '20-24': '18-24'})
     df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
     df = df.sort_values(by=['date', 'AgeGroup', 'sex', demographic])
-    #RECALCULATE RATE
     df["value"]=df[numerator_column]/df["population"]
     return df
 
 def regroupage_band(df, demographic, numerator_column):
     df["age_band"] = df["age_band"].replace({'0-19': '18-29', '20-29': '18-29'})
     df = df.groupby(["AgeGroup", "sex", "age_band", "date"], as_index=False)[[numerator_column, 'population']].sum()
-    #df = df.sort_values(by=['date', 'AgeGroup', 'sex', demographic])
+    df = df.sort_values(by=['date', 'AgeGroup', 'age_band', 'sex'])
+    df["value"]=df[numerator_column]/df["population"]
     return df
 
 def main():
