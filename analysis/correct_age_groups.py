@@ -29,7 +29,13 @@ def regroupAgeGroup(df, demographic, numerator_column):
     df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
     df = df.sort_values(by=['date', 'AgeGroup', 'sex', demographic])
     #RECALCULATE RATE
-    df["value"]=df["numerator_column"]/df["population"]
+    df["value"]=df[numerator_column]/df["population"]
+    return df
+
+def regroupage_band(df, demographic, numerator_column):
+    df["age_band"] = df["age_band"].replace({'0-19': '18-29', '20-29': '18-29'})
+    df = df.groupby(["AgeGroup", "sex", "age_band", "date"], as_index=False)[[numerator_column, 'population']].sum()
+    #df = df.sort_values(by=['date', 'AgeGroup', 'sex', demographic])
     return df
 
 def main():
@@ -72,5 +78,4 @@ def main():
             if (breakdownby=='sex'):
                 print('here')
             df.to_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected.csv", index=False,)
-            testagebands(df, filename)
 main()
