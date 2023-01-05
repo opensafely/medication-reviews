@@ -1,7 +1,49 @@
+import tempfile
 import pandas as pd
 import numpy as np
+from pathlib import Path
 from pandas import testing
-from analysis.table_1 import update_df, fill_missing_values, subset_outcome_of_interest, get_counts
+from analysis.table_1 import match_paths, update_df, fill_missing_values, subset_outcome_of_interest, get_counts
+
+
+def test_match_paths():
+    # Create a temporary directory
+    temp_dir = tempfile.TemporaryDirectory()
+    temp_dir = Path(temp_dir.name)
+    
+    # within the temporary directory, create a directory called output/joined
+    (temp_dir / "output/joined").mkdir(parents=True, exist_ok=True)
+
+    # Create a list of test files in the temporary directory (unordered)
+    test_files = [
+        "output/joined/input_2020-01-01.csv.gz",
+        "output/joined/input_2020-03-01.csv.gz",
+        "output/joined/input_2020-02-01.csv.gz",
+        "output/input_2020-05-01.csv.gz" # This file should not be matched
+    ]
+
+    # Create the test files in the temporary directory
+    for file in test_files:
+        
+        with open(temp_dir / file, 'w') as f:
+            f.write('')
+            print(f"Created {file} in {temp_dir}.")
+
+
+    # Set the expected output for each test - note that the order of the files is important
+    expected_output = [
+        temp_dir / "output/joined/input_2020-01-01.csv.gz", 
+        temp_dir / "output/joined/input_2020-02-01.csv.gz", 
+        temp_dir / "output/joined/input_2020-03-01.csv.gz"
+        ]
+    
+    # the observed outputs are absolute paths, so we need to convert the expected output to absolute paths
+    expected_output = [Path(x).resolve() for x in expected_output]
+
+    observed_output = match_paths(str(temp_dir / "output/joined/input_20*.csv.gz"))
+    
+    assert observed_output == expected_output
+
 
 def test_fill_missing_values():
     df = pd.DataFrame(
