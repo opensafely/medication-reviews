@@ -86,6 +86,8 @@ def create_top_5_code_table(
     df[code_column] = df[code_column].astype(int).astype(str)
     code_df[code_column] = code_df[code_column].astype(int).astype(str)
 
+    
+
     # sum event counts over patients
     event_counts = df.sort_values(ascending=False, by="num")
 
@@ -150,24 +152,43 @@ def main():
 
 
     code_df_2 = pd.read_csv(f"output/report/joined/measure_event_2_code_rate.csv")
+
+    
+
     codelist_2 = pd.read_csv(f"{codelist_2_path}")
-    
-    events_per_code = code_df_2.groupby("event_2_code")[["event_measure"]].sum().reset_index()
-    events_per_code.columns = ["code", "num"]
-
-
-    codelist_2 = codelist_2.rename(columns={"snomed_id": "code"})
-    
   
+    # map snomed_id to vpid using codelist_2
+    code_df_2 = code_df_2.merge(codelist_2, left_on="event_2_code",right_on="snomed_id", how="left")
+   
+
+    # set vpid to index
+    code_df_2 = code_df_2.set_index("vpid")
+
+    # group code_df_2 by vpid
+    code_df_2 = code_df_2.groupby("vpid")[["event_measure", "population"]].sum().reset_index()
+    
+    # drop all columns except event_2_code and event_measure
+    code_df_2 = code_df_2[["vpid", "event_measure"]]
+    # events_per_code = code_df_2.groupby("event_2_code")[["event_measure"]].sum().reset_index()
+    code_df_2.columns = ["code", "num"]
+
+
+    # group codelist_2 by vpid
+    codelist_2 = codelist_2.groupby("vpid")[["bnf_name"]].first().reset_index()
+
+
+    codelist_2 = codelist_2.rename(columns={"vpid": "code"})
+     
+
     top_5_code_table = create_top_5_code_table(
-        df=events_per_code,
+        df=code_df_2,
         code_df=codelist_2,
         code_column="code",
-        term_column="dmd_name",
+        term_column="bnf_name",
         low_count_threshold=7,
         rounding_base=7,
     )
-
+   
     top_5_code_table.to_csv(f"output/report/joined/top_5_code_table_2.csv", index=False)
 
 
