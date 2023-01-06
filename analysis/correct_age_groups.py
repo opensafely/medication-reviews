@@ -1,8 +1,6 @@
 import pandas as pd
 from pathlib import Path
 
-from pathlib import Path
-
 BASE_DIR = Path(__file__).parents[1]
 OUTPUT_DIR = BASE_DIR / "output"
 ANALYSIS_DIR = BASE_DIR / "analysis"
