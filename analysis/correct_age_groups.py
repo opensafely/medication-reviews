@@ -1,6 +1,5 @@
 import pandas as pd
 from pathlib import Path
-#from utilities import *
 
 from pathlib import Path
 
@@ -14,7 +13,10 @@ if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
 
 def regroupAgeGroup(df, demographic, numerator_column):
     df["AgeGroup"] = df["AgeGroup"].replace({'15-19': '18-24', '20-24': '18-24'})
-    df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
+    if (demographic!="sex"):
+        df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
+    else:
+        df = df.groupby(["AgeGroup", "sex", "date"], as_index=False)[[numerator_column, 'population']].sum()
     df = df.sort_values(by=['date', 'AgeGroup', 'sex', demographic])
     df["value"]=df[numerator_column]/df["population"]
     return df
@@ -30,7 +32,7 @@ def main():
     breakdowns=[
         "population",
         "age_band",
-        #"sex",
+        "sex",
         "imdQ5",
         "region",
         "ethnicity",
@@ -63,7 +65,5 @@ def main():
             df = regroupAgeGroup(df, breakdownbycol, numerator_column)
             if (breakdownby=='age_band'):
                 df = regroupage_band(df, numerator_column)
-            if (breakdownby=='sex'):
-                print('here')
             df.to_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected.csv", index=False,)
 main()
