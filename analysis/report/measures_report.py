@@ -80,11 +80,14 @@ def main():
                 data[breakdown].append(counts)
 
     df = pd.concat(data["total"])
+    # sort by date
+    df = df.sort_values(by=["date"])
     df.to_csv(f"{args.input_dir}/measure_total_rate.csv", index=False)
     for breakdown in breakdowns:
         df = pd.concat(data[breakdown])
 
-
+        # sort by date
+        df = df.sort_values(by=["date"])
         df.to_csv(f"{args.input_dir}/measure_{breakdown}_rate.csv", index=False)
   
    
