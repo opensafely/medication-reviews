@@ -26,14 +26,14 @@ def load_standard_pop():
     age_standardpop = age_standardpop.loc[(age_standardpop['sex'] == "Total")]
     age_standardpop = age_standardpop.loc[(age_standardpop['age_stand'] != "Total")]
     age_standardpop['uk_pop_ratio'] = age_standardpop['uk_pop']/total_standardpop
-    age_standardpop = age_standardpop.drop(columns=['uk_pop'])
+    age_standardpop = age_standardpop.drop(columns=['sex', 'uk_pop'])
 
     # Filter out for sex standardisation
     sex_standardpop=standard_pop
     sex_standardpop = sex_standardpop.loc[(sex_standardpop['age_stand'] == "Total")]
     sex_standardpop = sex_standardpop.loc[(sex_standardpop['sex'] != "Total")]
     sex_standardpop['uk_pop_ratio'] = sex_standardpop['uk_pop']/total_standardpop
-    sex_standardpop = sex_standardpop.drop(columns=['uk_pop'])
+    sex_standardpop = sex_standardpop.drop(columns=['age_stand', 'uk_pop'])
 
     return agesex_standardpop, sex_standardpop, age_standardpop
 
