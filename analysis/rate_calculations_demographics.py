@@ -2,17 +2,40 @@ import numpy as np
 import pandas as pd
 
 def load_standard_pop():
-    path = "analysis/european_standard_population.csv"
-    ## European standardisation data from:
-    # from urllib.request import urlopen
-    # url = "https://www.opendata.nhs.scot/dataset/4dd86111-7326-48c4-8763-8cc4aa190c3e/resource/edee9731-daf7-4e0d-b525-e4c1469b8f69/download/european_standard_population.csv"
-    # with urlopen(url) as f:
-    #     pd.read_csv(f).to_csv(path, index=False)
+    path = "analysis/ons_pop_stand.csv"
+    ## UK standardisation data from ONS
     standard_pop = pd.read_csv(path)
-    standard_pop["AgeGroup"] = standard_pop["AgeGroup"].str.replace(" years", "")
-    standard_pop = standard_pop.set_index("AgeGroup")["EuropeanStandardPopulation"]
-    standard_pop = standard_pop / standard_pop.sum()
-    return standard_pop
+    # Remove trailing text in age column
+    standard_pop["age_stand"] = standard_pop["age_stand"].str.replace(" y", "")
+
+    # Total population
+    total_standardpop = standard_pop
+    total_standardpop = total_standardpop.loc[(total_standardpop['sex'] == "Total") & (total_standardpop['age_stand'] == "Total")]
+    total_standardpop = total_standardpop.reset_index(drop=True)
+    total_standardpop = total_standardpop.loc[0]['uk_pop']
+
+    # Filter out for age sex standardisation
+    agesex_standardpop=standard_pop
+    agesex_standardpop = agesex_standardpop.loc[(agesex_standardpop['age_stand'] != "Total")]
+    agesex_standardpop = agesex_standardpop.loc[(agesex_standardpop['sex'] != "Total")]
+    agesex_standardpop['uk_pop_ratio'] = agesex_standardpop['uk_pop']/total_standardpop
+    agesex_standardpop = agesex_standardpop.drop(columns=['uk_pop'])
+
+    # Filter out for age standardisation
+    age_standardpop=standard_pop
+    age_standardpop = age_standardpop.loc[(age_standardpop['sex'] == "Total")]
+    age_standardpop = age_standardpop.loc[(age_standardpop['age_stand'] != "Total")]
+    age_standardpop['uk_pop_ratio'] = age_standardpop['uk_pop']/total_standardpop
+    age_standardpop = age_standardpop.drop(columns=['uk_pop'])
+
+    # Filter out for sex standardisation
+    sex_standardpop=standard_pop
+    sex_standardpop = sex_standardpop.loc[(sex_standardpop['age_stand'] == "Total")]
+    sex_standardpop = sex_standardpop.loc[(sex_standardpop['sex'] != "Total")]
+    sex_standardpop['uk_pop_ratio'] = sex_standardpop['uk_pop']/total_standardpop
+    sex_standardpop = sex_standardpop.drop(columns=['uk_pop'])
+
+    return agesex_standardpop, sex_standardpop, age_standardpop
 
 def calculate_rates(df, numeratorcol, denominatorcol):
     rates = (df[numeratorcol] / df[denominatorcol]) * 100000
