@@ -95,6 +95,7 @@ def checkColumnDict(dic, key):
         return key       
 
 def main():
+    agesex_standardpop, sex_standardpop, age_standardpop=load_standard_pop()
     breakdowns=[
     #"age_band",
     "sex",
@@ -123,7 +124,6 @@ def main():
         numeratorcol="had_anymedrev"
         denominatorcol="population"
         group_by=["AgeGroup", breakdownbycol]
-        standard_pop=load_standard_pop()
 
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
         df.to_csv(f"output/joined/{file}_table.csv")
@@ -133,7 +133,6 @@ def main():
         numeratorcol="had_anymedrev12m"
         denominatorcol="population"
         group_by=["AgeGroup", breakdownbycol]
-        standard_pop=load_standard_pop()
 
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
         df.to_csv(f"output/joined/{file}_table.csv")
