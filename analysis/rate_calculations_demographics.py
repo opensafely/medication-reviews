@@ -7,6 +7,8 @@ def load_standard_pop():
     standard_pop = pd.read_csv(path)
     # Remove trailing text in age column
     standard_pop["age_stand"] = standard_pop["age_stand"].str.replace(" y", "")
+    standard_pop["sex"] = standard_pop["sex"].str.replace("Female", "F")
+    standard_pop["sex"] = standard_pop["sex"].str.replace("Male", "M")
 
     # Total population
     total_standardpop = standard_pop
@@ -42,7 +44,7 @@ def calculate_rates(df, numeratorcol, denominatorcol):
     return rates.round()
 
 def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
-    p = f"output/joined/measure_{file}.csv"
+    p = f"output/correctedagegroupsmeasures/measure_{file}.csv"
     by_age = pd.read_csv(p, usecols=["date", numeratorcol, denominatorcol] + group_by)
     by_age["date"] = pd.to_datetime(by_age["date"])
 
@@ -54,18 +56,14 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
     #return by_age, totals
     return by_age
 
-def standardise_rates_apply(by_age_row, standard_pop):
+def standardise_rates_agesex_apply(by_age_row, standard_pop):
     row_age_group = by_age_row['AgeGroup']
     row_sex_group = by_age_row['sex']
-    print (row_age_group)
-    print (row_sex_group)
-
     if row_age_group == 'missing' or row_sex_group == 'missing':
         row_standardised_rate = np.nan
-        return row_standardised_rate
     else:
-        row_standardised_rate = by_age_row['age_rates'] * standard_pop.loc[(standard_pop["age_stand"]==row_age_group) & (standard_pop["sex"]==row_sex_group), "uk_pop"]
-        return row_standardised_rate
+        row_standardised_rate = by_age_row['age_rates'] * standard_pop.loc[(standard_pop["age_stand"]==row_age_group) & (standard_pop["sex"]==row_sex_group), "uk_pop_ratio"]
+    return row_standardised_rate
 
 
 def redact_small_numbers(df, numeratorcol, denominatorcol):
@@ -76,11 +74,19 @@ def redact_small_numbers(df, numeratorcol, denominatorcol):
     return df
 
 
-def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var, redact=True):
+def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var, redact=True, standardisation_type='agesex'):
     by_age = get_data(file, numeratorcol, denominatorcol, group_by, demographic_var)
     by_age['age_rates'] = calculate_rates(by_age, numeratorcol, denominatorcol)
-    by_age["European Standard population rate per 100,000"] = by_age.apply(
-        standardise_rates_apply, standard_pop=standard_pop, axis=1)
+    if (standardisation_type=='agesex'):
+        by_age["European Standard population rate per 100,000"] = by_age.apply(
+            standardise_rates_agesex_apply, standard_pop=standard_pop, axis=1)
+        exit()
+    elif (standardisation_type=='age'):
+        by_age["European Standard population rate per 100,000"] = by_age.apply(
+            standardise_rates_age_apply, standard_pop=standard_pop, axis=1)
+    elif (standardisation_type=='sex'):
+        by_age["European Standard population rate per 100,000"] = by_age.apply(
+            standardise_rates_sex_apply, standard_pop=standard_pop, axis=1)
     by_age.drop(['age_rates'], axis=1, inplace=True)
     standardised_totals = by_age.groupby(
         ["date", demographic_var]).sum().reset_index()
@@ -94,12 +100,20 @@ def checkColumnDict(dic, key):
     else:
         return key       
 
+def stand_type(breakdown, agesex_standardpop, sex_standardpop, age_standardpop):
+    if (breakdown=='age_band'):
+        return 'sex', sex_standardpop
+    elif (breakdown=='sex'):
+        return 'age', age_standardpop
+    else:
+        return 'agesex', agesex_standardpop
+
 def main():
     agesex_standardpop, sex_standardpop, age_standardpop=load_standard_pop()
 
     breakdowns=[
     #"age_band",
-    "sex",
+    #"sex",
     "imdQ5",
     "region",
     "ethnicity",
@@ -120,19 +134,22 @@ def main():
     }
 
     for breakdownby in breakdowns:
-        file=f"allmedrv_{breakdownby}_rate_agestandardgrouped"
+        file=f"allmedrv_{breakdownby}_rate_agesexstandardgrouped_corrected"
         breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
         numeratorcol="had_anymedrev"
         denominatorcol="population"
-        group_by=["AgeGroup", breakdownbycol]
+        group_by=["AgeGroup", "sex", breakdownbycol]
 
-        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
-        df.to_csv(f"output/joined/{file}_table.csv")
+        #Type of standardisation
+        standardisation_type, standard_pop=stand_type(breakdownby, agesex_standardpop, sex_standardpop, age_standardpop)
 
-        file=f"allmedrv12m_{breakdownby}_rate_agestandardgrouped"
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
+        df.to_csv(f"output/correctedagegroupsmeasures/{file}_table.csv")
+
+        file=f"allmedrv12m_{breakdownby}_rate_agesexstandardgrouped_corrected"
         numeratorcol="had_anymedrev12m"
 
-        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var = breakdownbycol)
-        df.to_csv(f"output/joined/{file}_table.csv")
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
+        df.to_csv(f"output/correctedagegroupsmeasures/{file}_table.csv")
 
 main()
