@@ -65,6 +65,4 @@ def test_regroupageband(test_table_age_bands):
             "value": pd.Series([0.5, 0.25, 1])
         }
     )
-    print (exp)
-    print (obs)
     testing.assert_frame_equal(obs.reset_index(drop=True), exp.reset_index(drop=True), check_dtype=True)
