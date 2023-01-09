@@ -2,7 +2,7 @@ import pandas as pd
 import argparse
 import glob
 import pathlib
-from analysis.utilities import OUTPUT_DIR
+from utilities import OUTPUT_DIR
 import numpy as np
 
 def get_path(*args):
