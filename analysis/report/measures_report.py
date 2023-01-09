@@ -40,7 +40,7 @@ def main():
     for b in breakdowns:
         data[b] = []
 
-    print(breakdowns)
+   
 
     for file in Path(args.input_dir).iterdir():
       
@@ -48,7 +48,10 @@ def main():
             date = get_date_input_file(file.name)
             
             df = pd.read_csv(file)
-            print(df.columns)
+
+            if "sex" in breakdowns:
+                df = df.loc[df["sex"].isin(["M", "F"]),:]
+            
             df["date"] = date
             count = df.loc[:,"event_measure"].sum()
             population = df.loc[:,"event_measure"].count()
@@ -77,9 +80,14 @@ def main():
                 data[breakdown].append(counts)
 
     df = pd.concat(data["total"])
+    # sort by date
+    df = df.sort_values(by=["date"])
     df.to_csv(f"{args.input_dir}/measure_total_rate.csv", index=False)
     for breakdown in breakdowns:
         df = pd.concat(data[breakdown])
+
+        # sort by date
+        df = df.sort_values(by=["date"])
         df.to_csv(f"{args.input_dir}/measure_{breakdown}_rate.csv", index=False)
   
    
