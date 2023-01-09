@@ -200,6 +200,14 @@ actions:
         code_counts: output/codeuse_allmedrev.csv
         total_code_counts: output/totalcodeuse_allmedrev.csv
 
+` correct_age_bands:
+    run: python:latest python analysis/correct_age_groups.py
+    needs: [generate_measures_all_reviews]
+    outputs:
+      moderately_sensitive:
+        standarised_tables: output/correctedagegroupsmeasures/allmedrv_population_rate_agestandardgrouped_corrected.csv
+        standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_population_rate_agestandardgrouped_corrected.csv
+
   agestandardise_populationrate:
     run: python:latest python analysis/rate_calculations.py
     needs: [generate_measures_all_reviews]
