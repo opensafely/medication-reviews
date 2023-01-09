@@ -67,6 +67,25 @@ def standardise_rates_agesex_apply(by_agesex_row, standard_pop):
         row_standardised_rate = by_agesex_row['agesex_rates'] * pop_ratio
     return row_standardised_rate
 
+def standardise_rates_age_apply(by_age_row, standard_pop):
+    row_age_group = by_age_row['AgeGroup']
+    pop_ratio = standard_pop.loc[(standard_pop["age_stand"]==row_age_group), "uk_pop_ratio"]
+    if row_age_group == 'missing' or pop_ratio.empty:
+        row_standardised_rate = np.nan
+    else:
+        pop_ratio = pop_ratio.values[0]
+        row_standardised_rate = by_age_row['agesex_rates'] * pop_ratio
+    return row_standardised_rate
+
+def standardise_rates_sex_apply(by_sex_row, standard_pop):
+    row_sex_group = by_sex_row['sex']
+    pop_ratio = standard_pop.loc[(standard_pop["sex"]==row_sex_group), "uk_pop_ratio"]
+    if row_sex_group == 'missing' or pop_ratio.empty:
+        row_standardised_rate = np.nan
+    else:
+        pop_ratio = pop_ratio.values[0]
+        row_standardised_rate = by_sex_row['agesex_rates'] * pop_ratio
+    return row_standardised_rate
 
 def redact_small_numbers(df, numeratorcol, denominatorcol):
     mask_n = df[numeratorcol].isin([1, 2, 3, 4, 5])
@@ -113,8 +132,8 @@ def main():
     agesex_standardpop, sex_standardpop, age_standardpop=load_standard_pop()
 
     breakdowns=[
-    #"age_band",
-    #"sex",
+    "age_band",
+    "sex",
     "imdQ5",
     "region",
     "ethnicity",
