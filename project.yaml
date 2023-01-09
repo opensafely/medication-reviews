@@ -200,7 +200,7 @@ actions:
         code_counts: output/codeuse_allmedrev.csv
         total_code_counts: output/totalcodeuse_allmedrev.csv
 
-` correct_age_bands:
+  correct_age_bands:
     run: python:latest python analysis/correct_age_groups.py
     needs: [generate_measures_all_reviews]
     outputs:
