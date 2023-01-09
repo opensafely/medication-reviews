@@ -59,10 +59,12 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
 def standardise_rates_agesex_apply(by_age_row, standard_pop):
     row_age_group = by_age_row['AgeGroup']
     row_sex_group = by_age_row['sex']
-    if row_age_group == 'missing' or row_sex_group == 'missing':
+    pop_ratio = standard_pop.loc[(standard_pop["age_stand"]==row_age_group) & (standard_pop["sex"]==row_sex_group), "uk_pop_ratio"]
+    if row_age_group == 'missing' or row_sex_group == 'missing' or pop_ratio.empty:
         row_standardised_rate = np.nan
     else:
-        row_standardised_rate = by_age_row['age_rates'] * standard_pop.loc[(standard_pop["age_stand"]==row_age_group) & (standard_pop["sex"]==row_sex_group), "uk_pop_ratio"]
+        pop_ratio = pop_ratio.values[0]
+        row_standardised_rate = by_age_row['age_rates'] * pop_ratio
     return row_standardised_rate
 
 
@@ -80,7 +82,6 @@ def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demog
     if (standardisation_type=='agesex'):
         by_age["European Standard population rate per 100,000"] = by_age.apply(
             standardise_rates_agesex_apply, standard_pop=standard_pop, axis=1)
-        exit()
     elif (standardisation_type=='age'):
         by_age["European Standard population rate per 100,000"] = by_age.apply(
             standardise_rates_age_apply, standard_pop=standard_pop, axis=1)
