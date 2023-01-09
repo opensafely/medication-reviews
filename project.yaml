@@ -216,13 +216,13 @@ actions:
         standarised_tables: output/joined/allmedrv_population_rate_agestandardgrouped_table.csv
         standarised_tables12m: output/joined/allmedrv12m_population_rate_agestandardgrouped_table.csv
 
-  agestandardise_demographics:
+  agesexstandardise_demographics:
     run: python:latest python analysis/rate_calculations_demographics.py
-    needs: [generate_measures_all_reviews]
+    needs: [correct_age_bands]
     outputs:
       moderately_sensitive:
-        standarised_tables: output/joined/allmedrv_*_table.csv
-        standarised_tables12m: output/joined/allmedrv12m_*_table.csv
+        standarised_tables: output/correctedagegroupsmeasures/allmedrv_*_table.csv
+        standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_*_table.csv
 
 
   run_tests:
