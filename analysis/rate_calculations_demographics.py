@@ -103,11 +103,11 @@ def checkColumnDict(dic, key):
 
 def stand_type(breakdown, agesex_standardpop, sex_standardpop, age_standardpop):
     if (breakdown=='age_band'):
-        return 'sex', sex_standardpop
+        return 'sex', sex_standardpop, ["AgeGroup", "sex", breakdown]
     elif (breakdown=='sex'):
-        return 'age', age_standardpop
+        return 'age', age_standardpop, ["AgeGroup", "sex", breakdown]
     else:
-        return 'agesex', agesex_standardpop
+        return 'agesex', agesex_standardpop, ["AgeGroup", "sex", breakdown]
 
 def main():
     agesex_standardpop, sex_standardpop, age_standardpop=load_standard_pop()
@@ -139,10 +139,9 @@ def main():
         breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
         numeratorcol="had_anymedrev"
         denominatorcol="population"
-        group_by=["AgeGroup", "sex", breakdownbycol]
 
         #Type of standardisation
-        standardisation_type, standard_pop=stand_type(breakdownby, agesex_standardpop, sex_standardpop, age_standardpop)
+        standardisation_type, standard_pop, group_by=stand_type(breakdownbycol, agesex_standardpop, sex_standardpop, age_standardpop)
 
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
         df.to_csv(f"output/correctedagegroupsmeasures/{file}_standardised.csv", index=False)
