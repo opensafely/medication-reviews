@@ -145,12 +145,12 @@ def main():
         standardisation_type, standard_pop=stand_type(breakdownby, agesex_standardpop, sex_standardpop, age_standardpop)
 
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
-        df.to_csv(f"output/correctedagegroupsmeasures/{file}_table.csv")
+        df.to_csv(f"output/correctedagegroupsmeasures/{file}_standardised.csv", index=False)
 
         file=f"allmedrv12m_{breakdownby}_rate_agesexstandardgrouped_corrected"
         numeratorcol="had_anymedrev12m"
 
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
-        df.to_csv(f"output/correctedagegroupsmeasures/{file}_table.csv")
+        df.to_csv(f"output/correctedagegroupsmeasures/{file}_standardised.csv", index=False)
 
 main()
