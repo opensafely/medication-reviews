@@ -56,15 +56,15 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
     #return by_age, totals
     return by_age
 
-def standardise_rates_agesex_apply(by_age_row, standard_pop):
-    row_age_group = by_age_row['AgeGroup']
-    row_sex_group = by_age_row['sex']
+def standardise_rates_agesex_apply(by_agesex_row, standard_pop):
+    row_age_group = by_agesex_row['AgeGroup']
+    row_sex_group = by_agesex_row['sex']
     pop_ratio = standard_pop.loc[(standard_pop["age_stand"]==row_age_group) & (standard_pop["sex"]==row_sex_group), "uk_pop_ratio"]
     if row_age_group == 'missing' or row_sex_group == 'missing' or pop_ratio.empty:
         row_standardised_rate = np.nan
     else:
         pop_ratio = pop_ratio.values[0]
-        row_standardised_rate = by_age_row['age_rates'] * pop_ratio
+        row_standardised_rate = by_agesex_row['agesex_rates'] * pop_ratio
     return row_standardised_rate
 
 
@@ -77,19 +77,19 @@ def redact_small_numbers(df, numeratorcol, denominatorcol):
 
 
 def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var, redact=True, standardisation_type='agesex'):
-    by_age = get_data(file, numeratorcol, denominatorcol, group_by, demographic_var)
-    by_age['age_rates'] = calculate_rates(by_age, numeratorcol, denominatorcol)
+    by_agesex = get_data(file, numeratorcol, denominatorcol, group_by, demographic_var)
+    by_agesex['agesex_rates'] = calculate_rates(by_agesex, numeratorcol, denominatorcol)
     if (standardisation_type=='agesex'):
-        by_age["European Standard population rate per 100,000"] = by_age.apply(
+        by_agesex["UK Standard population rate per 100,000"] = by_agesex.apply(
             standardise_rates_agesex_apply, standard_pop=standard_pop, axis=1)
     elif (standardisation_type=='age'):
-        by_age["European Standard population rate per 100,000"] = by_age.apply(
+        by_agesex["UK Standard population rate per 100,000"] = by_agesex.apply(
             standardise_rates_age_apply, standard_pop=standard_pop, axis=1)
     elif (standardisation_type=='sex'):
-        by_age["European Standard population rate per 100,000"] = by_age.apply(
+        by_agesex["UK Standard population rate per 100,000"] = by_agesex.apply(
             standardise_rates_sex_apply, standard_pop=standard_pop, axis=1)
-    by_age.drop(['age_rates'], axis=1, inplace=True)
-    standardised_totals = by_age.groupby(
+    by_agesex.drop(['agesex_rates'], axis=1, inplace=True)
+    standardised_totals = by_agesex.groupby(
         ["date", demographic_var]).sum().reset_index()
     if redact:
         standardised_totals = redact_small_numbers(standardised_totals, numeratorcol, denominatorcol)
