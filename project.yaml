@@ -287,6 +287,14 @@ actions:
       moderately_sensitive:
         measure: output/report/plot_measure*.jpeg
 
+  event_counts_report:
+    run: >
+      python:latest python analysis/report/event_counts.py --input_dir="output/report/joined" --output_dir="output/report"
+    needs: [join_cohorts_report]
+    outputs:
+      moderately_sensitive:
+        measure: output/report/event_counts.json
+
   create_notebook:
     run: python:latest python analysis/report/create_notebook.py
     outputs:
@@ -299,3 +307,4 @@ actions:
     outputs:
       moderately_sensitive:
         notebook: output/report/report.html
+
