@@ -27,7 +27,6 @@ def get_date_input_file(file: str) -> str:
 def plot_measures(
     df,
     filename: str,
-    title: str,
     column_to_plot: str,
     y_label: str,
     as_bar: bool = False,
@@ -37,7 +36,6 @@ def plot_measures(
     category within the category column. Saves output in 'output' dir as jpeg file.
     Args:
         df: A measure table
-        title: Plot title
         column_to_plot: Column name for y-axis values
         y_label: Label to use for y-axis
         as_bar: Boolean indicating if bar chart should be plotted instead of line chart. Only valid if no categories.
@@ -63,7 +61,6 @@ def plot_measures(
     plt.ylabel(y_label)
     plt.xlabel("Date")
     plt.xticks(x_labels, rotation="vertical")
-    plt.title(title)
     plt.ylim(
         bottom=0,
         top=100
@@ -82,7 +79,7 @@ def plot_measures(
     plt.close()
 
 
-def plot_measures_interactive(df, title, filename, column_to_plot, category=False, y_label='Rate per 1000'):
+def plot_measures_interactive(df, filename, column_to_plot, category=False, y_label='Rate per 1000'):
     fig = go.Figure()
 
     if category:
@@ -97,13 +94,13 @@ def plot_measures_interactive(df, title, filename, column_to_plot, category=Fals
             x=df['date'], y=df[column_to_plot]))
 
     # Set title
-    fig.update_layout(
-        title_text=title,
-        hovermode='x',
-        title_x=0.5,
+    # fig.update_layout(
+    #     title_text=title,
+    #     hovermode='x',
+    #     title_x=0.5,
 
 
-    )
+    # )
 
     fig.update_yaxes(title=y_label)
     fig.update_xaxes(title="Date")
