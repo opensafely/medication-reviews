@@ -1,4 +1,9 @@
 import nbformat as nbf
+from pathlib import Path
+
+# if output/report dir doesn't exist, create it
+if not Path("output/report").exists():
+    Path("output/report").mkdir(parents=True, exist_ok=True)
 
 
 nb = nbf.v4.new_notebook()
@@ -84,4 +89,5 @@ for d in range(len(demographics)):
     nb["cells"].append(nbf.v4.new_code_cell(cell_plot))
 
 
-nbf.write(nb, f"output/report/report.ipynb")
+with open("output/report/report.ipynb", "w") as f:
+    nbf.write(nb, f)
