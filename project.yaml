@@ -266,7 +266,7 @@ actions:
   deciles_chart_report:
     run: >
       deciles-charts:v0.0.33
-        --input-files output/report/joined/measure_practice_rate.csv
+        --input-files output/report/joined/measure_practice_rate_deciles.csv
         --output-dir output/report/joined
     config:
       show_outer_percentiles: true

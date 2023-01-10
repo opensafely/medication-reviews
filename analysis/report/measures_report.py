@@ -78,6 +78,7 @@ def main():
     df = round_column(df, "population", decimals=-2)
     df["value"] = df["event_measure"] / df["population"]*1000
     df.loc[(df["event_measure"] == 0) | (df["population"] == 0), "value"] = "[Redacted]"
+    
     df.to_csv(f"{args.input_dir}/measure_total_rate.csv", index=False)
     for breakdown in breakdowns:
         df = pd.concat(data[breakdown])
@@ -89,6 +90,11 @@ def main():
         df["value"] = df["event_measure"] / df["population"]*1000
         df.loc[(df["event_measure"] == 0) | (df["population"] == 0), "value"] = "[Redacted]"
         df.to_csv(f"{args.input_dir}/measure_{breakdown}_rate.csv", index=False)
+
+        if breakdown == "practice":
+            
+            df_for_deciles = df.loc[df["value"]!= "[Redacted]",:]
+            df_for_deciles.to_csv(f"{args.input_dir}/measure_practice_rate_deciles.csv", index=False)
   
    
 
