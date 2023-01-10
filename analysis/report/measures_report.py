@@ -37,6 +37,8 @@ def main():
 
             if "sex" in breakdowns:
                 df = df.loc[df["sex"].isin(["M", "F"]),:]
+            if "age_band" in breakdowns:
+                df.loc[df["age_band"]!="missing",:]
             
             df["date"] = date
             count = df.loc[:,"event_measure"].sum()
