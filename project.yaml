@@ -205,16 +205,17 @@ actions:
     needs: [generate_measures_all_reviews]
     outputs:
       moderately_sensitive:
-        standarised_tables: output/correctedagegroupsmeasures/allmedrv_population_rate_agestandardgrouped_corrected.csv
-        standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_population_rate_agestandardgrouped_corrected.csv
+        standarised_tables: output/correctedagegroupsmeasures/measure_allmedrv_*_rate_agesexstandardgrouped_corrected.csv
+        standarised_tables12m: output/correctedagegroupsmeasures/measure_allmedrv12m_*_rate_agesexstandardgrouped_corrected.csv
 
   agesexstandardise_demographics:
     run: python:latest python analysis/rate_calculations_demographics.py
     needs: [correct_age_bands]
     outputs:
       moderately_sensitive:
-        standarised_tables: output/correctedagegroupsmeasures/allmedrv_*_table.csv
-        standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_*_table.csv
+        standarised_tables: output/correctedagegroupsmeasures/allmedrv_*_standardised.csv
+        standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_*_standardised.csv
+
 
   run_tests:
     run: python:latest python -m pytest --junit-xml=output/pytest.xml --verbose
