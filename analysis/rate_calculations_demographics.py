@@ -51,9 +51,6 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
     #remove people with "Missing" in demographic vars
     by_age = by_age[by_age[demographic_var] != "Missing"]
 
-    #by_age = by_age.set_index(["date", group_by])
-    #totals = by_age.groupby("date").sum()
-    #return by_age, totals
     return by_age
 
 def standardise_rates_agesex_apply(by_agesex_row, standard_pop):
