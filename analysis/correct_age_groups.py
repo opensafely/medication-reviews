@@ -64,4 +64,7 @@ def main():
             if (breakdownby=='age_band'):
                 df = regroupage_band(df, numerator_column)
             df.to_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected.csv", index=False,)
-main()
+
+if __name__ == "__main__":
+   # stuff only to run when not called via 'import' here
+   main()

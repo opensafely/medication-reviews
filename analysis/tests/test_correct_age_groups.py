@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import numpy as np
 from pandas import testing
-import correct_age_groups
+from correct_age_groups import regroupAgeGroup, regroupage_band
 #from hypothesis import strategies as st
 #from hypothesis import assume, given
 
@@ -36,7 +36,7 @@ def test_table_age_bands():
     )
 
 def test_regroupAgeGroup(test_table):
-    obs = correct_age_groups.regroupAgeGroup(test_table, "demographic", "numerator")
+    obs = regroupAgeGroup(test_table, "demographic", "numerator")
     
     exp = pd.DataFrame(
         {
@@ -52,7 +52,7 @@ def test_regroupAgeGroup(test_table):
     testing.assert_frame_equal(obs.reset_index(drop=True), exp.reset_index(drop=True), check_dtype=True)
 
 def test_regroupageband(test_table_age_bands):
-    obs = correct_age_groups.regroupage_band(test_table_age_bands, "numerator")
+    obs = regroupage_band(test_table_age_bands, "numerator")
     
     exp = pd.DataFrame(
         {

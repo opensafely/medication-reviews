@@ -171,4 +171,6 @@ def main():
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
         df.to_csv(f"output/correctedagegroupsmeasures/{file}_standardised.csv", index=False)
 
-main()
+if __name__ == "__main__":
+   # stuff only to run when not called via 'import' here
+   main()
