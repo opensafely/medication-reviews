@@ -18,9 +18,10 @@ def main():
     
   
     df = pd.read_csv(f"output/report/joined/measure_total_rate.csv", parse_dates=["date"])
+    df = df.loc[df["value"] != "[Redacted]", :]
     
-  
 
+    
     plot_measures(
     df,
         filename=f"report/plot_measures",
@@ -36,7 +37,7 @@ def main():
         df = pd.read_csv(
             f"output/report/joined/measure_{breakdown}_rate.csv", parse_dates=["date"]
         )
-
+        df = df.loc[df["value"] != "[Redacted]", :]
        
 
     

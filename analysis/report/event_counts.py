@@ -20,11 +20,14 @@ def get_unique_patients(df):
 def get_number_of_events(df):
     return df.loc[:,"event_measure"].sum()
 
+def get_number_practices(df):
+    return df.loc[:,"practice"].unique()
 
 def main():
     args = parse_args()
 
     patients = []
+    practices = []
     events = {}
     
     for file in Path(args.input_dir).iterdir():
@@ -36,12 +39,15 @@ def main():
             events[date] = num_events
             unique_patients = get_unique_patients(df)
             patients.extend(unique_patients)
+            unique_practices = get_number_practices(df)
+            practices.extend(unique_practices)
 
     total_events = round_to_nearest_100(sum(events.values()))
     total_patients = round_to_nearest_100(len(np.unique(patients)))
+    total_practices = round_to_nearest_100(len(np.unique(practices)))
     events_in_latest_period = round_to_nearest_100(events[max(events.keys())])
 
-    save_to_json({"total_events": total_events, "total_patients": total_patients, "events_in_latest_period": events_in_latest_period}, f"{args.output_dir}/event_counts.json")
+    save_to_json({"total_events": total_events, "total_patients": total_patients, "events_in_latest_period": events_in_latest_period, "total_practices": total_practices}, f"{args.output_dir}/event_counts.json")
 
 if __name__ == "__main__":
     main()

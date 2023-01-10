@@ -57,7 +57,6 @@ def plot_measures(
             plt.plot(df["date"], df[column_to_plot])
 
     x_labels = sorted(df["date"].unique())
-
     plt.ylabel(y_label)
     plt.xlabel("Date")
     plt.xticks(x_labels, rotation="vertical")
@@ -65,7 +64,7 @@ def plot_measures(
         bottom=0,
         top=100
         if df[column_to_plot].isnull().values.all()
-        else df[column_to_plot].max() * 1.05,
+        else df[column_to_plot].max()
     )
 
     if category:
