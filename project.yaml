@@ -253,6 +253,7 @@ actions:
     outputs:
       moderately_sensitive:
         measure: output/report/joined/measure*rate.csv
+        decile_measure: output/report/joined/measure*rate_deciles.csv
 
   top_5_table_report:
     run: >
