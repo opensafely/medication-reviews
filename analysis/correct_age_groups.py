@@ -11,7 +11,7 @@ if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
 
 def regroupAgeGroup(df, demographic, numerator_column):
     df["AgeGroup"] = df["AgeGroup"].replace({'15-19': '18-24', '20-24': '18-24'})
-    if (demographic!="sex"):
+    if (demographic!="sex" and demographic!="population"):
         df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
     else:
         df = df.groupby(["AgeGroup", "sex", "date"], as_index=False)[[numerator_column, 'population']].sum()
