@@ -21,8 +21,15 @@ codelist_2_description = "DMARD prescription"
 codelist_1_link="https://www.opencodelists.org/codelist/nhsd-primary-care-domain-refsets/medrvw_cod/20200812/"
 codelist_2_link="https://www.opencodelists.org/codelist/opensafely/dmards/2020-06-23/"
 logic = "AND"
-logic_description = "Logic"
+logic_description = "up to 12 months before a recorded medication review"
 demographics = ["sex", "ethnicity", "region", "imd", "age_band"]
+demographics_map = {
+    "sex": "Sex",
+    "ethnicity": "Ethnicity",
+    "region": "Region",
+    "imd": "Index of Multiple Deprivation",
+    "age_band": "Age band",
+}
 measure_name="medication_review"
 population="all registered adults"
 
@@ -34,8 +41,8 @@ demographics_string = ", ".join(demographics)
 demographics_string = demographics_string.replace("age_band", "age band")
 display(
 md(f"# {title}"),
-md(f"The below analysis shows the rate of coding of **{codelist_1_description} {logic} {codelist_2_description}** in **{population}**. This analysis uses data available in OpenSAFELY-TPP (~40% of England) between 2019-01-01 and 2022-01-01."),
-md(f"A {codelist_1_description} is defined each month as all patients with a code recorded from [this codelist]({codelist_1_link})). A {codelist_2_description} is defined each month as anyone with a code recorded from [this codelist]({codelist_2_link}) that occurs **{logic_description}**"),
+md(f"The below analysis shows the rate of coding of **{codelist_1_description} {logic} {codelist_2_description}** in **{population}**. This analysis uses data available in OpenSAFELY-TPP (~40% of England) between 2019-01-01 and 2022-11-01."),
+md(f"A {codelist_1_description} is defined each month as all patients with a code recorded from [this codelist]({codelist_1_link}). A {codelist_2_description} is defined each month as anyone with a code recorded from [this codelist]({codelist_2_link}) that occurs **{logic_description}**"),
 md(f"A practice level decile chart of this measure is provided, as well as a plot of the populatioin level rate and a breakdown of this measure by **{demographics_string}**."),
 md(f"The top 5 codes for both codelists across the entire study period is also shown."),
 )
@@ -43,6 +50,10 @@ md(f"The top 5 codes for both codelists across the entire study period is also s
 """
 
 events_summary = """\
+display(
+md(f"## Measure summary"),
+)
+display(Image(filename=f'measure_diagram.png'))
 with open(f'event_counts.json') as f:
     events_summary = json.load(f)
 events_summary = pd.DataFrame(events_summary, index=[0])
@@ -52,21 +63,36 @@ display(HTML(events_summary.to_html(index=False)))
 """
 
 decile_chart = """\
+display(
+md(f"## Practice level variation"),
+md(f"Practice level variation in this measure is shown below as a decile chart. Each month, practices are ranked by their rate of coding of **{codelist_1_description} {logic} {codelist_2_description}**, from which deciles of activity are calculated.")
+)
 display(Image(filename=f'joined/deciles_chart_practice_rate.png'))
 """
 
 
 top_5_1 = """\
+display(
+md(f"## Most common codes"),
+md(f"#### {codelist_1_description.capitalize()}"),
+
+)
 top_5_1_codes = pd.read_csv(f'joined/top_5_code_table_1.csv')
 display(HTML(top_5_1_codes.to_html(index=False)))
 """
 
 top_5_2 = """\
+display(
+md(f"#### {codelist_2_description.capitalize()}"),
+)
 top_5_2_codes = pd.read_csv(f'joined/top_5_code_table_2.csv')
 display(HTML(top_5_2_codes.to_html(index=False)))
 """
 
 population_plot = """\
+display(
+md(f"## Population level rate"),
+)
 display(Image(filename=f'plot_measures.jpeg'))
 """
 
@@ -90,7 +116,7 @@ nb["cells"].append(nbf.v4.new_code_cell(counter))
 for d in range(len(demographics)):
     cell_counts = """\
     display(
-    md(f"## Breakdown by {demographics[i]}"),
+    md(f"## Breakdown by {demographics_map[demographics[i]]}"),
     )
    
     """
