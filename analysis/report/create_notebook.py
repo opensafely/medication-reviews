@@ -21,7 +21,7 @@ codelist_1_link="https://www.opencodelists.org/codelist/nhsd-primary-care-domain
 codelist_2_link="https://www.opencodelists.org/codelist/opensafely/dmards/2020-06-23/"
 logic = "AND"
 logic_description = "Logic"
-demographics = "sex, ethnicity, region, imd and age band"
+demographics = ["sex", "ethnicity", "region", "imd", "age_band"]
 measure_name="medication_review"
 population="all registered adults"
 
@@ -29,13 +29,16 @@ population="all registered adults"
 """
 
 header = """\
+demographics_string = ", ".join(demographics)
+demographics_string = demographics_string.replace("age_band", "age band")
 display(
 md(f"# {title}"),
 md(f"The below analysis shows the rate of coding of **{codelist_1_description} {logic} {codelist_2_description}** in **{population}**. This analysis uses data available in OpenSAFELY-TPP (~40% of England) between 2019-01-01 and 2022-01-01."),
 md(f"A {codelist_1_description} is defined each month as all patients with a code recorded from [this codelist]({codelist_1_link})). A {codelist_2_description} is defined each month as anyone with a code recorded from [this codelist]({codelist_2_link}) that occurs **{logic_description}**"),
-md(f"A practice level decile chart of this measure is provided, as well as a plot of the populatioin level rate and a breakdown of this measure by **{demographics}**."),
+md(f"A practice level decile chart of this measure is provided, as well as a plot of the populatioin level rate and a breakdown of this measure by **{demographics_string}**."),
 md(f"The top 5 codes for both codelists across the entire study period is also shown."),
 )
+
 """
 
 decile_chart = """\
@@ -54,7 +57,7 @@ display(HTML(top_5_2_codes.to_html(index=False)))
 """
 
 population_plot = """\
-display(Image(filename=f'joined/plot_measures.jpeg'))
+display(Image(filename=f'plot_measures.jpeg'))
 """
 
 
@@ -83,7 +86,7 @@ for d in range(len(demographics)):
     nb["cells"].append(nbf.v4.new_code_cell(cell_counts))
 
     cell_plot = """\
-    display(Image(filename=f'joined/plot_measures_{demographics[i]}.jpeg'))
+    display(Image(filename=f'plot_measures_{demographics[i]}.jpeg'))
     i+=1
     """
     nb["cells"].append(nbf.v4.new_code_cell(cell_plot))
