@@ -1,7 +1,12 @@
 import re
+import json
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
+def save_to_json(d, filename: str):
+    """Saves dictionary to json file"""
+    with open(filename, "w") as f:
+        json.dump(d, f)
 
 def match_input_files(file: str) -> bool:
     """Checks if file name has format outputted by cohort extractor"""
