@@ -1,23 +1,9 @@
 import pandas as pd
 import argparse
 from pathlib import Path
-import re
-
-def match_input_files(file: str) -> bool:
-    """Checks if file name has format outputted by cohort extractor"""
-    pattern = r"^input_report_20\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])\.csv.gz"
-    return True if re.match(pattern, file) else False
+from report_utils import match_input_files, get_date_input_file
 
 
-def get_date_input_file(file: str) -> str:
-    """Gets the date in format YYYY-MM-DD from input file name string"""
-    # check format
-    if not match_input_files(file):
-        raise Exception("Not valid input file format")
-
-    else:
-        date = re.search(r"input_report_(.*).csv.gz", file)
-        return date.group(1)
 
 def parse_args():
     parser = argparse.ArgumentParser()
