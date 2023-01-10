@@ -1,14 +1,6 @@
 import pandas as pd
 from pathlib import Path
 
-BASE_DIR = Path(__file__).parents[1]
-OUTPUT_DIR = BASE_DIR / "output"
-ANALYSIS_DIR = BASE_DIR / "analysis"
-CODELIST_DIR = BASE_DIR / "codelists"
-
-if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
-    Path.mkdir(OUTPUT_DIR / "correctedagegroupsmeasures")
-
 def regroupAgeGroup(df, demographic, numerator_column):
     df["AgeGroup"] = df["AgeGroup"].replace({'15-19': '18-24', '20-24': '18-24'})
     if (demographic!="sex" and demographic!="population"):
@@ -27,6 +19,13 @@ def regroupage_band(df, numerator_column):
     return df
 
 def main():
+    BASE_DIR = Path(__file__).parents[1]
+    OUTPUT_DIR = BASE_DIR / "output"
+    ANALYSIS_DIR = BASE_DIR / "analysis"
+    CODELIST_DIR = BASE_DIR / "codelists"
+
+    if not (OUTPUT_DIR / "correctedagegroupsmeasures").exists():
+        Path.mkdir(OUTPUT_DIR / "correctedagegroupsmeasures")
     breakdowns=[
         "population",
         "age_band",
