@@ -88,7 +88,7 @@ def redact_small_numbers(df, numeratorcol, denominatorcol):
     mask_n = df[numeratorcol].isin([1, 2, 3, 4, 5])
     mask_d = df[denominatorcol].isin([1, 2, 3, 4, 5])
     mask = mask_n | mask_d
-    df.loc[mask, :] = np.nan
+    df.loc[mask, [numeratorcol, denominatorcol, "UK Standard population rate per 100,000"]] = np.nan
     return df
 
 
