@@ -11,6 +11,7 @@ demographics = ["sex", "ethnicity", "region", "imd", "age_band"]
 measure_name="DMARDS"
 imports = """\
 import pandas as pd
+import json
 from IPython.display import Image, display, HTML
 from IPython.display import Markdown as md
 
@@ -41,6 +42,15 @@ md(f"The top 5 codes for both codelists across the entire study period is also s
 
 """
 
+events_summary = """\
+with open(f'event_counts.json') as f:
+    events_summary = json.load(f)
+events_summary = pd.DataFrame(events_summary, index=[0])
+events_summary = events_summary.rename(columns={"total_events": "Total events", "total_patients": "Total patients", "events_in_latest_period": "Events in latest period"})
+display(HTML(events_summary.to_html(index=False)))
+
+"""
+
 decile_chart = """\
 display(Image(filename=f'joined/deciles_chart_practice_rate.png'))
 """
@@ -64,6 +74,7 @@ display(Image(filename=f'plot_measures.jpeg'))
 nb["cells"] = [
     nbf.v4.new_code_cell(imports),
     nbf.v4.new_code_cell(header),
+    nbf.v4.new_code_cell(events_summary),
     nbf.v4.new_code_cell(decile_chart),
     nbf.v4.new_code_cell(top_5_1),
     nbf.v4.new_code_cell(top_5_2),
