@@ -57,7 +57,9 @@ display(Image(filename=f'../../analysis/report/measure_diagram.png'))
 with open(f'event_counts.json') as f:
     events_summary = json.load(f)
 events_summary = pd.DataFrame(events_summary, index=[0])
-events_summary = events_summary.rename(columns={"total_events": "Total events", "total_patients": "Total patients", "events_in_latest_period": "Events in latest period"})
+events_summary = events_summary.rename(columns={"total_events": "Total events", "total_patients": "Total patients", "events_in_latest_period": "Events in latest period", "total_practices": "Total practices"})
+num_practices = events_summary["Total practices"][0]
+events_summary = events_summary.drop(columns=["Total practices"])
 display(HTML(events_summary.to_html(index=False)))
 
 """
@@ -67,6 +69,7 @@ display(
 md(f"## Practice level variation"),
 md(f"Practice level variation in this measure is shown below as a decile chart. Each month, practices are ranked by their rate of coding of **{codelist_1_description} {logic} {codelist_2_description}**, from which deciles of activity are calculated.")
 )
+md(f"The decile chart below is based on data from {num_practices} practices.")
 display(Image(filename=f'joined/deciles_chart_practice_rate.png'))
 """
 
