@@ -5,6 +5,9 @@ import pandas as pd
 import argparse
 import numpy as np
 
+def round_to_nearest_100(x):
+    return int(round(x, -2))
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_dir', type=str, required=True)
@@ -34,11 +37,11 @@ def main():
             unique_patients = get_unique_patients(df)
             patients.extend(unique_patients)
 
-    total_events = sum(events.values())
-    total_patients = len(np.unique(patients))
-    events_in_latest_period = events[max(events.keys())]
+    total_events = round_to_nearest_100(sum(events.values()))
+    total_patients = round_to_nearest_100(len(np.unique(patients)))
+    events_in_latest_period = round_to_nearest_100(events[max(events.keys())])
 
-    save_to_json({"total_events": int(total_events), "total_patients": int(total_patients), "events_in_latest_period": int(events_in_latest_period)}, f"{args.output_dir}/event_counts.json")
+    save_to_json({"total_events": total_events, "total_patients": total_patients, "events_in_latest_period": events_in_latest_period}, f"{args.output_dir}/event_counts.json")
 
 if __name__ == "__main__":
     main()
