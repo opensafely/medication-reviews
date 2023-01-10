@@ -303,7 +303,7 @@ actions:
 
   generate_notebook:
     run: jupyter:latest jupyter nbconvert /workspace/output/report/report.ipynb --execute --to html --output-dir=/workspace/output/report --ExecutePreprocessor.timeout=86400 --no-input
-    needs: [create_notebook, deciles_chart_report, top_5_table_report, plot_measure_report]
+    needs: [create_notebook, event_counts_report, deciles_chart_report, top_5_table_report, plot_measure_report]
     outputs:
       moderately_sensitive:
         notebook: output/report/report.html
