@@ -31,14 +31,15 @@ def main():
         category=None,
     )
 
-    plot_measures_interactive(df, filename=f"report/plot_measures", column_to_plot="event_measure", category=None, y_label="Count")
+    plot_measures_interactive(df, filename=f"report/plot_measures", column_to_plot="value", category=None, y_label="Rate per 1000")
   
     for breakdown in breakdowns:
         df = pd.read_csv(
             f"output/report/joined/measure_{breakdown}_rate.csv", parse_dates=["date"]
         )
         df = df.loc[df["value"] != "[Redacted]", :]
-       
+        df = df.sort_values(by=["date"])
+        
 
     
         plot_measures(
@@ -49,6 +50,8 @@ def main():
             as_bar=False,
             category=breakdown,
         )
+        plot_measures_interactive(df, filename=f"report/plot_measures_{breakdown}", column_to_plot="value", category=breakdown, y_label="Rate per 1000")
+  
     
 if __name__ == "__main__":
     main()

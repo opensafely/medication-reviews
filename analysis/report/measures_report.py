@@ -4,7 +4,7 @@ from pathlib import Path
 from report_utils import match_input_files, get_date_input_file
 
 # round column to nearest 10 and redact any values <10
-def round_column(df, col, decimals=-2):
+def round_column(df, col, decimals=-1):
     df[col] = df[col].apply(lambda x: x if x > 10 else 0)
     df[col] = df[col].round(decimals)
     return df
@@ -74,8 +74,8 @@ def main():
     df = pd.concat(data["total"])
     # sort by date
     df = df.sort_values(by=["date"])
-    df = round_column(df, "event_measure", decimals=-2)
-    df = round_column(df, "population", decimals=-2)
+    df = round_column(df, "event_measure", decimals=-1)
+    df = round_column(df, "population", decimals=-1)
     df["value"] = df["event_measure"] / df["population"]*1000
     df.loc[(df["event_measure"] == 0) | (df["population"] == 0), "value"] = "[Redacted]"
     
@@ -85,8 +85,8 @@ def main():
 
         # sort by date
         df = df.sort_values(by=["date"])
-        df = round_column(df, "event_measure", decimals=-2)
-        df = round_column(df, "population", decimals=-2)
+        df = round_column(df, "event_measure", decimals=-1)
+        df = round_column(df, "population", decimals=-1)
         df["value"] = df["event_measure"] / df["population"]*1000
         df.loc[(df["event_measure"] == 0) | (df["population"] == 0), "value"] = "[Redacted]"
         df.to_csv(f"{args.input_dir}/measure_{breakdown}_rate.csv", index=False)

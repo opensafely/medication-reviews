@@ -62,7 +62,7 @@ def plot_measures(
     plt.xticks(x_labels, rotation="vertical")
     plt.ylim(
         bottom=0,
-        top=100
+        top=1000
         if df[column_to_plot].isnull().values.all()
         else df[column_to_plot].max()
     )
@@ -83,10 +83,10 @@ def plot_measures_interactive(df, filename, column_to_plot, category=False, y_la
 
     if category:
         for unique_category in df[category].unique():
-
+            
             df_subset = df[df[category] == unique_category]
             fig.add_trace(go.Scatter(
-                x=df_subset['date'], y=df_subset[column_to_plot], name=unique_category))
+                x=df_subset['date'], y=df_subset[column_to_plot], name=str(unique_category)))
 
     else:
         fig.add_trace(go.Scatter(
