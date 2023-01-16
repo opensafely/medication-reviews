@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import numpy as np
 from pandas import testing
-from rate_calculations_demographics import standardise_rates_agesex_apply
+from analysis.rate_calculations_demographics import standardise_rates_agesex_apply
 #from hypothesis import strategies as st
 #from hypothesis import assume, given
 
