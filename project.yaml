@@ -141,8 +141,8 @@ actions:
        moderately_sensitive:
          allmedrev_measure_csv: output/joined/measure_allmedrv_*_rate.csv
          allmedrev12m_measure_csv: output/joined/measure_allmedrv12m_*_rate.csv
-         allmedrev_measure_asgrouped_csv: output/joined/measure_allmedrv_*_rate_agestandardgrouped.csv
-         allmedrev12m_measure_asgrouped_csv: output/joined/measure_allmedrv12m_*_rate_agestandardgrouped.csv
+         allmedrev_measure_asgrouped_csv: output/joined/measure_allmedrv_*_rate_agesexstandardgrouped.csv                   
+         allmedrev12m_measure_asgrouped_csv: output/joined/measure_allmedrv12m_*_rate_agesexstandardgrouped.csv
 
   generate_deciles_charts:
     run: >
@@ -199,6 +199,23 @@ actions:
       moderately_sensitive:
         code_counts: output/codeuse_allmedrev.csv
         total_code_counts: output/totalcodeuse_allmedrev.csv
+
+  correct_age_bands:
+    run: python:latest python analysis/correct_age_groups.py
+    needs: [generate_measures_all_reviews]
+    outputs:
+      moderately_sensitive:
+        standarised_tables: output/correctedagegroupsmeasures/measure_allmedrv_*_rate_agesexstandardgrouped_corrected.csv
+        standarised_tables12m: output/correctedagegroupsmeasures/measure_allmedrv12m_*_rate_agesexstandardgrouped_corrected.csv
+
+  agesexstandardise_demographics:
+    run: python:latest python analysis/rate_calculations_demographics.py
+    needs: [correct_age_bands]
+    outputs:
+      moderately_sensitive:
+        standarised_tables: output/correctedagegroupsmeasures/allmedrv_*_standardised.csv
+        standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_*_standardised.csv
+
 
   run_tests:
     run: python:latest python -m pytest --junit-xml=output/pytest.xml --verbose
