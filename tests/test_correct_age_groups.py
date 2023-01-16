@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import numpy as np
 from pandas import testing
-from correct_age_groups import regroupAgeGroup, regroupage_band
+from analysis.correct_age_groups import regroupAgeGroup, regroupage_band
 #from hypothesis import strategies as st
 #from hypothesis import assume, given
 
