@@ -20,6 +20,7 @@ def plot_measures(
     as_bar: bool = False,
     category: str = None,
     deciles: bool = False,
+    outputfile: str = 'default',
 ):
     """Produce time series plot from measures table.  One line is plotted for each sub
     category within the category column. Saves output in 'output' dir as jpeg file.
@@ -112,7 +113,12 @@ def plot_measures(
 
     plt.tight_layout()
 
-    plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
+    if (outputfile=='default'):
+        outputfilename = OUTPUT_DIR / f"figures/{filename}.jpeg"
+    else:
+        outputfilename = OUTPUT_DIR / outputfile
+
+    plt.savefig(outputfilename)
     plt.clf()
 
 
