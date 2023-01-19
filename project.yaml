@@ -176,6 +176,13 @@ actions:
         percent_cohort: output/figures/*_*_rate_percentage.jpeg
         perthousand_cohort: output/figures/*_*_rate_perthousand.jpeg 
 
+  generate_standardised_plots:
+    run: python:latest python analysis/standardised-plots.py
+    needs: [agesexstandardise_demographics]
+    outputs:
+      moderately_sensitive:
+        standard_figures: output/figures-standardised/*_*_standardised.jpeg
+
   generate_table_1:
     run: python:latest python analysis/table_1.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --demographics="age_band,sex,region,imdQ5,ethnicity,learning_disability,care_home_type,addictivemeds_last12m,dmards_last12m,teratogenicmeds_last12m,highriskmeds_last12m" --outcome "had_anymedrev"
     needs: [join_cohorts_allmedrev]
