@@ -116,7 +116,7 @@ def plot_measures(
     outputfilename = OUTPUT_DIR / f"{outputfilepath}/{filename}.jpeg"
 
     plt.savefig(outputfilename)
-    plt.clf()
+    plt.close()
 
 
 
