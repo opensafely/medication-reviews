@@ -20,6 +20,7 @@ def plot_measures(
     as_bar: bool = False,
     category: str = None,
     deciles: bool = False,
+    outputfilepath: str = 'figures',
 ):
     """Produce time series plot from measures table.  One line is plotted for each sub
     category within the category column. Saves output in 'output' dir as jpeg file.
@@ -112,9 +113,10 @@ def plot_measures(
 
     plt.tight_layout()
 
-    plt.savefig(OUTPUT_DIR / f"figures/{filename}.jpeg")
-    plt.clf()
+    outputfilename = OUTPUT_DIR / f"{outputfilepath}/{filename}.jpeg"
 
+    plt.savefig(outputfilename)
+    plt.close()
 
 
 
@@ -140,6 +142,7 @@ def binary_care_home_status(
     df,
     numerator_column: str,
     denominator_column: str,
+    valuecolname: str = 'value'
 ):
     """Converts various care home types into binary value..
     Args:
@@ -149,7 +152,7 @@ def binary_care_home_status(
     """ 
     df = df.replace({'CareHome': 1, 'CareOrNursingHome': 1, 'NursingHome':1, 'PrivateHome':0, 'missing': 0})
     grouped_df = df.groupby(["care_home_type", "date"], as_index=False)[[numerator_column, denominator_column]].sum()
-    grouped_df['value'] = grouped_df[numerator_column]/grouped_df[denominator_column]
+    grouped_df[valuecolname] = grouped_df[numerator_column]/grouped_df[denominator_column]
     return grouped_df
 
 def convert_binary(df, binary_column, positive, negative):
