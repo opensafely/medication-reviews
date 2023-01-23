@@ -13,8 +13,8 @@ def regroupAgeGroup(df, demographic, numerator_column):
 
 def regroupage_band(df, numerator_column):
     df["age_band"] = df["age_band"].replace({'0-19': '18-29', '20-29': '18-29'})
-    df = df.groupby(["AgeGroup", "sex", "age_band", "date"], as_index=False)[[numerator_column, 'population']].sum()
-    df = df.sort_values(by=['date', 'AgeGroup', 'age_band', 'sex'])
+    df = df.groupby(["sex", "age_band", "date"], as_index=False)[[numerator_column, 'population']].sum()
+    df = df.sort_values(by=['date', 'age_band', 'sex'])
     df["value"]=df[numerator_column]/df["population"]
     return df
 
@@ -58,10 +58,12 @@ def main():
             filename=f"measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped.csv"
             breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
             numerator_column=columnlookupdict_medrevtype.get(med_review, med_review)
-            df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["AgeGroup", "sex", breakdownbycol, numerator_column, "population", "date"])
-            df = regroupAgeGroup(df, breakdownbycol, numerator_column)
             if (breakdownby=='age_band'):
+                df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["sex", breakdownbycol, numerator_column, "population", "date"])
                 df = regroupage_band(df, numerator_column)
+            else:
+                df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["AgeGroup", "sex", breakdownbycol, numerator_column, "population", "date"])
+                df = regroupAgeGroup(df, breakdownbycol, numerator_column)
             df.to_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected.csv", index=False,)
 
 if __name__ == "__main__":
