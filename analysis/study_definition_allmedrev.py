@@ -237,7 +237,7 @@ measures = [
         id="allmedrv_age_band_rate_agesexstandardgrouped",
         numerator="had_anymedrev",
         denominator="population",
-        group_by=["AgeGroup", "sex", "age_band"],
+        group_by=["sex", "age_band"],
     ),
     Measure(
         id="allmedrv_sex_rate_agesexstandardgrouped",
@@ -315,7 +315,7 @@ measures = [
         id="allmedrv12m_age_band_rate_agesexstandardgrouped",
         numerator="had_anymedrev12m",
         denominator="population",
-        group_by=["AgeGroup", "sex", "age_band"],
+        group_by=["sex", "age_band"],
     ),
     Measure(
         id="allmedrv12m_sex_rate_agesexstandardgrouped",
