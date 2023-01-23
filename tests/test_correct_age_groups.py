@@ -56,7 +56,6 @@ def test_regroupageband(test_table_age_bands):
     
     exp = pd.DataFrame(
         {
-            "AgeGroup": pd.Series(["18-24", "40-44", "18-24"]),
             "sex": pd.Series(['F', 'M', 'F']),
             "age_band": pd.Series(["18-29", "40-49", "18-29"]),
             "date": pd.Series(["01/04/2019", "01/04/2019", "01/05/2019"]),
