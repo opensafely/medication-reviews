@@ -12,7 +12,6 @@ breakdowns=[
 "ethnicity",
 "nhome",
 "learning_disability",
-"care_home_type",
 "addictive_meds",
 "dmards",
 "highrisk_meds",
@@ -47,7 +46,6 @@ for med_review in med_review_type:
         numerator_col=f'had_{med_review}'
     df = pd.read_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/{med_review}_population_rate_agesexstandardgrouped_corrected_standardised.csv", parse_dates=["date"])
     df['percentrate']=df['UK Standard population rate per 100,000']/1000
-    print(df)
 
     plot_measures(df, filename=f"{med_review}_population_rate_standardised", title="", column_to_plot='percentrate', y_label=f"Percentage of people who received a {med_review_dict[med_review]} ", outputfilepath="figures-standardised") #Plot
 
@@ -56,12 +54,6 @@ for med_review in med_review_type:
         df['percentrate']=df['UK Standard population rate per 100,000']/1000
         breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
         df[breakdownbycol] = df[breakdownbycol].fillna('missing')
-        if (breakdownby == "care_home_type"): 
-            df=binary_care_home_status(df, numerator_col, 'percentrate')
-            convert_binary(df, 'care_home_type', 'Record of positive care home status', 'No record of positive care home status')
-#       if (breakdownby == "care_home_type"): 
-#           df=binary_care_home_status(df, numerator_col, 'population',valuecolname="UK Standard population rate per 100,000")
-#           convert_binary(df, 'care_home_type', 'Record of positive care home status', 'No record of positive care home status')
         if (breakdownby == "learning_disability"):
             convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
         if (breakdownby == "nhome"):
