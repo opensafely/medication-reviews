@@ -168,6 +168,13 @@ actions:
         cohort: output/redacted/redacted_measure_*.csv
         cohort_codeuse: output/redacted/redacted_totalcodeuse*.csv
 
+  redact_and_round_standardised:
+    run: python:latest python analysis/standardised_redact_and_round.py
+    needs: [agesexstandardise_demographics]
+    outputs:
+      moderately_sensitive:
+        cohort: output/redacted/standardised/redacted_standardised_*.csv
+
   generate_plots:
     run: python:latest python analysis/plots.py
     needs: [redact_and_round, generate_deciles_charts]
