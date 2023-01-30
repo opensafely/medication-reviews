@@ -21,7 +21,7 @@ breakdowns=[
 "teratogenic_meds"
 ]
 
-med_review_type=["smr", "smr12m", "mr", "mr12m", "allmedrv", "allmedrv12m"]
+med_review_type=["allmedrv", "allmedrv12m"]
 
 #Redact measures files - Redact counts <=7 then round counts to nearest 5
 for med_review in med_review_type:
