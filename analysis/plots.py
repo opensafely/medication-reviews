@@ -38,10 +38,10 @@ med_review_type=["smr", "smr12m", "mr", "mr12m", "allmedrv", "allmedrv12m"]
 med_review_dict={
     "smr" : "structured medication review",
     "mr" : "medication review",
-    "allmedrv": "medication review",
-    "smr12m" : "structured medication review in preceding 12 months",
-    "mr12m" : "medication review  in preceding 12 months",
-    "allmedrv12m": "medication review in preceding 12 months",
+    "allmedrv": "medication review each month",
+    "smr12m" : "structured medication review within preceding 12 months",
+    "mr12m" : "medication review within preceding 12 months",
+    "allmedrv12m": "medication review within preceding 12 months",
 }
 
 for med_review in med_review_type:
@@ -56,7 +56,7 @@ for med_review in med_review_type:
     plot_measures(df, filename=f"{med_review}_population_rate_perthousand", title="", column_to_plot="rate", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients") #Plot
 
     calculate_rate(df, numerator_col, 'population', rate_per=100, round_rate=False) #Add column for %
-    plot_measures(df, filename=f"{med_review}_population_rate_percentage", title="", column_to_plot="rate", y_label="Percentage") #Plot
+    plot_measures(df, filename=f"{med_review}_population_rate_percentage", title="", column_to_plot="rate", y_label=f"Percentage of people who received a {med_review_dict[med_review]}")#Plot
 
     for breakdownby in breakdowns:
         df = pd.read_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
