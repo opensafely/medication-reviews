@@ -3,8 +3,8 @@ from redaction_utils import *
 from pathlib import Path
 from utilities import *
 
-if not (OUTPUT_DIR / "redacted").exists():
-    Path.mkdir(OUTPUT_DIR / "redacted")
+if not (OUTPUT_DIR / "redacted/standardised").exists():
+    Path.mkdir(OUTPUT_DIR / "redacted/standardised")
 
 breakdowns=[
 "age_band",
@@ -49,4 +49,4 @@ codeusefiles=["totalcodeuse", "totalcodeuse_allmedrev"]
 for file in codeusefiles:
     df = pd.read_csv(OUTPUT_DIR / f"{file}.csv")
     df = codeuse_redact_small_numbers(df, n=7, rounding_base=5, column="uses")
-    df.to_csv(OUTPUT_DIR / f"redacted/redacted_{file}.csv", index=False,)
+    df.to_csv(OUTPUT_DIR / f"redacted/standardised/redacted_{file}.csv", index=False,)
