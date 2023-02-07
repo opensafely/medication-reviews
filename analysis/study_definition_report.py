@@ -37,8 +37,7 @@ elif codelist_2_comparison_date == "end_date":
 elif codelist_2_comparison_date == "event_1_date":
     codelist_2_date_range = [f"event_1_date {codelist_2_period_start} days", f"event_1_date {codelist_2_period_end} days"]
 
-start_date = "2019-01-01"
-end_date = "2022-11-01"
+
 # Specifiy study definition
 
 
@@ -138,7 +137,7 @@ selected_demographics = {k: v for k, v in demographics.items() if k in breakdown
 study = StudyDefinition(
     index_date="2019-01-01",
     default_expectations={
-        "date": {"earliest": start_date, "latest": end_date},
+        "date": {"earliest": "2020-01-01", "latest": "2022-12-01"},
         "rate": "exponential_increase",
         "incidence": 0.1,
     },
