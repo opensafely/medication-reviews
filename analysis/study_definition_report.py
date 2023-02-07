@@ -5,16 +5,12 @@ from cohortextractor import (
     params
 )
 from codelists import *
+from utilities import generate_expectations_codes
 
 codelist_1 = allmed_review_codes
 codelist_2 = dmard_codes
 
-def generate_expectations_codes(codelist, incidence=0.5):
-   
-    expectations = {str(x): (1-incidence) / 10 for x in codelist[0:10]}
-    # expectations = {str(x): (1-incidence) / len(codelist) for x in codelist}
-    expectations[None] = incidence
-    return expectations
+
 
 codelist_2_period_start = params["codelist_2_period_start"]
 codelist_2_period_end = params["codelist_2_period_end"]
