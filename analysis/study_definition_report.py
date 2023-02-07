@@ -6,6 +6,7 @@ from cohortextractor import (
 )
 from codelists import *
 from utilities import generate_expectations_codes
+from report.populations import population_filters
 
 codelist_1 = allmed_review_codes
 codelist_2 = dmard_codes
@@ -40,64 +41,7 @@ start_date = "2019-01-01"
 end_date = "2022-11-01"
 # Specifiy study definition
 
-population_filters = {
-    "registered_adults": (patients.satisfying(
-        """
-        registered AND
-        NOT died AND
-        age >= 18 AND
-        age <= 120
-        """,
 
-        registered = patients.registered_as_of(
-            "index_date",
-            return_expectations={"incidence": 0.9},
-            ),
-
-        died = patients.died_from_any_cause(
-            on_or_before="index_date",
-            returning="binary_flag",
-            return_expectations={"incidence": 0.1}
-            ),
-        
-    )),
-    "registered_children": (patients.satisfying(
-        """
-        registered AND
-        NOT died AND
-        age < 18
-        """,
-
-        registered = patients.registered_as_of(
-            "index_date",
-            return_expectations={"incidence": 0.9},
-            ),
-
-        died = patients.died_from_any_cause(
-            on_or_before="index_date",
-            returning="binary_flag",
-            return_expectations={"incidence": 0.1}
-            ),
-        
-    )),
-    "all_registered": (patients.satisfying(
-        """
-        registered AND
-        NOT died
-        """,
-
-        registered = patients.registered_as_of(
-        "index_date",
-        return_expectations={"incidence": 0.9},
-        ),
-
-        died = patients.died_from_any_cause(
-        on_or_before="index_date",
-        returning="binary_flag",
-        return_expectations={"incidence": 0.1}
-        ),
-    )),
-}
 selected_population = population_filters[population_definition]
 
 
