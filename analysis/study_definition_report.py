@@ -12,7 +12,6 @@ codelist_2_column = params["codelist_2_column"]
 codelist_2_system = params["codelist_2_system"]
 codelist_2_period_start = params["codelist_2_period_start"]
 codelist_2_period_end = params["codelist_2_period_end"]
-operator = params["operator"]
 codelist_2_comparison_date = params["codelist_2_comparison_date"]
 codelist_1_frequency = params["codelist_1_frequency"]
 population_definition = params["population"]
@@ -118,7 +117,7 @@ study = StudyDefinition(
     ),
     event_measure=patients.satisfying(
         f"""
-        event_1 = 1 {operator} event_2 = 1
+        event_1 = 1 AND event_2 = 1
         """,
         return_expectations={"incidence": 0.5},
     ),
