@@ -251,6 +251,12 @@ actions:
   generate_study_population_report:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report 
+      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_column="code"
+      --param codelist_1_system="snomed"
+      --param codelist_2_path="codelists/opensafely-dmards.csv"
+      --param codelist_2_column="snomed_id"
+      --param codelist_2_system="snomed"
       --param codelist_1_frequency="monthly"
       --param codelist_2_comparison_date="event_1_date"
       --param codelist_2_period_start="- 365"
@@ -318,8 +324,7 @@ actions:
     outputs:
       moderately_sensitive:
         measure: output/report/plot_measure*.jpeg
-        html: output/report/plot_measure*.html
-
+        
   event_counts_report:
     run: >
       python:latest python analysis/report/event_counts.py --input_dir="output/report/joined" --output_dir="output/report"

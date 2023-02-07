@@ -178,4 +178,9 @@ def relabel_sex(df):
     df = df.replace({"sex": sex_codes})
     return df
 
-
+def generate_expectations_codes(codelist, incidence=0.5):
+   
+    expectations = {str(x): (1-incidence) / 10 for x in codelist[0:10]}
+    # expectations = {str(x): (1-incidence) / len(codelist) for x in codelist}
+    expectations[None] = incidence
+    return expectations
