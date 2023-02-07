@@ -1,9 +1,4 @@
-from cohortextractor import (
-    StudyDefinition,
-    patients,
-    Measure,
-    params
-)
+from cohortextractor import StudyDefinition, patients, Measure, params
 from codelists import *
 from utilities import generate_expectations_codes
 from report.populations import population_filters
@@ -21,7 +16,12 @@ population_definition = params["population"]
 breakdowns = [x for x in params["breakdowns"].split(",")]
 
 
-codelist_1_date_range, codelist_2_date_range = calculate_variable_windows(codelist_1_frequency, codelist_2_comparison_date, codelist_2_period_start, codelist_2_period_end)
+codelist_1_date_range, codelist_2_date_range = calculate_variable_windows(
+    codelist_1_frequency,
+    codelist_2_comparison_date,
+    codelist_2_period_start,
+    codelist_2_period_end,
+)
 selected_population = population_filters[population_definition]
 selected_demographics = {k: v for k, v in demographics.items() if k in breakdowns}
 
@@ -32,31 +32,29 @@ study = StudyDefinition(
         "rate": "exponential_increase",
         "incidence": 0.1,
     },
-    
-    population= selected_population,
+    population=selected_population,
     age=patients.age_as_of(
-            "index_date",
-            return_expectations={
-                "rate": "universal",
-                "int": {"distribution": "population_ages"},
-            },
-        ),
+        "index_date",
+        return_expectations={
+            "rate": "universal",
+            "int": {"distribution": "population_ages"},
+        },
+    ),
     **selected_demographics,
-        
-  
     practice=patients.registered_practice_as_of(
         "index_date",
         returning="pseudo_id",
-        return_expectations={"int" : {"distribution": "normal", "mean": 25, "stddev": 5}, "incidence" : 0.5}
+        return_expectations={
+            "int": {"distribution": "normal", "mean": 25, "stddev": 5},
+            "incidence": 0.5,
+        },
     ),
-      
     event_1=patients.with_these_clinical_events(
         codelist=codelist_1,
         between=codelist_1_date_range,
         returning="binary_flag",
-        return_expectations={"incidence": 0.5}
+        return_expectations={"incidence": 0.5},
     ),
-
     event_1_code=patients.with_these_clinical_events(
         codelist=codelist_1,
         between=codelist_1_date_range,
@@ -66,22 +64,24 @@ study = StudyDefinition(
             "category": {"ratios": generate_expectations_codes(codelist_1)},
         },
     ),
-
-    event_1_date = patients.with_these_clinical_events(
+    event_1_date=patients.with_these_clinical_events(
         codelist=codelist_1,
         between=codelist_1_date_range,
         returning="date",
         date_format="YYYY-MM-DD",
-        return_expectations={"date": {"earliest": "index_date", "latest": "last_day_of_month(index_date)"}},
+        return_expectations={
+            "date": {
+                "earliest": "index_date",
+                "latest": "last_day_of_month(index_date)",
+            }
+        },
     ),
-
     event_2=patients.with_these_medications(
         codelist=codelist_2,
         between=codelist_2_date_range,
         returning="binary_flag",
-        return_expectations={"incidence": 0.5}
+        return_expectations={"incidence": 0.5},
     ),
-
     event_2_code=patients.with_these_medications(
         codelist=codelist_2,
         between=codelist_2_date_range,
@@ -91,25 +91,23 @@ study = StudyDefinition(
             "category": {"ratios": generate_expectations_codes(codelist_2)},
         },
     ),
-
-    event_2_date = patients.with_these_medications(
+    event_2_date=patients.with_these_medications(
         codelist=codelist_2,
         between=codelist_2_date_range,
         returning="date",
-        return_expectations={"date": {"earliest": "index_date", "latest": "last_day_of_month(index_date)"}},
+        return_expectations={
+            "date": {
+                "earliest": "index_date",
+                "latest": "last_day_of_month(index_date)",
+            }
+        },
     ),
-
-    event_measure = patients.satisfying(
+    event_measure=patients.satisfying(
         f"""
         event_1 = 1 {operator} event_2 = 1
         """,
-        return_expectations={"incidence": 0.5}
+        return_expectations={"incidence": 0.5},
     ),
-
-
-    
-    
-   
 )
 
 measures = [
@@ -117,19 +115,19 @@ measures = [
         id=f"event_rate",
         numerator="event_measure",
         denominator="population",
-        group_by=["practice"]
+        group_by=["practice"],
     ),
     Measure(
         id=f"event_code_1_rate",
         numerator="event_measure",
         denominator="population",
-        group_by=["event_1_code"]
+        group_by=["event_1_code"],
     ),
     Measure(
         id=f"event_code_2_rate",
         numerator="event_measure",
         denominator="population",
-        group_by=["event_2_code"]
+        group_by=["event_2_code"],
     ),
 ]
 
@@ -143,6 +141,3 @@ if breakdowns:
                 group_by=[b],
             ),
         )
-
-
-   
