@@ -30,19 +30,6 @@ codelist_2 = codelist_from_csv(
     column=codelist_2_column,
 )
 
-codelist_1 = codelist_from_csv(
-    "codelists/user-chriswood-all-medication-reviews.csv",
-    system="snomed",
-    column="code",
-)
-
-codelist_2 = codelist_from_csv(
-    "codelists/opensafely-dmards.csv",
-    system="snomed",
-    column="snomed_id",
-)
-
-
 codelist_1_date_range, codelist_2_date_range = calculate_variable_windows(
     codelist_1_frequency,
     codelist_2_comparison_date,
