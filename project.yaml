@@ -324,8 +324,7 @@ actions:
     outputs:
       moderately_sensitive:
         measure: output/report/plot_measure*.jpeg
-        html: output/report/plot_measure*.html
-
+        
   event_counts_report:
     run: >
       python:latest python analysis/report/event_counts.py --input_dir="output/report/joined" --output_dir="output/report"
