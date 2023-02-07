@@ -8,12 +8,10 @@ from codelists import *
 from utilities import generate_expectations_codes
 from report.populations import population_filters
 from report.demographics import demographics
+from report.report_utils import calculate_variable_windows
 
 codelist_1 = allmed_review_codes
 codelist_2 = dmard_codes
-
-
-
 codelist_2_period_start = params["codelist_2_period_start"]
 codelist_2_period_end = params["codelist_2_period_end"]
 operator = params["operator"]
@@ -23,25 +21,7 @@ population_definition = params["population"]
 breakdowns = [x for x in params["breakdowns"].split(",")]
 
 
-# codelist 1 frequency
-if codelist_1_frequency == "weekly":
-    codelist_1_date_range = ["index_date", "index_date + 7 days"]
-elif codelist_1_frequency == "monthly":
-    codelist_1_date_range = ["index_date", "last_day_of_month(index_date"]
-
-
-#codelist 2 date range
-if codelist_2_comparison_date == "start_date":
-    codelist_2_date_range = [f"index_date {codelist_2_period_start} days", f"index_date {codelist_2_period_end} days"]
-elif codelist_2_comparison_date == "end_date":
-    codelist_2_date_range = [f"{codelist_1_date_range[1]} {codelist_2_period_start} days", f"{codelist_1_date_range[1]} {codelist_2_period_end} days"]
-elif codelist_2_comparison_date == "event_1_date":
-    codelist_2_date_range = [f"event_1_date {codelist_2_period_start} days", f"event_1_date {codelist_2_period_end} days"]
-
-
-# Specifiy study definition
-
-
+codelist_1_date_range, codelist_2_date_range = calculate_variable_windows(codelist_1_frequency, codelist_2_comparison_date, codelist_2_period_start, codelist_2_period_end)
 selected_population = population_filters[population_definition]
 selected_demographics = {k: v for k, v in demographics.items() if k in breakdowns}
 

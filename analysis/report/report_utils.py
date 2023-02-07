@@ -1,7 +1,6 @@
 import re
 import json
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 
 def save_to_json(d, filename: str):
     """Saves dictionary to json file"""
@@ -78,60 +77,21 @@ def plot_measures(
     plt.close()
 
 
-def plot_measures_interactive(df, filename, column_to_plot, category=False, y_label='Rate per 1000'):
-    fig = go.Figure()
-
-    if category:
-        for unique_category in df[category].unique():
-            
-            df_subset = df[df[category] == unique_category]
-            fig.add_trace(go.Scatter(
-                x=df_subset['date'], y=df_subset[column_to_plot], name=str(unique_category)))
-
+def calculate_variable_windows(codelist_1_frequency, codelist_2_comparison_date, codelist_2_period_start, codelist_2_period_end):
+    """
+    Calculates the date range to use for the variables based on codelist 1 and 2.
+    """
+    if codelist_1_frequency == "weekly":
+        codelist_1_date_range = ["index_date", "index_date + 7 days"]
     else:
-        fig.add_trace(go.Scatter(
-            x=df['date'], y=df[column_to_plot]))
+        codelist_1_date_range = ["index_date", "last_day_of_month(index_date"]
 
-    # Set title
-    # fig.update_layout(
-    #     title_text=title,
-    #     hovermode='x',
-    #     title_x=0.5,
+    if codelist_2_comparison_date == "start_date":
+        codelist_2_date_range = [f"index_date {codelist_2_period_start} days", f"index_date {codelist_2_period_end} days"]
+    elif codelist_2_comparison_date == "end_date":
+        codelist_2_date_range = [f"{codelist_1_date_range[1]} {codelist_2_period_start} days", f"{codelist_1_date_range[1]} {codelist_2_period_end} days"]
+    else:
+        codelist_2_date_range = [f"event_1_date {codelist_2_period_start} days", f"event_1_date {codelist_2_period_end} days"]
 
+    return codelist_1_date_range, codelist_2_date_range
 
-    # )
-
-    fig.update_yaxes(title=y_label)
-    fig.update_xaxes(title="Date")
-
-    # Add range slider
-    fig.update_layout(
-        xaxis=go.layout.XAxis(
-            rangeselector=dict(
-                buttons=list([
-                    dict(count=1,
-                         label="1m",
-                         step="month",
-                         stepmode="backward"),
-                    dict(count=6,
-                         label="6m",
-                         step="month",
-                         stepmode="backward"),
-
-                    dict(count=1,
-                         label="1y",
-                         step="year",
-                         stepmode="backward"),
-                    dict(step="all")
-                ])
-            ),
-            rangeslider=dict(
-                visible=True
-            ),
-            type="date"
-        )
-    )
-
-    # save plotly plot
-    fig.write_html(f"output/{filename}.html")
-   
