@@ -347,7 +347,6 @@ actions:
       --codelist-1-link="https://codelists.opensafely.org/codelist/user/chriswood/all-medication-reviews/2021-04-01/"
       --codelist-2-link="https://codelists.opensafely.org/codelist/opensafely/dmards/2021-04-01/"
       --report-title="Medication Review Report"
-      --measure-name="Medication Review"
       --measure-description="Medication Review"
       --population="adults"
       --demographics="sex"

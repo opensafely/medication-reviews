@@ -73,7 +73,6 @@ def main():
     title = args.report_title
     demographics = args.demographics
     demographics_string = ", ".join(demographics)
-    measure_name = args.measure_name
     population = args.population
     measure_description = args.measure_description
  
@@ -96,7 +95,7 @@ def main():
     codelist_2_description = '{codelist_2_description}'
     codelist_1_link = '{codelist_1_link}'
     codelist_2_link = '{codelist_2_link}'
-    measure_name = '{measure_name}'
+ 
     population = '{population}'
     measure_description = '{measure_description}'
     demographics_string = '{demographics_string}'
@@ -185,7 +184,6 @@ def main():
                 codelist_2_description=codelist_2_description,
                 codelist_1_link=codelist_1_link,
                 codelist_2_link=codelist_2_link,
-                measure_name=measure_name,
                 population=population,  
                 measure_description=measure_description,
             )),
