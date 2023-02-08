@@ -1,15 +1,17 @@
 from cohortextractor import StudyDefinition, patients, Measure, params, codelist_from_csv
-from utilities import generate_expectations_codes
 from report.populations import population_filters
 from report.demographics import demographics
+from report.event_variables import generate_event_variables
 from report.report_utils import calculate_variable_windows
 
 codelist_1_path = params["codelist_1_path"]
 codelist_1_column = params["codelist_1_column"]
 codelist_1_system = params["codelist_1_system"]
+codelist_1_type = params["codelist_1_type"]
 codelist_2_path = params["codelist_2_path"]
 codelist_2_column = params["codelist_2_column"]
 codelist_2_system = params["codelist_2_system"]
+codelist_2_type = params["codelist_2_type"]
 codelist_2_period_start = params["codelist_2_period_start"]
 codelist_2_period_end = params["codelist_2_period_end"]
 codelist_2_comparison_date = params["codelist_2_comparison_date"]
@@ -62,65 +64,7 @@ study = StudyDefinition(
             "incidence": 0.5,
         },
     ),
-    event_1=patients.with_these_clinical_events(
-        codelist=codelist_1,
-        between=codelist_1_date_range,
-        returning="binary_flag",
-        return_expectations={"incidence": 0.5},
-    ),
-    event_1_code=patients.with_these_clinical_events(
-        codelist=codelist_1,
-        between=codelist_1_date_range,
-        returning="code",
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": generate_expectations_codes(codelist_1)},
-        },
-    ),
-    event_1_date=patients.with_these_clinical_events(
-        codelist=codelist_1,
-        between=codelist_1_date_range,
-        returning="date",
-        date_format="YYYY-MM-DD",
-        return_expectations={
-            "date": {
-                "earliest": "index_date",
-                "latest": "last_day_of_month(index_date)",
-            }
-        },
-    ),
-    event_2=patients.with_these_medications(
-        codelist=codelist_2,
-        between=codelist_2_date_range,
-        returning="binary_flag",
-        return_expectations={"incidence": 0.5},
-    ),
-    event_2_code=patients.with_these_medications(
-        codelist=codelist_2,
-        between=codelist_2_date_range,
-        returning="code",
-        return_expectations={
-            "rate": "universal",
-            "category": {"ratios": generate_expectations_codes(codelist_2)},
-        },
-    ),
-    event_2_date=patients.with_these_medications(
-        codelist=codelist_2,
-        between=codelist_2_date_range,
-        returning="date",
-        return_expectations={
-            "date": {
-                "earliest": "index_date",
-                "latest": "last_day_of_month(index_date)",
-            }
-        },
-    ),
-    event_measure=patients.satisfying(
-        f"""
-        event_1 = 1 AND event_2 = 1
-        """,
-        return_expectations={"incidence": 0.5},
-    ),
+    **generate_event_variables(codelist_1_type, codelist_1, codelist_1_date_range, codelist_2_type, codelist_2, codelist_2_date_range)
 )
 
 measures = [

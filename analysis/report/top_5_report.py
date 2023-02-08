@@ -2,10 +2,6 @@ import pandas as pd
 import numpy as np
 import argparse
 
-codelist_1_path = "codelists/user-chriswood-all-medication-reviews.csv"
-codelist_2_path = "codelists/opensafely-dmards.csv"
-
-
 def write_csv(df, path, **kwargs):
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(path, **kwargs)
@@ -130,9 +126,27 @@ def create_top_5_code_table(
     # return top n rows
     return event_counts.head(5)
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--codelist-1-path",
+        type=str,
+        help="Path to codelist for event 1",
+    )
+    parser.add_argument(
+        "--codelist-2-path",
+        type=str,
+        help="Path to codelist for event 2",
+    )
+    args = parser.parse_args()
+    return args
 
     
 def main():
+    args = parse_args()
+    codelist_1_path = args.codelist_1_path
+    codelist_2_path = args.codelist_2_path
+
     code_df = pd.read_csv(f"output/report/joined/measure_event_1_code_rate.csv")
     codelist = pd.read_csv(f"{codelist_1_path}")
     

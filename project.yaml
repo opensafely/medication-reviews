@@ -254,9 +254,11 @@ actions:
       --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
+      --param codelist_1_type="medication"
       --param codelist_2_path="codelists/opensafely-dmards.csv"
       --param codelist_2_column="snomed_id"
       --param codelist_2_system="snomed"
+      --param codelist_2_type="medication"
       --param codelist_1_frequency="monthly"
       --param codelist_2_comparison_date="event_1_date"
       --param codelist_2_period_start="- 365"
@@ -284,7 +286,10 @@ actions:
   
   generate_measures_report:
     run: >
-      python:latest python analysis/report/measures_report.py --breakdowns="sex,age_band,imd,region,ethnicity" --input_dir="output/report/joined" --measure="med_review"
+      python:latest python analysis/report/measures_report.py
+      --breakdowns="sex,age_band,imd,region,ethnicity" 
+      --input_dir="output/report/joined" 
+      --measure="med_review"
 
     needs: [join_cohorts_report]
     outputs:
@@ -295,7 +300,8 @@ actions:
   top_5_table_report:
     run: >
       python:latest python analysis/report/top_5_report.py
-  
+      --codelist-1-path="codelists/user-chriswood-all-medication-reviews.csv"
+      --codelist-2-path="codelists/opensafely-dmards.csv"
     needs: [generate_measures_report]
     outputs:
       moderately_sensitive:
@@ -334,7 +340,17 @@ actions:
         measure: output/report/event_counts.json
 
   create_notebook:
-    run: python:latest python analysis/report/create_notebook.py
+    run: >
+      python:latest python analysis/report/create_notebook.py
+      --codelist-1-description="Codelist 1 description"
+      --codelist-2-description="Codelist 2 description"
+      --codelist-1-link="https://codelists.opensafely.org/codelist/user/chriswood/all-medication-reviews/2021-04-01/"
+      --codelist-2-link="https://codelists.opensafely.org/codelist/opensafely/dmards/2021-04-01/"
+      --report-title="Medication Review Report"
+      --measure-description="Medication Review"
+      --population="adults"
+      --demographics="sex"
+      --demographics="age_band"
     outputs:
       moderately_sensitive:
         notebook: output/report/report.ipynb
