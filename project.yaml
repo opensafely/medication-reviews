@@ -284,7 +284,10 @@ actions:
   
   generate_measures_report:
     run: >
-      python:latest python analysis/report/measures_report.py --breakdowns="sex,age_band,imd,region,ethnicity" --input_dir="output/report/joined" --measure="med_review"
+      python:latest python analysis/report/measures_report.py
+      --breakdowns="sex,age_band,imd,region,ethnicity" 
+      --input_dir="output/report/joined" 
+      --measure="med_review"
 
     needs: [join_cohorts_report]
     outputs:
@@ -295,7 +298,8 @@ actions:
   top_5_table_report:
     run: >
       python:latest python analysis/report/top_5_report.py
-  
+      --codelist-1-path="codelists/user-chriswood-all-medication-reviews.csv"
+      --codelist-2-path="codelists/opensafely-dmards.csv"
     needs: [generate_measures_report]
     outputs:
       moderately_sensitive:
