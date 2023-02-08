@@ -34,12 +34,7 @@ def parse_args():
         help="Title of report",
         required=True,
     )
-    parser.add_argument(
-        "--measure-name",
-        type=str,
-        help="Name of measure",
-        required=True,
-    )
+
     parser.add_argument(
         "--population",
         type=str,
