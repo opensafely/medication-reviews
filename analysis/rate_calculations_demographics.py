@@ -106,9 +106,9 @@ def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demog
             standardise_rates_sex_apply, standard_pop=standard_pop, axis=1)
     by_agesex.drop(['agesex_rates'], axis=1, inplace=True)
     if (demographic_var=="population"):
-        standardised_totals = by_agesex.groupby(["date"], dropna=False).sum().reset_index()
+        standardised_totals = by_agesex.groupby(["date"]).sum().reset_index()
     else:
-        standardised_totals = by_agesex.groupby(["date", demographic_var], dropna=False).sum().reset_index()
+        standardised_totals = by_agesex.groupby(["date", demographic_var]).sum().reset_index()
     if redact:
         standardised_totals = redact_small_numbers(standardised_totals, numeratorcol, denominatorcol)
     return standardised_totals
