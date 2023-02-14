@@ -12,6 +12,7 @@ breakdowns=[
 "imdQ5",
 "region",
 "ethnicity",
+"ethnicity16",
 "nhome",
 "learning_disability",
 "care_home_type",
@@ -32,10 +33,14 @@ for med_review in med_review_type:
     else:
         numerator_col=f'had_{med_review}'
     df = pd.read_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/{med_review}_population_rate_agesexstandardgrouped_corrected_standardised.csv", parse_dates=["date"])
-    df = redact_small_numbers(df, n=7, rounding_base=5, numerator=numerator_col, denominator="population", rate_column="value", date_column="date")  
+    if (med_review=="smr" or med_review=="smr12m"):
+            df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
+    df = redact_small_numbers(df, n=7, rounding_base=5, numerator=numerator_col, denominator="population", rate_column="value", date_column="date", standardised=True, standardised_column="UK Standard population rate per 100,000")  
     df.to_csv(OUTPUT_DIR / f"redacted-standardised/redacted_standardised_measure_{med_review}_population_rate.csv", index=False,)
 
     for breakdownby in breakdowns:
         df = pd.read_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected_standardised.csv", parse_dates=["date"])
-        df = redact_small_numbers(df, n=7, rounding_base=5, numerator=numerator_col, denominator="population", rate_column="value", date_column="date")  
+        if (med_review=="smr" or med_review=="smr12m"):
+            df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
+        df = redact_small_numbers(df, n=7, rounding_base=5, numerator=numerator_col, denominator="population", rate_column="value", date_column="date", standardised=True, standardised_column="UK Standard population rate per 100,000")  
         df.to_csv(OUTPUT_DIR / f"redacted-standardised/redacted_standardised_measure_{med_review}_{breakdownby}_rate.csv", index=False,)
