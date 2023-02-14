@@ -49,7 +49,7 @@ def get_data(file, numeratorcol, denominatorcol, group_by, demographic_var):
     by_age["date"] = pd.to_datetime(by_age["date"])
 
     #remove people with "Missing" in demographic vars
-    by_age = by_age[by_age[demographic_var] != "Missing"]
+    #by_age = by_age[by_age[demographic_var] != "Missing"]
 
     return by_age
 
