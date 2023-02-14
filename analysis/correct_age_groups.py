@@ -51,7 +51,7 @@ def main():
         "allmedrv": "had_anymedrev",
         "allmedrv12m": "had_anymedrev12m"
     }
-    med_review_type=["allmedrv", "allmedrv12m"]
+    med_review_type=["allmedrv", "allmedrv12m", "smr"]
 
     for med_review in med_review_type:
         for breakdownby in breakdowns:
