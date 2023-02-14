@@ -11,7 +11,7 @@ def drop_and_round(column, base=5, threshold=7):
 
 
 def redact_small_numbers(
-    df, n, rounding_base, numerator, denominator, rate_column, date_column
+    df, n, rounding_base, numerator, denominator, rate_column, date_column, standardised=True, standardised_column=None
 ):
     """
     Takes counts df as input and suppresses low numbers.  Sequentially redacts
@@ -60,6 +60,11 @@ def redact_small_numbers(
         df_subset.loc[
             (df_subset[numerator].isna()) | (df_subset[denominator].isna()), rate_column
         ] = np.nan
+        if (standardised):
+            df_subset.loc[
+                (df_subset[numerator].isna()) | (df_subset[denominator].isna()), standardised_column
+            ] = np.nan
+
         df_subset[rate_column] = df_subset[numerator] / df_subset[denominator]
         df_list.append(df_subset)
 
