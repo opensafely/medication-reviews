@@ -416,7 +416,7 @@ measures = [
         id="smr_population_rate_agesexstandardgrouped",
         numerator="had_smr",
         denominator="population",
-        group_by=["AgeGroup", "sex", "population"],
+        group_by=["AgeGroup", "sex"],
     ),
     Measure(
         id="smr_practice_rate_agesexstandardgrouped",
@@ -507,7 +507,7 @@ measures = [
         id="smr12m_population_rate_agesexstandardgrouped",
         numerator="had_smr12m",
         denominator="population",
-        group_by=["AgeGroup", "sex", "population"],
+        group_by=["AgeGroup", "sex"],
     ),
     Measure(
         id="smr12m_practice_rate_agesexstandardgrouped",
