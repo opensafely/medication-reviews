@@ -89,6 +89,12 @@ measures = [
         group_by=["ethnicity"],
     ),
     Measure(
+        id="allmedrv_ethnicity16_rate",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["ethnicity16"],
+    ),
+    Measure(
         id="allmedrv_learning_disability_rate",
         numerator="had_anymedrev",
         denominator="population",
@@ -171,6 +177,12 @@ measures = [
         numerator="had_anymedrev12m",
         denominator="population",
         group_by=["ethnicity"],
+    ),
+    Measure(
+        id="allmedrv12m_ethnicity16_rate",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["ethnicity16"],
     ),
     Measure(
         id="allmedrv12m_learning_disability_rate",
@@ -264,6 +276,12 @@ measures = [
         group_by=["AgeGroup", "sex", "ethnicity"],
     ),
     Measure(
+        id="allmedrv_ethnicity16_rate_agesexstandardgrouped",
+        numerator="had_anymedrev",
+        denominator="population",
+        group_by=["AgeGroup", "sex", "ethnicity16"],
+    ),
+    Measure(
         id="allmedrv_learning_disability_rate_agesexstandardgrouped",
         numerator="had_anymedrev",
         denominator="population",
@@ -340,6 +358,12 @@ measures = [
         numerator="had_anymedrev12m",
         denominator="population",
         group_by=["AgeGroup", "sex", "ethnicity"],
+    ),
+    Measure(
+        id="allmedrv12m_ethnicity16_rate_agesexstandardgrouped",
+        numerator="had_anymedrev12m",
+        denominator="population",
+        group_by=["AgeGroup", "sex", "ethnicity16"],
     ),
     Measure(
         id="allmedrv12m_learning_disability_rate_agesexstandardgrouped",

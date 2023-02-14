@@ -171,6 +171,18 @@ def main():
         df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
         df.to_csv(f"output/correctedagegroupsmeasures/{file}_standardised.csv", index=False)
 
+        file=f"smr_{breakdownby}_rate_agesexstandardgrouped_corrected"
+        numeratorcol="had_smr"
+
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
+        df.to_csv(f"output/correctedagegroupsmeasures/{file}_standardised.csv", index=False)
+
+        file=f"smr12m_{breakdownby}_rate_agesexstandardgrouped_corrected"
+        numeratorcol="had_smr12m"
+
+        df = make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var=breakdownbycol, standardisation_type=standardisation_type)
+        df.to_csv(f"output/correctedagegroupsmeasures/{file}_standardised.csv", index=False)
+
 if __name__ == "__main__":
    # stuff only to run when not called via 'import' here
    main()

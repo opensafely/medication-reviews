@@ -130,6 +130,8 @@ actions:
          mr12m_measure_csv: output/joined/measure_mr12m_*_rate.csv
          smr_measure_csv: output/joined/measure_smr_*_rate.csv
          smr12m_measure_csv: output/joined/measure_smr12m_*_rate.csv
+         smr_measure_asgrouped_csv: output/joined/measure_smr_*_rate_agesexstandardgrouped.csv
+         smr12m_measure_asgrouped_csv: output/joined/measure_smr12m_*_rate_agesexstandardgrouped.csv
 
   generate_measures_all_reviews:
      run: >
@@ -216,11 +218,13 @@ actions:
 
   correct_age_bands:
     run: python:latest python analysis/correct_age_groups.py
-    needs: [generate_measures_all_reviews]
+    needs: [generate_measures_mr_smr, generate_measures_all_reviews]
     outputs:
       moderately_sensitive:
-        standarised_tables: output/correctedagegroupsmeasures/measure_allmedrv_*_rate_agesexstandardgrouped_corrected.csv
-        standarised_tables12m: output/correctedagegroupsmeasures/measure_allmedrv12m_*_rate_agesexstandardgrouped_corrected.csv
+        prestandarised_tables: output/correctedagegroupsmeasures/measure_allmedrv_*_rate_agesexstandardgrouped_corrected.csv
+        prestandarised_tables12m: output/correctedagegroupsmeasures/measure_allmedrv12m_*_rate_agesexstandardgrouped_corrected.csv
+        prestandarised_smr_tables: output/correctedagegroupsmeasures/measure_smr_*_rate_agesexstandardgrouped_corrected.csv
+        prestandarised_smr_tables12m: output/correctedagegroupsmeasures/measure_smr12m_*_rate_agesexstandardgrouped_corrected.csv
 
   agesexstandardise_demographics:
     run: python:latest python analysis/rate_calculations_demographics.py
@@ -229,7 +233,8 @@ actions:
       moderately_sensitive:
         standarised_tables: output/correctedagegroupsmeasures/allmedrv_*_standardised.csv
         standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_*_standardised.csv
-
+        standarised_smr_tables: output/correctedagegroupsmeasures/smr_*_standardised.csv
+        standarised_smr_tables12m: output/correctedagegroupsmeasures/smr12m_*_standardised.csv
 
   run_tests:
     run: python:latest python -m pytest --junit-xml=output/pytest.xml --verbose

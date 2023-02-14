@@ -50,9 +50,11 @@ def main():
     }
     columnlookupdict_medrevtype={
         "allmedrv": "had_anymedrev",
-        "allmedrv12m": "had_anymedrev12m"
+        "allmedrv12m": "had_anymedrev12m",
+        "smr": "had_smr",
+        "smr12m": "had_smr12m"
     }
-    med_review_type=["allmedrv", "allmedrv12m"]
+    med_review_type=["allmedrv", "allmedrv12m", "smr", "smr12m"]
 
     for med_review in med_review_type:
         for breakdownby in breakdowns:
