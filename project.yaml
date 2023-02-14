@@ -233,7 +233,8 @@ actions:
       moderately_sensitive:
         standarised_tables: output/correctedagegroupsmeasures/allmedrv_*_standardised.csv
         standarised_tables12m: output/correctedagegroupsmeasures/allmedrv12m_*_standardised.csv
-
+        standarised_smr_tables: output/correctedagegroupsmeasures/smr_*_standardised.csv
+        standarised_smr_tables12m: output/correctedagegroupsmeasures/smr12m_*_standardised.csv
 
   run_tests:
     run: python:latest python -m pytest --junit-xml=output/pytest.xml --verbose
