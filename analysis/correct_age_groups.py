@@ -49,7 +49,8 @@ def main():
     }
     columnlookupdict_medrevtype={
         "allmedrv": "had_anymedrev",
-        "allmedrv12m": "had_anymedrev12m"
+        "allmedrv12m": "had_anymedrev12m",
+        "smr": "had_smr"
     }
     med_review_type=["allmedrv", "allmedrv12m", "smr"]
 
