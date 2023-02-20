@@ -26,12 +26,6 @@ columnlookupdict={
     "teratogenic_meds": "teratogenicmeds_last12m"
 }
 
-def checkColumnDict(dic, key):
-    if key in dic.keys():
-        return dic[key]
-    else:
-        return key
-
 med_review_type=["allmedrv", "allmedrv12m"]
 
 med_review_dict={
@@ -53,7 +47,7 @@ for med_review in med_review_type:
     for breakdownby in breakdowns:
         df = pd.read_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected_standardised.csv", parse_dates=["date"])
         df['percentrate']=df['UK Standard population rate per 100,000']/1000
-        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
+        breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
         df[breakdownbycol] = df[breakdownbycol].fillna('missing')
         if (breakdownby == "learning_disability"):
             convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')

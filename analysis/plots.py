@@ -27,13 +27,6 @@ columnlookupdict={
     "teratogenic_meds": "teratogenicmeds_last12m"
 }
 
-def checkColumnDict(dic, key):
-    if key in dic.keys():
-        print("Present, ", end =" ")
-        return dic[key]
-    else:
-        return key
-
 med_review_type=["smr", "smr12m", "mr", "mr12m", "allmedrv", "allmedrv12m"]
 
 med_review_dict={
@@ -61,7 +54,7 @@ for med_review in med_review_type:
 
     for breakdownby in breakdowns:
         df = pd.read_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
-        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
+        breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
         df[breakdownbycol] = df[breakdownbycol].fillna('missing')
         if (breakdownby == "care_home_type"): 
             df=binary_care_home_status(df, numerator_col, 'population')
