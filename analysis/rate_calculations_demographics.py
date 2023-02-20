@@ -57,7 +57,7 @@ def standardise_rates_agesex_apply(by_agesex_row, standard_pop):
     row_age_group = by_agesex_row['AgeGroup']
     row_sex_group = by_agesex_row['sex']
     pop_ratio = standard_pop.loc[(standard_pop["age_stand"]==row_age_group) & (standard_pop["sex"]==row_sex_group), "uk_pop_ratio"]
-    if row_age_group == 'missing' or row_sex_group == 'missing' or pop_ratio.empty:
+    if row_age_group == 'missing' or row_sex_group == 'missing':
         row_standardised_rate = np.nan
     else:
         pop_ratio = pop_ratio.values[0]
@@ -67,7 +67,7 @@ def standardise_rates_agesex_apply(by_agesex_row, standard_pop):
 def standardise_rates_age_apply(by_age_row, standard_pop):
     row_age_group = by_age_row['AgeGroup']
     pop_ratio = standard_pop.loc[(standard_pop["age_stand"]==row_age_group), "uk_pop_ratio"]
-    if row_age_group == 'missing' or pop_ratio.empty:
+    if row_age_group == 'missing':
         row_standardised_rate = np.nan
     else:
         pop_ratio = pop_ratio.values[0]
@@ -77,7 +77,7 @@ def standardise_rates_age_apply(by_age_row, standard_pop):
 def standardise_rates_sex_apply(by_sex_row, standard_pop):
     row_sex_group = by_sex_row['sex']
     pop_ratio = standard_pop.loc[(standard_pop["sex"]==row_sex_group), "uk_pop_ratio"]
-    if row_sex_group == 'missing' or pop_ratio.empty:
+    if row_sex_group == 'missing':
         row_standardised_rate = np.nan
     else:
         pop_ratio = pop_ratio.values[0]
