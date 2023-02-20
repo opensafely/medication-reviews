@@ -61,7 +61,7 @@ for med_review in med_review_type:
             df[breakdownbycol] = df[breakdownbycol].fillna('missing')
             if (breakdownby == "care_home_type"): 
                 df=binary_care_home_status(df, numerator_col, 'population')
-                convert_binary(df, 'care_home_type', 'Record of positive care home status', 'No record of positive care home status')
+                convert_binary(df, 'care_home_type', 'Record of individual living at a care/nursing home', 'No record of individual living at a care/nursing home')
             if (breakdownby == "learning_disability"):
                 convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
             if (breakdownby == "nhome"):
