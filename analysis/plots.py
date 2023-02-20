@@ -65,7 +65,7 @@ for med_review in med_review_type:
             if (breakdownby == "learning_disability"):
                 convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
             if (breakdownby == "nhome"):
-                convert_binary(df, 'nhome', 'Record of individual living at a nursing home', 'No record of individual living at a nursing home')
+                convert_binary(df, 'nhome', 'Record of individual living at a care/nursing home', 'No record of individual living at a care/nursing home')
             if (breakdownbycol == "addictivemeds_last12m"):
                 convert_binary(df, 'addictivemeds_last12m', 'Record of prescription for an addictive medicine', 'No record of prescription for an addictive medicine')
             if (breakdownbycol == "dmards_last12m"):
