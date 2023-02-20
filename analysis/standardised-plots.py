@@ -29,6 +29,8 @@ columnlookupdict={
 med_review_type=["smr", "smr12m", "allmedrv", "allmedrv12m"]
 
 med_review_dict={
+    "smr" : "structured medication review",
+    "smr12m" : "structured medication review within preceding 12 months",
     "allmedrv": "medication review each month",
     "allmedrv12m": "medication review within preceding 12 months",
 }
