@@ -10,6 +10,7 @@ breakdowns=[
 "imdQ5",
 "region",
 "ethnicity",
+"ethnicity16",
 "nhome",
 "learning_disability",
 "addictive_meds",
@@ -25,15 +26,11 @@ columnlookupdict={
     "teratogenic_meds": "teratogenicmeds_last12m"
 }
 
-def checkColumnDict(dic, key):
-    if key in dic.keys():
-        return dic[key]
-    else:
-        return key
-
-med_review_type=["allmedrv", "allmedrv12m"]
+med_review_type=["smr", "smr12m", "allmedrv", "allmedrv12m"]
 
 med_review_dict={
+    "smr" : "structured medication review",
+    "smr12m" : "structured medication review within preceding 12 months",
     "allmedrv": "medication review each month",
     "allmedrv12m": "medication review within preceding 12 months",
 }
@@ -52,12 +49,12 @@ for med_review in med_review_type:
     for breakdownby in breakdowns:
         df = pd.read_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected_standardised.csv", parse_dates=["date"])
         df['percentrate']=df['UK Standard population rate per 100,000']/1000
-        breakdownbycol=checkColumnDict(columnlookupdict, breakdownby)
+        breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
         df[breakdownbycol] = df[breakdownbycol].fillna('missing')
         if (breakdownby == "learning_disability"):
             convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
         if (breakdownby == "nhome"):
-            convert_binary(df, 'nhome', 'Record of individual living at a nursing home', 'No record of individual living at a nursing home')
+            convert_binary(df, 'nhome', 'Record of individual living at a care/nursing home', 'No record of individual living at a care/nursing home')
         if (breakdownbycol == "addictivemeds_last12m"):
             convert_binary(df, 'addictivemeds_last12m', 'Record of prescription for an addictive medicine', 'No record of prescription for an addictive medicine')
         if (breakdownbycol == "dmards_last12m"):
