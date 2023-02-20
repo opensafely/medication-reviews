@@ -26,7 +26,7 @@ columnlookupdict={
     "teratogenic_meds": "teratogenicmeds_last12m"
 }
 
-med_review_type=["allmedrv", "allmedrv12m"]
+med_review_type=["smr", "smr12m", "allmedrv", "allmedrv12m"]
 
 med_review_dict={
     "allmedrv": "medication review each month",
