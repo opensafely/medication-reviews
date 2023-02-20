@@ -12,6 +12,7 @@ breakdowns=[
 "imdQ5",
 "region",
 "ethnicity",
+"ethnicity16",
 "nhome",
 "learning_disability",
 "care_home_type",
@@ -38,11 +39,14 @@ for med_review in med_review_type:
     df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_population_rate.csv", index=False,)
 
     for breakdownby in breakdowns:
-        df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
-        if (med_review=="smr" or med_review=="smr12m"):
-            df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
-        df = redact_small_numbers(df, n=7, rounding_base=5, numerator=numerator_col, denominator="population", rate_column="value", date_column="date")  
-        df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", index=False,)
+        if ((med_review=='mr' and breakdownby=='ethnicity16') or (med_review=='mr12m' and breakdownby=='ethnicity16')): #Skip eth16 for mr as no measure
+            pass
+        else:
+            df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
+            if (med_review=="smr" or med_review=="smr12m"):
+                df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
+            df = redact_small_numbers(df, n=7, rounding_base=5, numerator=numerator_col, denominator="population", rate_column="value", date_column="date")  
+            df.to_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", index=False,)
 
 #Redact total codeuse counts files - Redact counts >0 and <=7 then round counts to nearest 5
 codeusefiles=["totalcodeuse", "totalcodeuse_allmedrev"]
