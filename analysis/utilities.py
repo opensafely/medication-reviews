@@ -38,7 +38,7 @@ def plot_measures(
 
     if category:
         for unique_category in sorted(df[category].unique()):
-            if (unique_category!="missing" and unique_category!="Unknown"): # Don't plot where catagory missing or unknown
+            if (unique_category!="missing" and unique_category!="Unknown" and unique_category!="Missing"): # Don't plot where catagory missing or unknown
                 df_subset = df[df[category] == unique_category].sort_values("date") # subset on category column and sort by date
                 if deciles:
                     if (unique_category==50):
