@@ -16,7 +16,8 @@ breakdowns=[
 "addictive_meds",
 "dmards",
 "highrisk_meds",
-"teratogenic_meds"
+"teratogenic_meds",
+"care_home_type"
 ]
 
 columnlookupdict={
