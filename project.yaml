@@ -187,7 +187,7 @@ actions:
 
   generate_standardised_plots:
     run: python:latest python analysis/standardised-plots.py
-    needs: [agesexstandardise_demographics]
+    needs: [redact_and_round_standardised]
     outputs:
       moderately_sensitive:
         standard_figures: output/figures-standardised/*_*_standardised.jpeg

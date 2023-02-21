@@ -41,13 +41,13 @@ for med_review in med_review_type:
         numerator_col="had_anymedrev12m" # fix as column title doesn't match filename for allmedrv
     else:
         numerator_col=f'had_{med_review}'
-    df = pd.read_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/{med_review}_population_rate_agesexstandardgrouped_corrected_standardised.csv", parse_dates=["date"])
+    df = pd.read_csv(OUTPUT_DIR / f"redacted-standardised/redacted_standardised_measure_{med_review}_population_rate.csv", parse_dates=["date"])
     df['percentrate']=df['UK Standard population rate per 100,000']/1000
 
     plot_measures(df, filename=f"{med_review}_population_rate_standardised", title="", column_to_plot='percentrate', y_label=f"Percentage of people who received a {med_review_dict[med_review]} ", outputfilepath="figures-standardised") #Plot
 
     for breakdownby in breakdowns:
-        df = pd.read_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected_standardised.csv", parse_dates=["date"])
+        df = pd.read_csv(OUTPUT_DIR / f"redacted-standardised/redacted_standardised_measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
         df['percentrate']=df['UK Standard population rate per 100,000']/1000
         breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
         df[breakdownbycol] = df[breakdownbycol].fillna('missing')
