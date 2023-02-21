@@ -87,6 +87,8 @@ for med_review in med_review_type:
     #Plot deciles chart
     df = pd.read_csv(OUTPUT_DIR / f"joined/deciles_table_{med_review}_practice_rate.csv", parse_dates=["date"])
     df['rateperthousand']=df['value']*1000
+    if (med_review=="smr" or med_review=="smr12m"):
+            df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
     plot_measures(df, filename=f"deciles_chart_{med_review}_practice_rate_perthousand", title="", column_to_plot="rateperthousand", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients", category="percentile", deciles=True)
 
     df['percentage']=df['value']*100
