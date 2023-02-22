@@ -92,7 +92,7 @@ def redact_small_numbers(df, numeratorcol, denominatorcol):
     return df
 
 
-def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var, redact=True, standardisation_type='agesex'):
+def make_table(standard_pop, file, numeratorcol, denominatorcol, group_by, demographic_var, redact=False, standardisation_type='agesex'):
     by_agesex = get_data(file, numeratorcol, denominatorcol, group_by, demographic_var)
     by_agesex['agesex_rates'] = calculate_rates(by_agesex, numeratorcol, denominatorcol)
     if (standardisation_type=='agesex'):
