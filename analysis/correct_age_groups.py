@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+from utilities import binary_care_home_status
 
 def regroupAgeGroup(df, demographic, numerator_column):
     df[demographic]=df[demographic].fillna('Missing')
@@ -67,6 +68,8 @@ def main():
                 df = regroupage_band(df, numerator_column)
             else:
                 df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["AgeGroup", "sex", breakdownbycol, numerator_column, "population", "date"])
+                if (breakdownby=='care_home_type'):
+                    df=binary_care_home_status(df, numerator_column, 'population', agesexgrouped=True)
                 df = regroupAgeGroup(df, breakdownbycol, numerator_column)
             df.to_csv(OUTPUT_DIR / f"correctedagegroupsmeasures/measure_{med_review}_{breakdownby}_rate_agesexstandardgrouped_corrected.csv", index=False,)
 

@@ -43,6 +43,8 @@ for med_review in med_review_type:
             pass
         else:
             df = pd.read_csv(OUTPUT_DIR / f"joined/measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
+            if (breakdownby=='care_home_type'): # Combine care home / none care home before redaction
+                    df=binary_care_home_status(df, numerator_col, 'population')
             if (med_review=="smr" or med_review=="smr12m"):
                 df = df.loc[(df['date'] >= '2020-01-01')] #Filter to only include dates inc and after Jan 2020
             df = redact_small_numbers(df, n=7, rounding_base=5, numerator=numerator_col, denominator="population", rate_column="value", date_column="date")  
