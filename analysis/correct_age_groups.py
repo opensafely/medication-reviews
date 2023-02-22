@@ -65,6 +65,8 @@ def main():
             if (breakdownby=='age_band'):
                 df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["sex", breakdownbycol, numerator_column, "population", "date"])
                 df = regroupage_band(df, numerator_column)
+            elif (breakdownby=='care_home_type'):
+                df=binary_care_home_status_asgrouped(df, numerator_column, 'population')
             else:
                 df = pd.read_csv(OUTPUT_DIR / f"joined/{filename}", parse_dates=["date"], usecols=["AgeGroup", "sex", breakdownbycol, numerator_column, "population", "date"])
                 df = regroupAgeGroup(df, breakdownbycol, numerator_column)
