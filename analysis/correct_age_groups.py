@@ -4,7 +4,6 @@ from utilities import binary_care_home_status
 
 def regroupAgeGroup(df, demographic, numerator_column):
     df[demographic]=df[demographic].fillna('Missing')
-    print (df)
     df["AgeGroup"] = df["AgeGroup"].replace({'15-19': '18-24', '20-24': '18-24'})
     if (demographic!="sex" and demographic!="population"):
         df = df.groupby(["AgeGroup", "sex", demographic, "date"], as_index=False)[[numerator_column, 'population']].sum()
