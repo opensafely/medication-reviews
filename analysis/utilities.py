@@ -153,10 +153,10 @@ def binary_care_home_status(
         numerator_column: Column heading to use as numerator
         denominator_column: Column heading to use as denominator
     """ 
-    df[demographic]=df[demographic].fillna('Missing')
-    df = df.replace({'CareHome': 1, 'CareOrNursingHome': 1, 'NursingHome':1, 'PrivateHome':0, 'missing': 0})
+    df["care_home_type"]=df["care_home_type"].fillna('Missing')
+    df = df.replace({'CareHome': 1, 'CareOrNursingHome': 1, 'NursingHome':1, 'PrivateHome':0, 'Missing': 0})
     if (agesexgrouped):
-        grouped_df = df.groupby(["AgeGroup", "sex", "care_home_type", "date"], as_index=False)[["care_home_type", 'population']].sum()
+        grouped_df = df.groupby(["AgeGroup", "sex", "care_home_type", "date"], as_index=False)[[numerator_column, denominator_column]].sum()
     else:
         grouped_df = df.groupby(["care_home_type", "date"], as_index=False)[[numerator_column, denominator_column]].sum()
     grouped_df[valuecolname] = grouped_df[numerator_column]/grouped_df[denominator_column]
