@@ -45,7 +45,7 @@ for med_review in med_review_type:
         numerator_col="had_anymedrev12m" # fix as column title doesn't match filename for allmedrv
     else:
         numerator_col=f'had_{med_review}'
-    df = pd.read_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_population_rate.csv", parse_dates=["date"])
+    df = pd.read_csv(OUTPUT_DIR / f"redacted-standardised/redacted_standardised_measure_{med_review}_population_rate.csv", parse_dates=["date"])
     calculate_rate(df, numerator_col, 'population', rate_per=1000, round_rate=False) #Add column for rate per 1000 patients
     plot_measures(df, filename=f"{med_review}_population_rate_perthousand", title="", column_to_plot="rate", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients") #Plot
 
@@ -56,7 +56,7 @@ for med_review in med_review_type:
         if ((med_review=='mr' and breakdownby=='ethnicity16') or (med_review=='mr12m' and breakdownby=='ethnicity16')): #Skip eth16 for mr as no measure
             pass
         else:
-            df = pd.read_csv(OUTPUT_DIR / f"redacted/redacted_measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
+            df = pd.read_csv(OUTPUT_DIR / f"redacted-standardised/redacted_standardised_measure_{med_review}_{breakdownby}_rate.csv", parse_dates=["date"])
             breakdownbycol=columnlookupdict.get(breakdownby, breakdownby)
             df[breakdownbycol] = df[breakdownbycol].fillna('missing')
             if (breakdownby == "care_home_type"): 
