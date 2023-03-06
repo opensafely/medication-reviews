@@ -367,3 +367,51 @@ actions:
       moderately_sensitive:
         notebook: output/report/report.html
 
+  
+  generate_study_population_report_ever:
+    run: cohortextractor:latest generate_cohort 
+      --study-definition study_definition_report_windows 
+      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_column="code"
+      --param codelist_1_system="snomed"
+      --param codelist_1_type="medication"
+      --param population="registered_adults"
+      --index-date-range "2019-01-01 to 2020-01-01 by month" 
+      --output-dir=output/report
+      --output-format=csv.gz
+      --param time_window="ever"
+    outputs:
+      highly_sensitive:
+        cohort: output/report/input_report_windows*.csv.gz
+
+  generate_study_population_report_five_years:
+    run: cohortextractor:latest generate_cohort 
+      --study-definition study_definition_report_windows 
+      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_column="code"
+      --param codelist_1_system="snomed"
+      --param codelist_1_type="medication"
+      --param population="registered_adults"
+      --index-date-range "2019-01-01 to 2020-01-01 by month" 
+      --output-dir=output/report
+      --output-format=csv.gz
+      --param time_window="5 years"
+    outputs:
+      highly_sensitive:
+        cohort: output/report/input_report_window*.csv.gz
+
+  generate_study_population_report_month:
+    run: cohortextractor:latest generate_cohort 
+      --study-definition study_definition_report_windows 
+      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_column="code"
+      --param codelist_1_system="snomed"
+      --param codelist_1_type="medication"
+      --param population="registered_adults"
+      --index-date-range "2019-01-01 to 2020-01-01 by month" 
+      --output-dir=output/report
+      --output-format=csv.gz
+      --param time_window="1 month"
+    outputs:
+      highly_sensitive:
+        cohort: output/report/input_report_windo*.csv.gz
