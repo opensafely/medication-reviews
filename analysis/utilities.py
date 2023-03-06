@@ -115,7 +115,7 @@ def plot_measures(
 
     plt.tight_layout()
 
-    outputfilename = OUTPUT_DIR / f"{outputfilepath}/{filename}.jpeg"
+    outputfilename = OUTPUT_DIR / f"{outputfilepath}/{filename}.png"
 
     plt.savefig(outputfilename)
     plt.close()
