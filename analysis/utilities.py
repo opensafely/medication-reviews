@@ -74,7 +74,7 @@ def plot_measures(
         if df[column_to_plot].isnull().values.all()
         else df[column_to_plot].max() * 1.05,
     )
-
+    plt.xlim([x_labels[0], x_labels[-1]]) #Force x axis to include all dates from csv even if data redacted 
     if category:
         if deciles:
             decile_line = Line2D([0,1],[0,1],linestyle='--', color='blue')
