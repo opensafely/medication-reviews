@@ -256,7 +256,7 @@ actions:
   generate_study_population_report:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -305,7 +305,7 @@ actions:
   top_5_table_report:
     run: >
       python:latest python analysis/report/top_5_report.py
-      --codelist-1-path="codelists/user-chriswood-all-medication-reviews.csv"
+      --codelist-1-path="codelists/opensafely-medication-reviews-all-types.csv"
       --codelist-2-path="codelists/opensafely-dmards.csv"
     needs: [generate_measures_report]
     outputs:
@@ -371,7 +371,7 @@ actions:
   generate_study_population_report_ever:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -387,7 +387,7 @@ actions:
   generate_study_population_report_five_years:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -403,7 +403,7 @@ actions:
   generate_study_population_report_month:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -419,7 +419,7 @@ actions:
   generate_study_population_report_2_year:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
