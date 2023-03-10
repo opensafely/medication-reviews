@@ -349,8 +349,8 @@ actions:
       python:latest python analysis/report/create_notebook.py
       --codelist-1-description="Codelist 1 description"
       --codelist-2-description="Codelist 2 description"
-      --codelist-1-link="https://codelists.opensafely.org/codelist/user/chriswood/all-medication-reviews/2021-04-01/"
-      --codelist-2-link="https://codelists.opensafely.org/codelist/opensafely/dmards/2021-04-01/"
+      --codelist-1-link="https://www.opencodelists.org/codelist/opensafely/medication-reviews-all-types/69f99fda/"
+      --codelist-2-link="https://www.opencodelists.org/codelist/opensafely/dmards/2020-06-23/"
       --report-title="Medication Review Report"
       --measure-description="Medication Review"
       --population="adults"
