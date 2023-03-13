@@ -5,7 +5,7 @@ nhsd-primary-care-domain-refsets/carehome_cod/5d2f363a/
 opensafely/care-planning-medication-review-simple-reference-set-nhs-digital/61b13c39/
 nhsd-primary-care-domain-refsets/medrvw_cod/20200812/
 user/chriswood/medication-review/250a4bb0/
-user/chriswood/all-medication-reviews/26263b8b/
+opensafely/medication-reviews-all-types/69f99fda/
 opensafely/dmards/2020-06-23/
 opensafely/high-dose-long-acting-opioids-openprescribing-dmd/52f27403/
 opensafely/addictive-medicines/4f5cc587

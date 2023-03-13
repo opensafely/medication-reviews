@@ -209,7 +209,7 @@ actions:
         total_code_counts: output/totalcodeuse.csv
 
   generate_allmedrev_codeuse_output:
-    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --codelistfile="user-chriswood-all-medication-reviews.csv" --outputfile="codeuse_allmedrev"
+    run: python:latest python analysis/code_use_summary.py --study_def_paths="output/joined/input_allmedrev_*.csv.gz" --codelistfile="opensafely-medication-reviews-all-types.csv" --outputfile="codeuse_allmedrev"
     needs: [join_cohorts_allmedrev]
     outputs:
       moderately_sensitive:
@@ -256,7 +256,7 @@ actions:
   generate_study_population_report:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -305,7 +305,7 @@ actions:
   top_5_table_report:
     run: >
       python:latest python analysis/report/top_5_report.py
-      --codelist-1-path="codelists/user-chriswood-all-medication-reviews.csv"
+      --codelist-1-path="codelists/opensafely-medication-reviews-all-types.csv"
       --codelist-2-path="codelists/opensafely-dmards.csv"
     needs: [generate_measures_report]
     outputs:
@@ -349,8 +349,8 @@ actions:
       python:latest python analysis/report/create_notebook.py
       --codelist-1-description="Codelist 1 description"
       --codelist-2-description="Codelist 2 description"
-      --codelist-1-link="https://codelists.opensafely.org/codelist/user/chriswood/all-medication-reviews/2021-04-01/"
-      --codelist-2-link="https://codelists.opensafely.org/codelist/opensafely/dmards/2021-04-01/"
+      --codelist-1-link="https://www.opencodelists.org/codelist/opensafely/medication-reviews-all-types/69f99fda/"
+      --codelist-2-link="https://www.opencodelists.org/codelist/opensafely/dmards/2020-06-23/"
       --report-title="Medication Review Report"
       --measure-description="Medication Review"
       --population="adults"
@@ -371,7 +371,7 @@ actions:
   generate_study_population_report_ever:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -387,7 +387,7 @@ actions:
   generate_study_population_report_five_years:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -403,7 +403,7 @@ actions:
   generate_study_population_report_month:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"
@@ -419,7 +419,7 @@ actions:
   generate_study_population_report_2_year:
     run: cohortextractor:latest generate_cohort 
       --study-definition study_definition_report_windows 
-      --param codelist_1_path="codelists/user-chriswood-all-medication-reviews.csv"
+      --param codelist_1_path="codelists/opensafely-medication-reviews-all-types.csv"
       --param codelist_1_column="code"
       --param codelist_1_system="snomed"
       --param codelist_1_type="medication"

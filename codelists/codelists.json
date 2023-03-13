@@ -42,10 +42,10 @@
       "downloaded_at": "2022-09-27 13:30:11.259880Z",
       "sha": "901149cd74484e35b6825b558ab1e7768aa23ab2"
     },
-    "user-chriswood-all-medication-reviews.csv": {
-      "id": "user/chriswood/all-medication-reviews/26263b8b",
-      "url": "https://codelists.opensafely.org/codelist/user/chriswood/all-medication-reviews/26263b8b/",
-      "downloaded_at": "2022-10-27 19:33:35.044834Z",
+    "opensafely-medication-reviews-all-types.csv": {
+      "id": "opensafely/medication-reviews-all-types/69f99fda",
+      "url": "https://codelists.opensafely.org/codelist/opensafely/medication-reviews-all-types/69f99fda/",
+      "downloaded_at": "2023-03-07 11:53:31.774604Z",
       "sha": "52044b82748e2b1e02d291c320f0927b16e662d5"
     },
     "opensafely-dmards.csv": {
