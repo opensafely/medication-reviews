@@ -74,7 +74,9 @@ def plot_measures(
         if df[column_to_plot].isnull().values.all()
         else df[column_to_plot].max() * 1.05,
     )
-
+    xpadding=15*86400000000000
+    plt.xlim([x_labels[0]-xpadding, x_labels[-1]+xpadding]) #Force x axis to include all dates from csv even if data redacted
+    #plt.autoscale(axis='x')
     if category:
         if deciles:
             decile_line = Line2D([0,1],[0,1],linestyle='--', color='blue')
@@ -115,7 +117,7 @@ def plot_measures(
 
     plt.tight_layout()
 
-    outputfilename = OUTPUT_DIR / f"{outputfilepath}/{filename}.jpeg"
+    outputfilename = OUTPUT_DIR / f"{outputfilepath}/{filename}.png"
 
     plt.savefig(outputfilename)
     plt.close()
