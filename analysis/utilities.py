@@ -21,6 +21,7 @@ def plot_measures(
     category: str = None,
     deciles: bool = False,
     outputfilepath: str = 'figures',
+    smrstart: bool = False
 ):
     """Produce time series plot from measures table.  One line is plotted for each sub
     category within the category column. Saves output in 'output' dir as jpeg file.
@@ -58,8 +59,8 @@ def plot_measures(
 
     x_labels = sorted(df["date"].unique())
 
-    plt.ylabel(y_label)
-    plt.xlabel("Date")
+    plt.ylabel(y_label, fontsize=16)
+    plt.xlabel("Date", fontsize=16)
     plt.xticks(x_labels, rotation="vertical")
 
     #Format dates for x-axis
@@ -77,14 +78,16 @@ def plot_measures(
     xpadding=15*86400000000000
     plt.xlim([x_labels[0]-xpadding, x_labels[-1]+xpadding]) #Force x axis to include all dates from csv even if data redacted
     #plt.autoscale(axis='x')
+    plt.grid(c='#dcdcdc')
     if category:
         if deciles:
             decile_line = Line2D([0,1],[0,1],linestyle='--', color='blue')
             median_line = Line2D([0,1],[0,1],linestyle='-', color='blue')
-            plt.legend([decile_line, median_line], ["Decile", "Median"], bbox_to_anchor=(1.04, 1), loc="upper left")
+            plt.legend([decile_line, median_line], ["Decile", "Median"], bbox_to_anchor=(1.04, 1), loc="upper left", fontsize="16")
         else:
+            categoryplotted=splitlegendlines(categoryplotted)
             plt.legend(
-                sorted(categoryplotted), bbox_to_anchor=(1.04, 1), loc="upper left"
+                sorted(categoryplotted), bbox_to_anchor=(1.04, 1), loc="upper left", fontsize=16
             )
 
     plt.vlines(
@@ -114,6 +117,15 @@ def plot_measures(
         label="Third National Lockdown",
     )
 
+    if smrstart:
+        plt.vlines(
+            x=[pd.to_datetime("2020-09-17")],
+            ymin=0,
+            ymax=df[column_to_plot].max() * 1.05, 
+            colors="#15B015",
+            ls="solid",
+            label="SMR guidance released",
+        )
 
     plt.tight_layout()
 
@@ -193,3 +205,18 @@ def generate_expectations_codes(codelist, incidence=0.5):
     # expectations = {str(x): (1-incidence) / len(codelist) for x in codelist}
     expectations[None] = incidence
     return expectations
+
+def splitlegendlines(categoryplotted):
+    for i in range(len(categoryplotted)):
+        if categoryplotted[i] == 'Yorkshire and The Humber':
+            categoryplotted[i] = 'Yorkshire and\n The Humber'
+        if categoryplotted[i] == 'Record of individual living at a care/nursing home':
+            categoryplotted[i] = 'Care/nursing\nhome'
+        if categoryplotted[i] == 'No record of individual living at a care/nursing home':
+            categoryplotted[i] = 'Not care/nursing\nhome'
+        if categoryplotted[i] == 'Record of learning disability':
+            categoryplotted[i] = 'Learning\ndisability'
+        if categoryplotted[i] == 'No record of learning disability':
+            categoryplotted[i] = 'No learning\ndisability'
+        
+    return categoryplotted
