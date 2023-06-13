@@ -52,12 +52,17 @@ for med_review in med_review_type:
         numerator_col="had_anymedrev12m" # fix as column title doesn't match filename for allmedrv
     else:
         numerator_col=f'had_{med_review}'
+    if (med_review=="smr" or med_review=="smr12m"):
+        smrstartshow=True
+    else:
+        smrstartshow=False
+
     df = pd.read_csv(OUTPUT_DIR / f"redacted-standardised/redacted_standardised_measure_{med_review}_population_rate.csv", parse_dates=["date"])
     calculate_rate(df, numerator_col, 'population', rate_per=1000, round_rate=False) #Add column for rate per 1000 patients
-    plot_measures(df, filename=f"{med_review}_population_rate_perthousand", title="", column_to_plot="rate", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients") #Plot
+    plot_measures(df, filename=f"{med_review}_population_rate_perthousand", title="", column_to_plot="rate", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients", smrstart=smrstartshow) #Plot
 
     calculate_rate(df, numerator_col, 'population', rate_per=100, round_rate=False) #Add column for %
-    plot_measures(df, filename=f"{med_review}_population_rate_percentage", title="", column_to_plot="rate", y_label=f"Percentage of people who received a {med_review_dict[med_review]}")#Plot
+    plot_measures(df, filename=f"{med_review}_population_rate_percentage", title="", column_to_plot="rate", y_label=f"Percentage of people who received a {med_review_dict[med_review]}", smrstart=smrstartshow)#Plot
 
     for breakdownby in breakdowns:
         if ((med_review=='mr' and breakdownby=='ethnicity16') or (med_review=='mr12m' and breakdownby=='ethnicity16')): #Skip eth16 for mr as no measure
@@ -68,11 +73,11 @@ for med_review in med_review_type:
             df[breakdownbycol] = df[breakdownbycol].fillna('missing')
             if (breakdownby == "care_home_type"): 
                 df=binary_care_home_status(df, numerator_col, 'population')
-                convert_binary(df, 'care_home_type', 'Record of individual living \nat a care/nursing home', 'No record of individual living \nat a care/nursing home')
+                convert_binary(df, 'care_home_type', 'Record of individual living at a care/nursing home', 'No record of individual living at a care/nursing home')
             if (breakdownby == "learning_disability"):
                 convert_binary(df, 'learning_disability', 'Record of learning disability', 'No record of learning disability')
             if (breakdownby == "nhome"):
-                convert_binary(df, 'nhome', 'Record of individual living \nat a care/nursing home', 'No record of individual living \nat a care/nursing home')
+                convert_binary(df, 'nhome', 'Record of individual living at a care/nursing home', 'No record of individual living at a care/nursing home')
             if (breakdownbycol == "addictivemeds_last12m"):
                 convert_binary(df, 'addictivemeds_last12m', 'Record of prescription for an addictive medicine', 'No record of prescription for an addictive medicine')
             if (breakdownbycol == "dmards_last12m"):
@@ -85,10 +90,10 @@ for med_review in med_review_type:
                 df = relabel_sex(df)
             #Add column for rate per 1000 patients
             calculate_rate(df, numerator_col, 'population', rate_per=1000, round_rate=False)
-            plot_measures(df, filename=f"{med_review}_{breakdownby}_rate_perthousand", title="", column_to_plot="rate", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients", category=breakdownbycol)
+            plot_measures(df, filename=f"{med_review}_{breakdownby}_rate_perthousand", title="", column_to_plot="rate", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients", category=breakdownbycol, smrstart=smrstartshow)
 
             calculate_rate(df, numerator_col, 'population', rate_per=100, round_rate=False)
-            plot_measures(df, filename=f"{med_review}_{breakdownby}_rate_percentage", title="", column_to_plot="rate", y_label=f"Percentage of people who received a {med_review_dict[med_review]}", category=breakdownbycol)
+            plot_measures(df, filename=f"{med_review}_{breakdownby}_rate_percentage", title="", column_to_plot="rate", y_label=f"Percentage of people who received a \n{med_review_dict[med_review]}", category=breakdownbycol, smrstart=smrstartshow)
 
 
     #Plot deciles chart
@@ -99,4 +104,4 @@ for med_review in med_review_type:
     plot_measures(df, filename=f"deciles_chart_{med_review}_practice_rate_perthousand", title="", column_to_plot="rateperthousand", y_label=f"People who received a {med_review_dict[med_review]} per 1000 registered patients", category="percentile", deciles=True)
 
     df['percentage']=df['value']*100
-    plot_measures(df, filename=f"deciles_chart_{med_review}_practice_rate_percentage", title="", column_to_plot="percentage", y_label=f"Percentage of people who received a {med_review_dict[med_review]}", category="percentile", deciles=True)
+    plot_measures(df, filename=f"deciles_chart_{med_review}_practice_rate_percentage", title="", column_to_plot="percentage", y_label=f"Percentage of people who received a \n{med_review_dict[med_review]}", category="percentile", deciles=True)
