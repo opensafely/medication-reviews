@@ -87,7 +87,7 @@ def plot_measures(
         else:
             categoryplotted=splitlegendlines(categoryplotted)
             plt.legend(
-                sorted(categoryplotted), bbox_to_anchor=(1.04, 1), loc="upper left", fontsize=16
+                categoryplotted, bbox_to_anchor=(1.04, 1), loc="upper left", fontsize=16
             )
 
     plt.vlines(
